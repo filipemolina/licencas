@@ -19,11 +19,8 @@ class UsersController extends Controller
     public function index()
     {
         $usuarios = User::all();
-
-        echo '<pre>';
-        echo "<h1>Usuários</h1><br/>";
-        print_r($usuarios);
-        exit;
+        
+        return view('usuarios.index')->with('usuarios', $usuarios);
     }
 
     /**
@@ -35,25 +32,7 @@ class UsersController extends Controller
     {
         // Temporário
 
-        $nomes = [ 'João', 'Carlos', 'Alberto', 'Leonardo', 'Donatelo', 'Miquelângelo', 'Rafael', 'Adriano', 'Otávio' ];
-
-        $i = 0;
-
-        foreach($nomes as $nome)
-        {
-            // Instanciar o usuário
-            $usuario = new User;
-
-            // Preencher os dados básicos
-            $usuario->name = $nome;
-            $usuario->email = $nome . "@gmail.com";
-            $usuario->password = "123abc";
-
-            // Gravar no DB
-
-            $usuario->save();
-
-        }
+        
     }
 
     /**
