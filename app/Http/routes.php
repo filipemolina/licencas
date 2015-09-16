@@ -25,4 +25,4 @@ Route::get('/home', 'UsersController@index');
 Route::get('/', 'UsersController@index');
 
 // Resourceful Controllers
-Route::resource('usuarios', 'UsersController');
+Route::resource('/users', 'UsersController');
