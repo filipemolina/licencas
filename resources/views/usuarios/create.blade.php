@@ -16,7 +16,7 @@
 
 				{{-- Formúlário de cadastro --}}
 
-				<form action="{{ url('/users') }}" method="POST" enctype="multipart/form-data">
+				<form action="{{ url('/users') }}" method="POST" enctype="multipart/form-data" id="form-create-user">
 
 					{!! csrf_field() !!}
 
@@ -52,6 +52,8 @@
 						<div class="form-group">
 							<label for="role">Tipo de Usuário</label>
 							<select name="role" id="role" class="form-control">
+
+								<option value=""> Escolha uma Opção </option>
 								
 								@foreach($roles as $role)
 
@@ -70,6 +72,8 @@
 					<div class="box-footer">
 						
 						<button type="submit" class="btn btn-primary pull-right">Enviar</button>
+
+						<img class="pull-right ajax-loader" src="{{ asset('img/ajax-loader.gif') }}" alt="">
 
 					</div>
 

@@ -18,25 +18,29 @@ class UsersController extends Controller
 
         // Nome
 
-        'name.required' => 'O campo Nome é obrigatório',
-        'name.min' => 'O campo Nome deve ter no mínimo 6 caracteres',
-        'name.max' => 'O campo nome pode ter no máximo 255 caracteres',
+        'name.required' => 'O campo Nome é obrigatório.',
+        'name.min' => 'O campo Nome deve ter no mínimo 6 caracteres.',
+        'name.max' => 'O campo nome pode ter no máximo 255 caracteres.',
 
         // Senha
 
-        'password.required' => 'O campo Senha é obrigatório',
-        'password2.required' => 'O campo Repita a Senha é obrigatório',
-        'password.min' => 'O campo Senha deve ter no mínimo 5 caracteres',
-        'same' => 'O campo Repita a Senha deve ser igual ao campo Senha',
+        'password.required' => 'O campo Senha é obrigatório.',
+        'password2.required' => 'O campo Repita a Senha é obrigatório.',
+        'password.min' => 'O campo Senha deve ter no mínimo 5 caracteres.',
+        'same' => 'O campo Repita a Senha deve ser igual ao campo Senha.',
 
         // E-mail
 
-        'email' => 'Preencha o campo E-mail corretamente',
-        'email.unique' => 'Este e-mail já está sendo usado por outro usuário',
+        'email' => 'Preencha o campo E-mail corretamente.',
+        'email.unique' => 'Este e-mail já está sendo usado por outro usuário.',
 
         // Foto
 
-        'image' => 'O campo Foto deve ser uma imagem no formato PNG ou JPG',
+        'image' => 'O campo Foto deve ser uma imagem no formato PNG ou JPG.',
+
+        // Tipo de Usuário
+
+        'role.required' => 'O campo Tipo de Usuário não pode ser vazio.',
 
         // Gerais
 
@@ -56,18 +60,21 @@ class UsersController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
         // Variáveis padrão
 
-        $secao = "Usuários";
-        $subsecao = "Listar";
+        $padrao = [];
+
+        $padrao['secao'] = "Usuários";
+        $padrao['subsecao'] = "Listar";
+        $padrao['url'] = $request->url();
 
         // Obter todos os usuários
 
         $usuarios = User::all();
         
-        return view('usuarios.index', compact('usuarios', 'secao', 'subsecao'));
+        return view('usuarios.index', compact('usuarios', 'padrao'));
     }
 
     /**
@@ -75,18 +82,21 @@ class UsersController extends Controller
      *
      * @return Response
      */
-    public function create()
+    public function create(Request $request)
     {
         // Variáveis padrão
 
-        $secao = "Usuários";
-        $subsecao = "Criar";
+        $padrao = [];
+
+        $padrao['secao'] = "Usuários";
+        $padrao['subsecao'] = "Criar";
+        $padrao['url'] = $request->url();
 
         // Obter todos os tipos de usuário
 
         $roles = Role::all();
 
-        return view('usuarios.create', compact('roles', 'secao', 'subsecao'));
+        return view('usuarios.create', compact('roles', 'padrao'));
     }
 
     /**
@@ -104,7 +114,8 @@ class UsersController extends Controller
             'email'     => 'required|email|unique:users',
             'password'  => 'required|min:5',
             'password2' => 'required|same:password',
-            'foto'      => 'image'
+            'foto'      => 'image',
+            'role'      => 'required'
         ], $this->messages);
 
         // Testa se uma foto foi fornecida
@@ -148,9 +159,16 @@ class UsersController extends Controller
         $role = Role::find($request->input('role'));
         $user->role()->associate($role);
 
-        $user->save();
+       if($user->save())
 
-       return $user->toJson();
+            return [
+                'erros' => false,
+                'usuario' => $user->toJson() 
+            ];
+
+        else
+
+            return [ 'erros' => true ];
 
     }
 
@@ -171,7 +189,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         // Obter o usuário à ser editado
 
@@ -179,14 +197,17 @@ class UsersController extends Controller
 
         // Variáveis padrão
 
-        $secao = "Usuários";
-        $subsecao = "Editar Usuário " . $usuario->name;
+        $padrao = [];
+
+        $padrao['secao'] = "Usuários";
+        $padrao['subsecao'] = "Editar Usuário " . $usuario->name;
+        $padrao['url'] = $request->url();
 
         // Obter todos os tipos de usuário
 
         $roles = Role::all();
 
-        return view('usuarios.edit', compact('secao', 'subsecao', 'usuario', 'roles'));
+        return view('usuarios.edit', compact('secao', 'padrao', 'roles'));
     }
 
     /**

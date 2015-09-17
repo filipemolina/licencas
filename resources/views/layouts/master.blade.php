@@ -63,8 +63,8 @@
           <!-- Content Header (Page header) -->
           <section class="content-header">
             <h1>
-              {{ $secao }}
-              <small>{{ $subsecao }}</small>
+              {{ $padrao['secao'] }}
+              <small>{{ $padrao['subsecao'] }}</small>
             </h1>
             <ol class="breadcrumb">
               <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -112,8 +112,9 @@
 
   @include('includes.modal')
 	
-	<script src="<?php echo asset('js/jquery.min.js'); ?>"></script>
-	<script src="<?php echo asset('js/bootstrap.min.js'); ?>"></script>
-	<script src="<?php echo asset('js/scripts.js'); ?>"></script>
+	<script src="{{ asset('js/jquery.min.js') }}"></script>
+	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('js/app.min.js') }}"></script>
+	<script src="{{ asset('js/scripts.js') }}"></script>
 </body>
 </html>

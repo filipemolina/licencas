@@ -22,8 +22,8 @@ Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 
 // Redirect do Login
-Route::get('/home', 'UsersController@index');
-Route::get('/', 'UsersController@index');
+Route::get('/home', 'PagesController@painel');
+Route::get('/', 'PagesController@painel');
 
 // Resourceful Controllers
 Route::resource('/users', 'UsersController');
