@@ -81,9 +81,9 @@
 										<a href="{{ route('users.edit', ['users' => $usuario->id]) }}" class="btn btn-primary btn-sm">
 											<i class="fa fa-edit"></i>
 										</a>
-										<a href="" class="btn btn-danger btn-sm">
+										<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-principal">
 											<i class="fa fa-close"></i>
-										</a>
+										</button>
 									</td>
 								</tr>
 

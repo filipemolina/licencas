@@ -12,7 +12,7 @@
 
         {{-- Formulário de Login --}}
 
-        <form class="form-horizontal">
+        <form class="form-horizontal" method="POST" action="/auth/login">
 
             {{-- Proteção CSRF --}}
             {!! csrf_field() !!}

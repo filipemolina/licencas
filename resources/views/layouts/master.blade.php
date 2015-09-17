@@ -109,6 +109,8 @@
         @include('includes.footer') 
 
   </div>
+
+  @include('includes.modal')
 	
 	<script src="<?php echo asset('js/jquery.min.js'); ?>"></script>
 	<script src="<?php echo asset('js/bootstrap.min.js'); ?>"></script>

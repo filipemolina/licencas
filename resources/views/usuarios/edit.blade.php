@@ -16,9 +16,13 @@
 
 				{{-- Formúlário de cadastro --}}
 
-				<form action="{{ url('/users') }}" method="POST" enctype="multipart/form-data">
+				<form action='{{ url("/users/$usuario->id") }}' method="POST" enctype="multipart/form-data" id="form-edit-user">
 
 					{!! csrf_field() !!}
+
+					{{-- Method Spoofing, já que HTML 5 não tem suporte à PUT --}}
+
+					{!! method_field('PUT') !!}
 
 					{{-- Corpo do Formulário --}}
 					
@@ -64,6 +68,8 @@
 					<div class="box-footer">
 						
 						<button type="submit" class="btn btn-primary pull-right">Salvar</button>
+
+						<img class="pull-right ajax-loader" src="{{ asset('img/ajax-loader.gif') }}" alt="">
 
 					</div>
 

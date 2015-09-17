@@ -12,7 +12,7 @@ use App\Role;
 
 class UsersController extends Controller
 {
-    // Mensagens de validação
+    /////////////////////////////////// Mensagens de validação
 
     protected $messages = [
 
@@ -106,20 +106,33 @@ class UsersController extends Controller
             'password2' => 'required|same:password',
             'foto'      => 'image'
         ], $this->messages);
-        
-        // Obtém a foto do $request
 
-        $foto = $request->file('foto');
+        // Testa se uma foto foi fornecida
 
-        // Cria um novo nome e especifica o caminho da pasta onde o arquivo deve ser salvo
+        if($request->hasFile('foto'))
+        {
+            // Utiliza a foto fornecida para o perfil do usuário
 
-        $novo_nome = time().".".$foto->guessExtension();
+            $foto = $request->file('foto');
 
-        $caminho = "/img/usuarios/";
+            // Cria um novo nome e especifica o caminho da pasta onde o arquivo deve ser salvo
 
-        // Move o arquivo para a pasta de fotos de usuário e o renomeia
+            $novo_nome = time().".".$foto->guessExtension();
 
-        $foto = $foto->move(public_path().$caminho, $novo_nome);
+            $caminho = "/img/usuarios/";
+
+            // Move o arquivo para a pasta de fotos de usuário e o renomeia
+
+            $foto = $foto->move(public_path().$caminho, $novo_nome);
+        }
+        else
+        {
+            // Utiliza uma foto de usuário padrão
+
+            $novo_nome = "avatar.png";
+
+            $caminho = "img/";
+        }
 
         // Criar o usuário e definir os dados principais
 
@@ -137,9 +150,7 @@ class UsersController extends Controller
 
         $user->save();
 
-        echo "<pre>";
-        print_r($user->toArray());
-        exit;
+       return $user->toJson();
 
     }
 
@@ -187,7 +198,58 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Obter o usuário sendo atualizado
+
+        $usuario = User::find($id);
+
+        // Validação
+
+        $this->validate($request, [
+            'name'      => 'required|min:6|max:255',
+            'email'     => 'required|email|unique:users,email,' . $id,
+            'foto'      => 'image'
+        ], $this->messages);
+
+        // Caso tenha passado na validação, preencher com os dados do request
+
+        $usuario->fill($request->all());
+
+        // Testa se uma foto foi fornecida
+
+        if($request->hasFile('foto'))
+        {
+            // Utiliza a foto fornecida para o perfil do usuário
+
+            $foto = $request->file('foto');
+
+            // Cria um novo nome e especifica o caminho da pasta onde o arquivo deve ser salvo
+
+            $novo_nome = time().".".$foto->guessExtension();
+
+            $caminho = "/img/usuarios/";
+
+            // Move o arquivo para a pasta de fotos de usuário e o renomeia
+
+            $foto = $foto->move(public_path().$caminho, $novo_nome);
+
+            $usuario->foto = $caminho . $novo_nome;
+        }
+
+        // Gravar as mudanças no banco
+
+        if($usuario->save())
+
+            return [
+                'erros' => false,
+                'usuario' => $usuario->toJson() 
+            ];
+
+        else
+
+            return [ 'erros' => true ];
+
+        
+
     }
 
     /**
