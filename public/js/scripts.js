@@ -1,9 +1,22 @@
 //////////////////////////////////////////////////////////////////////////////// Funções Gerais
 
+var files;
+
 // Faz a chamada ajax dos formulários de cadastro e alteração de usuários
 
 function submitUsuarios(url, token, form, msg_sucesso)
 {
+	/// Obtem os dados do formulário
+
+	var data = $(form).serializeArray();
+
+	// Adicionar o arquivo da foto
+
+	$.each(files, function(key, value)
+    {
+        data.push(key, value);
+    });
+
 	/// Inicia a chamada AJAX
 
 	$.ajax(
@@ -11,8 +24,10 @@ function submitUsuarios(url, token, form, msg_sucesso)
 		url : url,
 		headers : { 'X-CSRF-TOKEN' : token },
 		type : 'POST',
+		contentType : false,
+		processData: false,
 		dataType : 'json',
-		data : $(form).serializeArray(),
+		data : data,
 		success : function(data)
 		{
 			var usuario = JSON.parse(data.usuario)
@@ -52,6 +67,8 @@ function submitUsuarios(url, token, form, msg_sucesso)
 				$('section.content div.callout').append('<p>'+erros[erro][0]+'</p>');
 			}
 
+			console.log(xhr);
+
 			// Esconder o Ajax loader
 
 			$("img.ajax-loader").css('display', 'none');
@@ -65,7 +82,15 @@ function submitUsuarios(url, token, form, msg_sucesso)
 	});
 }
 
+//////////////////////////////////////////////////////////////////////////// Scripts rodados após o carregamento da página
+
 $(function(){
+
+	//////////////////////////////////////////////////////////////////////////// Incluir a foto nas requisições ajax
+
+	$('input#foto').change(function(event){
+		files = event.target.files;
+	});
 
 	//////////////////////////////////////////////////////////////////////////// Submit do form de Criação de usuários
 
@@ -172,6 +197,62 @@ $(function(){
 		});
 
 		return false;
+
+	});
+
+	//////////////////////////////////////////////////////////////////////////// Abrir o Modal de Exclusão de Usuário
+
+	$(".btn-excluir-usuario").click(function(){
+
+		var user_id = $(this).data('user');
+		var user_name = $(this).data('name')
+
+		// Título do Modal
+
+		$("#modal-principal h4").html('Atenção!');
+
+		// Texto do corpo do modal
+
+		$("#modal-principal .modal-body p").html("Tem certeza que deseja excluir o usuário " + user_name + " ?");
+
+		// Texto do botão
+
+		$("#modal-principal #btn-principal").removeClass('btn-primary').addClass('btn-danger').html('Excluir');
+
+		$("#modal-principal #btn-principal").data('id', user_id);
+
+	});
+
+	//////////////////////////////////////////////////////////////////////////// Excluir o usuário
+
+	$("#modal-principal #btn-principal").click(function(){
+
+		// Id do usuário à ser excluído
+
+		var user_id = $(this).data('id');
+		var url = $("form#form-excluir-usuario").attr('action');
+		var token = $("form#form-excluir-usuario input[name=_token]").val();
+
+		$("#form-excluir-usuario #user_id").val(user_id);
+
+
+		$.ajax({
+			url : url + '/' + user_id,
+			headers : { 'X-CSRF-TOKEN' : token },
+			type : 'POST',
+			dataType : 'json',
+			data : $("form#form-excluir-usuario").serializeArray(),
+			success: function(data)
+			{
+				console.log("Sucesso");
+				console.log(data);
+			},
+			error : function(xhr, status, error)
+			{
+				console.log("Fracasso");
+				console.log(xhr);
+			}
+		});
 
 	});
 

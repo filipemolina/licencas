@@ -1,4 +1,4 @@
-{{---------------- Bootstrap Modal ----------------}}
+{{-------------- Bootstrap Modal ----------------}}
 
 <div class="modal fade" id="modal-principal">
   <div class="modal-dialog">
@@ -12,10 +12,18 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-        <button type="button" class="btn btn-primary">Salvar</button>
+        <button type="button" id="btn-principal" class="btn btn-primary" data-id="">Salvar</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-{{---------------- /Bootstrap Modal ----------------}}
+{{---------------- /Bootstrap Modal --------------}}
+
+{{-- Form oculto para enviar as requisições de exclusão dos usuários --}}
+
+<form action="{{ url('users/') }}" method="POST" id="form-excluir-usuario">
+  {!! csrf_field() !!}
+  {!! method_field('DELETE') !!}
+  <input type="hidden" value="" name="id" id="user_id">
+</form>

@@ -27,9 +27,9 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('isActiveUrl', function($urls){
 
             if($urls[0] == $urls[1])
-                return 'active ';
+                echo 'active ';
             else
-                return '';
+                echo '';
 
         });
     }

@@ -30,6 +30,8 @@
       break;
   }
 
+  // Definir qual dos sub-links irá aparecer como ativo
+
 ?>
 
 {{-------------------------- Sidebar  -----------------------------}}
@@ -64,7 +66,7 @@
     <ul class="sidebar-menu">
       <li class="header">NAVEGAÇÃO PRINCIPAL</li>
 
-      <li class="{{ $class_painel }} treeview">
+      <li class="{{ Request::is('/') ? 'active' : '' }} treeview">
         <a href="{{ url('/') }}">
           <i class="fa fa-dashboard"></i>
           <span>Painel Principal</span>
@@ -101,14 +103,14 @@
         </a>
         <ul class="treeview-menu">
           
-          <li class="@isActiveUrl([$padrao['url'], route('users.index')])">
+          <li class="{{ Request::is('users') ? 'active' : '' }}">
             <a href="{{ route('users.index') }}">
               <i class="fa fa-circle-o text-blue"></i> 
               Todos os Usuários
             </a>
           </li>
 
-          <li class="@isActiveUrl([$padrao['url'], route('users.create')])">
+          <li class="{{ Request::is('users/create') ? 'active' : '' }}">
             <a href="{{ route('users.create') }}">
               <i class="fa fa-circle-o text-green"></i> 
               Cadastrar

@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Role;
 
+use Auth;
+
 class UsersController extends Controller
 {
     /////////////////////////////////// Mensagens de validação
@@ -107,6 +109,9 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
+        print_r($request->all());
+        exit;
+
         // Validação
 
         $this->validate($request, [
@@ -207,7 +212,7 @@ class UsersController extends Controller
 
         $roles = Role::all();
 
-        return view('usuarios.edit', compact('secao', 'padrao', 'roles'));
+        return view('usuarios.edit', compact('usuario', 'secao', 'padrao', 'roles'));
     }
 
     /**
@@ -281,6 +286,23 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Usuário ativo da seção
+
+        $ativo = Auth::user();
+
+        // Testar se esse usuário é administrador
+
+        if($ativo->role->id == 1)
+        {
+            // Evitar que o usuário exlua a si mesmo
+
+            if($ativo->id != $id)   
+            {
+                if(User::destroy($id))
+                    return json_encode("sucesso");
+                else
+                    return json_encode("erro");
+            }
+        }
     }
 }
