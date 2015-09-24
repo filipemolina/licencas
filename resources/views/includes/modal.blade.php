@@ -12,7 +12,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-        <button type="button" id="btn-principal" class="btn btn-primary" data-id="">Salvar</button>
+        <button type="button" id="btn-principal" class="btn btn-primary" data-id="" data-dismiss="modal">Salvar</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -26,4 +26,12 @@
   {!! csrf_field() !!}
   {!! method_field('DELETE') !!}
   <input type="hidden" value="" name="id" id="user_id">
+</form>
+
+{{-- Form oculto para enviar as requisições de exclusão das empresas --}}
+
+<form action="{{ url('empresas/') }}" method="POST" id="form-excluir-empresa">
+  {!! csrf_field() !!}
+  {!! method_field('DELETE') !!}
+  <input type="hidden" value="" name="id" id="empresa_id">
 </form>

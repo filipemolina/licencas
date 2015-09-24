@@ -27,3 +27,4 @@ Route::get('/', 'PagesController@painel');
 
 // Resourceful Controllers
 Route::resource('/users', 'UsersController');
+Route::resource('/empresas', 'EmpresasController');

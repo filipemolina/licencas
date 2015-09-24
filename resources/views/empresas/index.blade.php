@@ -12,7 +12,7 @@
 			
 			<div class="box-header with-border">
 				
-				<h3 class="box-title">Todos os Usuários</h3>
+				<h3 class="box-title">Todas as Empresas</h3>
 
 				{{-- Caixa de Busca --}}
 
@@ -20,7 +20,7 @@
 					
 					<div class="has-feedback">
 						
-						<input type="text" class="form-control input-sm" placeholder="Busca de Usuários">
+						<input type="text" class="form-control input-sm" placeholder="Busca de Empresas">
 
 						<span class="glyphicon glyphicon-search form-control-feedback"></span>
 
@@ -48,18 +48,19 @@
 						
 						<tbody>
 							
-							@foreach($usuarios as $usuario)
+							@foreach($empresas as $empresa)
 		
 								<tr>
-									<td>{{ $usuario->id }}</td>
-									<td>{{ $usuario->name }}</td>
-									<td>{{ $usuario->email }}</td>
-									<td>{{ $usuario->role->title }}</td>
+									<td>{{ $empresa->id }}</td>
+									<td>{{ $empresa->razao_social }}</td>
+									<td>{{ $empresa->cnpj }}</td>
+									<td>{{ $empresa->telefone }}</td>
+									<td>{{ $empresa->contato }}</td>
 									<td>
-										<a href="{{ route('users.edit', ['users' => $usuario->id]) }}" class="btn btn-primary btn-sm">
+										<a href="{{ route('empresas.edit', ['empresas' => $empresa->id]) }}" class="btn btn-primary btn-sm">
 											<i class="fa fa-edit"></i>
 										</a>
-										<button type="button" class="btn btn-danger btn-sm btn-excluir-usuario" data-toggle="modal" data-target="#modal-principal" data-user="{{ $usuario->id }}" data-name="{{ $usuario->name }}">
+										<button type="button" class="btn btn-danger btn-sm btn-excluir-empresa" data-toggle="modal" data-target="#modal-principal" data-empresa="{{ $empresa->id }}" data-razao="{{ $empresa->razao_social }}">
 											<i class="fa fa-close"></i>
 										</button>
 									</td>
@@ -77,7 +78,7 @@
 
 				<div class="mailbox-controls">
 
-					{!! $usuarios->render() !!}
+					{!! $empresas->render() !!}
 
 				</div>
 	

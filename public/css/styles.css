@@ -12,6 +12,14 @@ body
 	width: 50% !important;
 }
 
+/******************************************* Usuários :: Listar */
+
+ul.pagination
+{
+	margin: 2px 0 6px 0;
+	float: right;
+}
+
 /******************************************* Usuários :: Editar */
 
 .ajax-loader 

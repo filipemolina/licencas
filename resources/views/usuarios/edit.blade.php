@@ -39,13 +39,10 @@
 					</div>
 
 					<div class="form-group">
-						<label for="foto">Foto</label>
-						<input type="file" class="form-control" name="foto" id="foto">
-					</div>
-
-					<div class="form-group">
 						<label for="role">Tipo de Usuário</label>
 						<select name="role" id="role" class="form-control">
+
+							<option value=""> Escolha uma Opção </option>
 							
 							@foreach($roles as $role)
 

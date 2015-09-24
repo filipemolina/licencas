@@ -92,8 +92,12 @@
           <span class="label label-primary pull-right">4</span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o text-blue"></i> Todas as Empresas</a></li>
-          <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o text-green"></i> Cadastrar</a></li>
+          <li class="{{ Request::is('empresas') ? 'active' : '' }}">
+            <a href="{{ route('empresas.index') }}"><i class="fa fa-circle-o text-blue"></i> Todas as Empresas</a>
+          </li>
+          <li class="{{ Request::is('empresas/create') ? 'active' : '' }}">
+            <a href="{{ route('empresas.create') }}"><i class="fa fa-circle-o text-green"></i> Cadastrar</a>
+          </li>
         </ul>
       </li>
 

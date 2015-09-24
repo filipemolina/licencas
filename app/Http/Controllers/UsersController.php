@@ -74,7 +74,7 @@ class UsersController extends Controller
 
         // Obter todos os usuários
 
-        $usuarios = User::all();
+        $usuarios = User::paginate(10);
         
         return view('usuarios.index', compact('usuarios', 'padrao'));
     }
@@ -109,9 +109,6 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        print_r($request->all());
-        exit;
-
         // Validação
 
         $this->validate($request, [
@@ -123,32 +120,11 @@ class UsersController extends Controller
             'role'      => 'required'
         ], $this->messages);
 
-        // Testa se uma foto foi fornecida
+        
+        // Utiliza uma foto de usuário padrão
 
-        if($request->hasFile('foto'))
-        {
-            // Utiliza a foto fornecida para o perfil do usuário
-
-            $foto = $request->file('foto');
-
-            // Cria um novo nome e especifica o caminho da pasta onde o arquivo deve ser salvo
-
-            $novo_nome = time().".".$foto->guessExtension();
-
-            $caminho = "/img/usuarios/";
-
-            // Move o arquivo para a pasta de fotos de usuário e o renomeia
-
-            $foto = $foto->move(public_path().$caminho, $novo_nome);
-        }
-        else
-        {
-            // Utiliza uma foto de usuário padrão
-
-            $novo_nome = "avatar.png";
-
-            $caminho = "img/";
-        }
+        $novo_nome = "avatar.png";
+        $caminho = "img/";
 
         // Criar o usuário e definir os dados principais
 
@@ -164,11 +140,11 @@ class UsersController extends Controller
         $role = Role::find($request->input('role'));
         $user->role()->associate($role);
 
-       if($user->save())
+        if($user->save())
 
             return [
                 'erros' => false,
-                'usuario' => $user->toJson() 
+                'objeto' => $user->toJson() 
             ];
 
         else
@@ -233,48 +209,30 @@ class UsersController extends Controller
         $this->validate($request, [
             'name'      => 'required|min:6|max:255',
             'email'     => 'required|email|unique:users,email,' . $id,
-            'foto'      => 'image'
+            'foto'      => 'image',
+            'role'      => 'required'
         ], $this->messages);
 
         // Caso tenha passado na validação, preencher com os dados do request
 
         $usuario->fill($request->all());
 
-        // Testa se uma foto foi fornecida
-
-        if($request->hasFile('foto'))
-        {
-            // Utiliza a foto fornecida para o perfil do usuário
-
-            $foto = $request->file('foto');
-
-            // Cria um novo nome e especifica o caminho da pasta onde o arquivo deve ser salvo
-
-            $novo_nome = time().".".$foto->guessExtension();
-
-            $caminho = "/img/usuarios/";
-
-            // Move o arquivo para a pasta de fotos de usuário e o renomeia
-
-            $foto = $foto->move(public_path().$caminho, $novo_nome);
-
-            $usuario->foto = $caminho . $novo_nome;
-        }
+        $role = Role::find($request->input('role'));
+        $usuario->role()->associate($role);
 
         // Gravar as mudanças no banco
 
         if($usuario->save())
-
+        {
             return [
                 'erros' => false,
-                'usuario' => $usuario->toJson() 
+                'objeto' => $usuario->toJson() 
             ];
-
+        }
         else
-
+        {
             return [ 'erros' => true ];
-
-        
+        }
 
     }
 
