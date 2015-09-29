@@ -79,7 +79,9 @@
           <i class="fa fa-files-o"></i> <span>Licenças</span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li><a href="index2.html"><i class="fa fa-circle-o text-yellow"></i> Todas as Licenças</a></li>
+          <li class="{{ Request::is('licencas') ? 'active' : '' }}">
+            <a href="{{ route('licencas.index') }}"><i class="fa fa-circle-o text-yellow"></i> Todas as Licenças</a>
+          </li>
           <li class="active"><a href="index.html"><i class="fa fa-circle-o text-red"></i> Vencidas</a></li>
           <li><a href="index2.html"><i class="fa fa-circle-o text-green"></i> Renovadas</a></li>
         </ul>

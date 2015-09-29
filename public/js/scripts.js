@@ -110,12 +110,6 @@ function logar(dados)
 
 $(function(){
 
-	//////////////////////////////////////////////////////////////////////////// Incluir a foto nas requisições ajax
-
-	$('input#foto').change(function(event){
-		files = event.target.files;
-	});
-
 	//////////////////////////////////////////////////////////////////////////// Submit do form de Criação de usuários
 
 	$("#form-create-user").submit(function(event)
@@ -186,6 +180,33 @@ $(function(){
 		// Iniciar a chamada AJAX
 
 		submitUsuarios(url, token, $(this), "Usuário alterado com sucesso no banco de dados");
+
+		return false;
+
+	});
+
+	//////////////////////////////////////////////////////////////////////////// Submit do form de Alteração de empresas
+
+	$("#form-edit-empresa").submit(function(event){
+
+		event.preventDefault();
+
+		// Retirar qualquer aviso que tenha sido dado ao usuário
+
+		$("section.content div.callout").remove();
+
+		// Mostrar o Ajax-loader do lado do botão de enviar
+
+		$("img.ajax-loader").css('display', 'block');
+
+		// Obter a URL para ser usada na chamada AJAX
+
+		var url = $(this).attr('action');
+		var token = $("input[name=_token]").val();
+
+		// Iniciar a chamada AJAX
+
+		submitUsuarios(url, token, $(this), "Empresa alterada com sucesso no banco de dados");
 
 		return false;
 

@@ -16,10 +16,11 @@ class EmpresasController extends Controller
     // Mensagens de validação
 
     protected $mensagens = [
-        'cnpj.required' => 'O campo CNPJ é obrigatório.',
+        'cnpj.required'         => 'O campo CNPJ é obrigatório.',
+        'cnpj.unique'           => 'O CNPJ fornecido já está cadastrado no banco de dados.',
         'razao_social.required' => 'O campo Razão Social é obrigatório.',
-        'contato.required' => 'O campo Contato é obrigatório.',
-        'telefone.required' => 'O campo Telefone é obrigatório'
+        'contato.required'      => 'O campo Contato é obrigatório.',
+        'telefone.required'     => 'O campo Telefone é obrigatório'
     ];
 
     // Proteger com autenticação
@@ -122,7 +123,19 @@ class EmpresasController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        //
+        // Obter a empresa
+
+        $empresa = Empresa::find($id);
+
+        // Variáveis padrão
+
+        $padrao = [];
+
+        $padrao['secao'] = "Empresas";
+        $padrao['subsecao'] = "Editar Empresa";
+        $padrao['url'] = $request->url();
+
+        return view('empresas.edit', compact('empresa', 'padrao'));
     }
 
     /**
@@ -134,7 +147,35 @@ class EmpresasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Obter a Empresa
+
+        $empresa = Empresa::find($id);
+
+        // Validar os dados
+
+        $this->validate($request, [
+            'cnpj' => 'required|unique:empresas,cnpj,' . $id,
+            'razao_social' => 'required',
+            'telefone' => 'required'
+        ], $this->mensagens);
+
+        // Preencher os novos dados do usuário
+
+        $empresa->fill($request->all());
+
+        // Gravar as mudanças no banco
+
+        if($empresa->save())
+        {
+            return [
+                'erros' => false,
+                'objeto' => $empresa->toJson() 
+            ];
+        }
+        else
+        {
+            return [ 'erros' => true ];
+        }
     }
 
     /**

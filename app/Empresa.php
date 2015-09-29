@@ -9,4 +9,9 @@ class Empresa extends Model
     // Atributos para o Mass Assignment
 
     protected $fillable = [ 'cnpj', 'razao_social', 'telefone', 'contato' ];
+
+    public function licencas()
+    {
+    	return $this->hasMany('App\Licenca');
+    }
 }
