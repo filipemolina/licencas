@@ -8,7 +8,7 @@ class Licenca extends Model
 {
     // Atributos para o Mass Assignment
 
-    protected $fillable = [ 'emissao', 'validade', 'empresa_id' ];
+    protected $fillable = [ 'emissao', 'validade', 'empresa_id', 'renovada' ];
 
     public function empresa()
     {

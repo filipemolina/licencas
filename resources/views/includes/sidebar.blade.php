@@ -80,10 +80,17 @@
         </a>
         <ul class="treeview-menu">
           <li class="{{ Request::is('licencas') ? 'active' : '' }}">
-            <a href="{{ route('licencas.index') }}"><i class="fa fa-circle-o text-yellow"></i> Todas as Licenças</a>
+            <a href="{{ route('licencas.index') }}"><i class="fa fa-circle-o text-blue"></i> Renovadas</a>
           </li>
-          <li class="active"><a href="index.html"><i class="fa fa-circle-o text-red"></i> Vencidas</a></li>
-          <li><a href="index2.html"><i class="fa fa-circle-o text-green"></i> Renovadas</a></li>
+          <li class="{{ Request::is('licencas/avencer') ? 'active' : '' }}">
+            <a href="{{ route('licencas.avencer') }}"><i class="fa fa-circle-o text-yellow"></i> À Vencer</a>
+          </li>
+          <li class="{{ Request::is('licencas/vencidas') ? 'active' : '' }}">
+            <a href="{{ route('licencas.vencidas') }}"><i class="fa fa-circle-o text-red"></i> Vencidas</a>
+          </li>
+          <li class="{{ Request::is('licencas/create') ? 'active' : '' }}">
+            <a href="{{ route('licencas.create') }}"><i class="fa fa-circle-o text-green"></i>Cadastrar</a>
+          </li>
         </ul>
       </li>
 

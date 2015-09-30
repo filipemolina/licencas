@@ -24,7 +24,7 @@
 	<link rel="stylesheet" href="{{ asset('css/skins/_all-skins.min.css') }}">
 
     <!-- iCheck -->
-    <link rel="stylesheet" href="{{ asset('plugins/iCheck/flat/blue.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/iCheck/all.css') }}">
     <!-- Morris chart -->
     <link rel="stylesheet" href="{{ asset('plugins/morris/morris.css') }}">
     <!-- jvectormap -->
@@ -114,6 +114,10 @@
 	
 	<script src="{{ asset('js/jquery.min.js') }}"></script>
 	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('js/jquery.inputmask.js') }}"></script>
+  <script src="{{ asset('js/jquery.inputmask.date.extensions.js') }}"></script>
+  <script src="{{ asset('js/jquery.inputmask.extensions.js') }}"></script>
+  <script src="{{ asset('js/icheck.min.js') }}"></script>
   <script src="{{ asset('js/app.min.js') }}"></script>
 	<script src="{{ asset('js/scripts.js') }}"></script>
 </body>

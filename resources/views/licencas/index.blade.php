@@ -12,7 +12,7 @@
 			
 			<div class="box-header with-border">
 				
-				<h3 class="box-title">Todas as Licenças</h3>
+				<h3 class="box-title">{{ $padrao['subsecao'] }}</h3>
 
 				{{-- Caixa de Busca --}}
 
@@ -62,13 +62,13 @@
 								<tr>
 									<td>{{ $licenca->id }}</td>
 									<td>{{ $licenca->empresa->razao_social }}</td>
-									<td>{{ $licenca->emissao }}</td>
-									<td>{{ $licenca->validade }}</td>
+									<td>{{ implode('/', array_reverse(explode("-", $licenca->emissao))) }}</td>
+									<td>{{ implode('/', array_reverse(explode("-", $licenca->validade))) }}</td>
 									<td>
 										<a href="{{ route('licencas.edit', ['licencas' => $licenca->id]) }}" class="btn btn-primary btn-sm">
 											<i class="fa fa-edit"></i>
 										</a>
-										<button type="button" class="btn btn-danger btn-sm btn-excluir-licenca" data-toggle="modal" data-target="#modal-principal" data-empresa="{{ $licenca->id }}" data-razao="{{ $licenca->id }}">
+										<button type="button" class="btn btn-danger btn-sm btn-excluir-licenca" data-toggle="modal" data-target="#modal-principal" data-licenca="{{ $licenca->id }}" data-titulo="{{ $licenca->id }}">
 											<i class="fa fa-close"></i>
 										</button>
 									</td>

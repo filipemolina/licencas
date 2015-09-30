@@ -110,6 +110,14 @@ function logar(dados)
 
 $(function(){
 
+	//////////////////////////////////////////////////////////////////////////// Máscara de datas
+
+	$("[data-mask]").inputmask();
+
+	//////////////////////////////////////////////////////////////////////////// Personalização dos Checkboxes
+
+	$("input[type=checkbox]").iCheck({checkboxClass: 'icheckbox_minimal-blue'});
+
 	//////////////////////////////////////////////////////////////////////////// Submit do form de Criação de usuários
 
 	$("#form-create-user").submit(function(event)
@@ -154,6 +162,30 @@ $(function(){
 
 		return false;
 
+	});
+
+	//////////////////////////////////////////////////////////////////////////// Submit do form de Criação de Licenças
+
+	$("#form-create-licenca").submit(function(event){
+
+		event.preventDefault();
+
+		// Retirar qualquer aviso que tenha sido dado ao usuário
+
+		$('section.content div.callout').remove();
+
+		// Mostrar o Ajax-loader ao lado do botão de enviar
+
+		$("img.ajax-loader").css('display', 'block');
+
+		// Obter a URL para ser usada na chamada AJAX
+
+		var url = $(this).attr('action');
+		var token = $("input[name=_token]").val();
+
+		submitUsuarios(url, token, $(this), "A licença foi cadastrada no banco de dados.");
+
+		return false;
 	});
 
 	//////////////////////////////////////////////////////////////////////////// Submit do form de Alteração de usuários
@@ -210,6 +242,32 @@ $(function(){
 
 		return false;
 
+	});
+
+	//////////////////////////////////////////////////////////////////////////// Submit do form de Alteração de Licença
+
+	$("#form-edit-licenca").submit(function(event){
+		
+		event.preventDefault();
+
+		// Retirar qualquer aviso que tenha sido dado ao usuário
+
+		$("section.content div.callout").remove();
+
+		// Mostrar o Ajax-loader do lado do botão de enviar
+
+		$("img.ajax-loader").css('display', 'block');
+
+		// Obter a URL para ser usada na chamada AJAX
+
+		var url = $(this).attr('action');
+		var token = $("input[name=_token]").val();
+
+		// Iniciar a chamada AJAX
+
+		submitUsuarios(url, token, $(this), "Licença alterada com sucesso no banco de dados.");
+
+		return false;
 	});
 
 	//////////////////////////////////////////////////////////////////////////// Abrir o Modal de Exclusão de Usuário
@@ -292,6 +350,48 @@ $(function(){
 		$("#form-excluir-empresa #empresa_id").val(empresa_id);
 
 		excluir(url, empresa_id, token, $("form#form-excluir-empresa"));
+
+	});
+
+	//////////////////////////////////////////////////////////////////////////// Abrir o modal de exclusão de licença
+
+	$(".btn-excluir-licenca").click(function(){
+
+		var licenca_id = $(this).data('licenca');
+		var titulo = $(this).data('titulo');
+
+		// Título do Modal
+
+		$("#modal-principal h4").html("Atenção!");
+
+		// Texto to corpo do modal
+
+		$("#modal-principal .modal-body p").html("Tem certeza que deseja excluir a licença " + titulo + " ?");
+
+		// Texto do botão
+
+		$("#modal-principal #btn-principal").removeClass('btn-primary').addClass('btn-danger').html("Excluir");
+
+		$("#modal-principal #btn-principal").data('id', licenca_id);
+
+		$("#modal-principal #btn-principal").addClass('excluir-licenca');
+
+	});
+
+	/////////////////////////////////////////////////////////////////////////// Excluir Licença
+
+	$("#modal-principal").on('click', '.excluir-licenca', function(){
+
+		// Id da licença à ser excluída
+		var licenca_id = $(this).data('id');
+
+		// URL e Token para serem enviados por ajax
+		var url = $("form#form-excluir-licenca").attr('action');
+		var token = $("form#form-excluir-licenca input[name=_token]").val();
+
+		$("#form-excluir-licenca #licenca_id").val(licenca_id);
+
+		excluir(url, licenca_id, token, $("form#form-excluir-licenca"));
 
 	});
 

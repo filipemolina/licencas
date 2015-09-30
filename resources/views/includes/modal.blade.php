@@ -35,3 +35,11 @@
   {!! method_field('DELETE') !!}
   <input type="hidden" value="" name="id" id="empresa_id">
 </form>
+
+{{-- Form oculto para enviar as requisições de exclusão das licenças --}}
+
+<form action="{{ url('licencas/') }}" method="POST" id="form-excluir-licenca">
+  {!! csrf_field() !!}
+  {!! method_field('DELETE') !!}
+  <input type="hidden" value="" name="id" id="licenca_id">
+</form>
