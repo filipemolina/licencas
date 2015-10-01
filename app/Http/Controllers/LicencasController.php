@@ -305,4 +305,56 @@ class LicencasController extends Controller
 
         return view('licencas.index', compact('padrao', 'licencas'));
     }
+
+     /**
+     * Realiza a busca de empresas por razão social
+     *
+     * @param  string  $termo
+     * @return Response
+     */
+    public function busca(Request $request, $termo, $tipo)
+    {
+        // Testa se o termo de busca não é vazio
+
+        if($termo != '0')
+        {
+            // Definir o tipo de resultado baseado no tipo de busca
+
+            if($tipo == 'avencer')
+            {
+                $data_maxima = date('Y-m-d', strtotime($this->antecedencia));
+
+                $licencas = Licenca::where('id', "$termo")->where('validade', '<=', $data_maxima)->with('Empresa')->paginate(10);
+            }
+            else if($tipo == 'vencidas')
+            {
+                $licencas = Licenca::where('id', "$termo")->where('validade', '<=', date('Y-m-d'))->with('Empresa')->paginate(10);
+            }
+            else
+            {
+                $licencas = Licenca::where('id', "$termo")->with('Empresa')->paginate(10);      
+            }
+        }
+        else
+        {
+            // Retornar todas as licenças de acordo com o tipo
+
+            if($tipo == 'avencer')
+            {
+                $data_maxima = date('Y-m-d', strtotime($this->antecedencia));
+
+                $licencas = Licenca::where('validade', '<=', $data_maxima)->with('Empresa')->paginate(10);
+            }
+            else if($tipo == 'vencidas')
+            {
+                $licencas = Licenca::where('validade', '<=', date('Y-m-d'))->with('Empresa')->paginate(10);   
+            }
+            else
+            {
+                $licencas = Licenca::with('Empresa')->paginate(10);      
+            }
+        }
+
+        return $licencas->toJson();
+    }
 }

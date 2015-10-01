@@ -20,7 +20,7 @@
 					
 					<div class="has-feedback">
 						
-						<input type="text" class="form-control input-sm" placeholder="Busca de Usuários">
+						<input type="text" id="busca-usuario" class="form-control input-sm" placeholder="Busca de Usuários">
 
 						<span class="glyphicon glyphicon-search form-control-feedback"></span>
 
@@ -75,7 +75,7 @@
 
 				{{-- Footer --}}
 
-				<div class="mailbox-controls">
+				<div class="mailbox-controls footer-pagination">
 
 					{!! $usuarios->render() !!}
 

@@ -12,6 +12,14 @@ body
 	width: 50% !important;
 }
 
+/******************************************* Sidebar */
+
+.sidebar-menu>li .label
+{
+	margin-top: 10px;
+	margin-right: 5px;
+}
+
 /******************************************* Usuários :: Listar */
 
 ul.pagination

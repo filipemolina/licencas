@@ -106,6 +106,49 @@ function logar(dados)
 	console.log(dados);
 }
 
+function montarPaginacao(anterior, proximo, atual)
+{
+	var link_anterior;
+	var link_proximo;
+	var link_atual;
+
+	//////////////////////////// Definir o link anterior
+
+	if(anterior)
+	{
+		link_anterior = '<li><a class="ajax-pagination" href="'+anterior+'" rel="prev">«</a><li/>';
+	}
+	else
+	{
+		link_anterior = '<li class="disabled"><span>«</span></li>';
+	}
+
+	//////////////////////////// Definir o link posterior
+
+	if(proximo)
+	{
+		link_proximo = '<li><a class="ajax-pagination" href="'+proximo+'" rel="next">»</a></li>';
+	}
+	else
+	{
+		link_proximo = '<li class="disabled"><span>»</span></li>';
+	}
+
+	//////////////////////////// Criar a paginação
+
+	var paginacao = '<ul class="pagination">'+link_anterior+'\
+		<li class="active">\
+			<span>'+atual+'</span>\
+		</li>'+link_proximo+'\
+	</ul>';
+
+	/////////////////////////////// Inserir na tabela
+
+	$("div.mailbox-controls.footer-pagination .pagination").remove();
+
+	$("div.mailbox-controls.footer-pagination").append(paginacao);
+}
+
 //////////////////////////////////////////////////////////////////////////// Scripts rodados após o carregamento da página
 
 $(function(){
@@ -272,7 +315,7 @@ $(function(){
 
 	//////////////////////////////////////////////////////////////////////////// Abrir o Modal de Exclusão de Usuário
 
-	$(".btn-excluir-usuario").click(function(){
+	$("table.table-hover").on('click', '.btn-excluir-usuario', function(){
 
 		var user_id = $(this).data('user');
 		var user_name = $(this).data('name')
@@ -313,7 +356,7 @@ $(function(){
 
 	//////////////////////////////////////////////////////////////////////////// Abrir o Modal de Exclusão de Empresa
 
-	$(".btn-excluir-empresa").click(function(){
+	$("table.table-hover").on('click', '.btn-excluir-empresa', function(){
 
 		var empresa_id = $(this).data('empresa');
 		var razao = $(this).data('razao');
@@ -355,7 +398,7 @@ $(function(){
 
 	//////////////////////////////////////////////////////////////////////////// Abrir o modal de exclusão de licença
 
-	$(".btn-excluir-licenca").click(function(){
+	$("table.table-hover").on('click', '.btn-excluir-licenca', function(){
 
 		var licenca_id = $(this).data('licenca');
 		var titulo = $(this).data('titulo');
@@ -368,7 +411,7 @@ $(function(){
 
 		$("#modal-principal .modal-body p").html("Tem certeza que deseja excluir a licença " + titulo + " ?");
 
-		// Texto do botão
+	// Texto do botão
 
 		$("#modal-principal #btn-principal").removeClass('btn-primary').addClass('btn-danger').html("Excluir");
 
@@ -392,6 +435,162 @@ $(function(){
 		$("#form-excluir-licenca #licenca_id").val(licenca_id);
 
 		excluir(url, licenca_id, token, $("form#form-excluir-licenca"));
+
+	});
+
+	/////////////////////////////////////////////////////////////////////////// Busca de Usuários
+
+	$("input#busca-usuario").change(function(event){
+
+		var termo = $(this).val();
+
+		if(!termo)
+		{
+			termo = 0;
+		}
+
+		$.get(users_path + "/busca/" + termo, function(data){
+
+			var resposta = JSON.parse(data);
+
+			// Limpar a tabela e preencher com os novos dados
+
+			$("table.table-hover tbody tr").remove();
+
+			for(dado in resposta.data)
+			{
+				var role = "";
+
+				if(resposta.data[dado].role_id == 1)
+				{
+					role = "Administrador";
+				}
+				else
+				{
+					role = "Usuário";
+				}
+
+				$('table.table-hover tbody').append('<tr><td>'+resposta.data[dado].id+'</td><td>'+resposta.data[dado].name+'</td><td>'+resposta.data[dado].email+'</td><td>'+role+'</td><td><a href="'+users_path+'/'+resposta.data[dado].id+'/edit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a><button type="button" class="btn btn-danger btn-sm btn-excluir-usuario" data-toggle="modal" data-target="#modal-principal" data-user="'+resposta.data[dado].id+'" data-name="'+resposta.data[dado].name+'"><i class="fa fa-close"></i></button></td></tr>');
+			}
+
+			if(reposta.total <= resposta.per_page)
+			{
+				// Chamar a função que mostra a paginação via Ajax
+
+				montarPaginacao(resposta.prev_page_url, resposta.next_page_url, resposta.current_page);
+			}
+
+		});
+
+	});
+
+	/////////////////////////////////////////////////////////////////////////// Busca de Empresas
+
+	$("input#busca-empresa").change(function(event){
+
+		var termo = $(this).val();
+
+		if(!termo)
+		{
+			termo = '0';
+		}
+
+		$.get(empresas_path + "/busca/" + termo, function(data){
+
+			var resposta = JSON.parse(data);
+
+			// Limpar a tabela e preencher com os novos dados
+
+			$("table.table-hover tbody tr").remove();
+
+			for(dado in resposta.data)
+			{
+				$('table.table-hover tbody').append('\
+					<tr>\
+						<td>'+resposta.data[dado].id+'</td>\
+						<td>'+resposta.data[dado].razao_social+'</td>\
+						<td>'+resposta.data[dado].cnpj+'</td>\
+						<td>'+resposta.data[dado].telefone+'</td>\
+						<td>'+resposta.data[dado].contato+'</td>\
+						<td>\
+							<a href="'+empresas_path+'/'+resposta.data[dado].id+'/edit" class="btn btn-primary btn-sm">\
+								<i class="fa fa-edit"></i>\
+							</a>\
+							<button type="button" class="btn btn-danger btn-sm btn-excluir-empresa" data-toggle="modal" data-target="#modal-principal" data-empresa="'+resposta.data[dado].id+'" data-razao="'+resposta.data[dado].razao_social+'">\
+								<i class="fa fa-close"></i>\
+							</button>\
+						</td>\
+					</tr>');
+			}
+
+		});
+
+	});
+
+	/////////////////////////////////////////////////////////////////////////// Busca de Licenças
+
+	$("input#busca-licenca").change(function(event){
+
+		var termo = $(this).val();
+		var tipo = $(this).data('tipo').trim();
+		console.log(tipo);
+		var caminho = '';
+
+		if(!termo)
+		{
+			termo = '0';
+		}
+
+		// Decidir se o usuário está pesquisando por licenças vencidas, à vencer, ou todas.
+
+		if(tipo == 'avencer')
+		{
+			caminho = licencas_path + "/busca/" + termo + "/avencer";
+		}
+		else if(tipo == 'vencidas')
+		{
+			caminho = licencas_path + "/busca/" + termo + "/vencidas";	
+		}
+		else
+		{
+			caminho = licencas_path + "/busca/" + termo + "/todas";		
+		}
+
+		$.get(caminho, function(data){
+
+			var resposta = JSON.parse(data);
+
+			// Limpar a tabela e preencher com os novos dados
+
+			$("table.table-hover tbody tr").remove();
+
+			for(dado in resposta.data)
+			{
+				var emissao = resposta.data[dado].emissao;
+				var vencimento = resposta.data[dado].validade;
+
+				emissao = emissao.split('-').reverse().join('/');
+				vencimento = vencimento.split("-").reverse().join('/');
+
+				$('table.table-hover tbody').append('\
+					<tr>\
+						<td>'+resposta.data[dado].id+'</td>\
+						<td>'+resposta.data[dado].empresa.razao_social+'</td>\
+						<td>'+emissao+'</td>\
+						<td>'+vencimento+'</td>\
+						<td>\
+							<a href="'+licencas_path+'/'+resposta.data[dado].id+'/edit" class="btn btn-primary btn-sm">\
+								<i class="fa fa-edit"></i>\
+							</a>\
+							<button type="button" class="btn btn-danger btn-sm btn-excluir-licenca" data-toggle="modal" data-target="#modal-principal" data-licenca="'+resposta.data[dado].id+'" data-titulo="'+resposta.data[dado].id+'">\
+								<i class="fa fa-close"></i>\
+							</button>\
+						</td>\
+					</tr>\
+				');
+			}
+
+		});
 
 	});
 

@@ -25,13 +25,30 @@ Route::post('auth/register', 'Auth\AuthController@postRegister');
 Route::get('/home', 'PagesController@painel');
 Route::get('/', 'PagesController@painel');
 
-// Rotas Adicionais
+////////////////////////////////// Rotas Adicionais
+
+// Licenças
+
 Route::get('licencas/vencidas', [
     'as' => 'licencas.vencidas', 'uses' => 'LicencasController@vencidas'
 ]);
 
 Route::get('licencas/avencer', [
     'as' => 'licencas.avencer', 'uses' => 'LicencasController@avencer'
+]);
+
+// Busca
+
+Route::get('users/busca/{termo}', [
+	'as' => 'users.busca', 'uses' => 'UsersController@busca'
+]);
+
+Route::get('empresas/busca/{termo}', [
+	'as' => 'empresas.busca', 'uses' => 'EmpresasController@busca'
+]);
+
+Route::get('licencas/busca/{termo}/{tipo}', [
+	'as' => 'licencas.busca', 'uses' => 'LicencasController@busca'
 ]);
 
 // RESTful Controllers

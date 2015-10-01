@@ -20,7 +20,7 @@
 					
 					<div class="has-feedback">
 						
-						<input type="text" class="form-control input-sm" placeholder="Busca de Empresas">
+						<input type="text" id="busca-empresa" class="form-control input-sm" placeholder="Busca de Empresas">
 
 						<span class="glyphicon glyphicon-search form-control-feedback"></span>
 

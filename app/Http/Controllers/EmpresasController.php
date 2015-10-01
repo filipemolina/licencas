@@ -202,4 +202,28 @@ class EmpresasController extends Controller
                 return json_encode("erro");
         }
     }
+
+    /**
+     * Realiza a busca de empresas por razão social
+     *
+     * @param  string  $termo
+     * @return Response
+     */
+    public function busca(Request $request, $termo)
+    {
+        // Testa se o termo de busca não é vazio
+
+        if($termo != '0')
+        {
+            // Lista de todas as empresas que correspondem ao termo de busca
+
+            $empresa = Empresa::where('razao_social', "like", "%$termo%")->paginate(10);
+        }
+        else
+        {
+            $empresa = Empresa::paginate(10);
+        }
+
+        return $empresa->toJson();
+    }
 }

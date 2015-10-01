@@ -263,4 +263,30 @@ class UsersController extends Controller
             }
         }
     }
+
+    /**
+     * Realiza a busca de usuários por nome
+     *
+     * @param  string  $termo
+     * @return Response
+     */
+    public function busca(Request $request, $termo)
+    {
+
+        // Testa se o termo de busca não é vazio
+
+        if($termo != '0')
+        {
+            // Lista de todos os usuários que correspondem ao termo de busca
+
+            $usuarios = User::where('name', "like", "%$termo%")->paginate(10);
+        }
+        else
+        {
+            $usuarios = User::paginate(10);
+        }
+
+        return $usuarios->toJson();
+
+    }
 }

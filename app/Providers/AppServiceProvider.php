@@ -5,8 +5,12 @@ namespace App\Providers;
 use Blade;
 use Illuminate\Support\ServiceProvider;
 
+use App\Licenca;
+
 class AppServiceProvider extends ServiceProvider
 {
+    protected $antecedencia = "+6 months";
+
     /**
      * Bootstrap any application services.
      *
@@ -14,24 +18,25 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /**
-        * Criar um novo comando no Blade que compara duas URL's e retorna 'active' se elas forem iguais.
-        * Esse comando deve ser usado no atributo 'class' de links de navegação
-        * 
-        * @param url1 => URL atual da página
-        * @param url2 => URL do link que se quer testar
-        * 
-        * @return string
-        */
+        ///////////////////////////////////////////// Definir as quantidades que são mostradas no topo
 
-        Blade::directive('isActiveUrl', function($urls){
+        $qtds = [];
 
-            if($urls[0] == $urls[1])
-                echo 'active ';
-            else
-                echo '';
+        // Obter a quantidade de licencas renovadas
 
-        });
+        $qtds['renovadas'] = Licenca::where('renovada', 1)->count();
+
+        // Obter a quantidade de licenças à vencer
+
+        $data_maxima = date('Y-m-d', strtotime($this->antecedencia));
+
+        $qtds['avencer'] = Licenca::where('validade', '<=', $data_maxima)->count();
+
+        // Obter a quantidade de licenças vencidas
+
+        $qtds['vencidas'] = Licenca::where('validade', '<=', date('Y-m-d'))->where('renovada', 0)->count();
+
+        view()->share('qtds', $qtds);
     }
 
     /**

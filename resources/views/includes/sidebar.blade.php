@@ -76,16 +76,49 @@
 
       <li class="{{ $class_licencas }} treeview">
         <a href="#">
-          <i class="fa fa-files-o"></i> <span>Licenças</span> <i class="fa fa-angle-left pull-right"></i>
+          <i class="fa fa-files-o"></i> <span>Licenças</span> 
+
+          {{-- Mostrar a quantidade de licenças vencidas e à vencer --}}
+
+          @if( (count($qtds['avencer']) > 0) && (count($qtds['vencidas'] > 0)) )
+
+            <small class="label pull-right bg-red">{{ $qtds['avencer'] + $qtds['vencidas'] }}</small>
+
+          @else
+
+            {{-- Caso não haja nenhuma, mostrar a seta --}}
+
+            <i class="fa fa-angle-left pull-right"></i>
+
+          @endif
+
         </a>
         <ul class="treeview-menu">
           <li class="{{ Request::is('licencas') ? 'active' : '' }}">
             <a href="{{ route('licencas.index') }}"><i class="fa fa-circle-o text-blue"></i> Renovadas</a>
           </li>
           <li class="{{ Request::is('licencas/avencer') ? 'active' : '' }}">
+
+            {{-- Caso hajam licenças à vencer, mostrar o badge --}}
+
+            @if(count($qtds['avencer']) > 0)
+
+              <span class="label pull-right bg-yellow">{{ $qtds['avencer'] }}</span>              
+
+            @endif
+
             <a href="{{ route('licencas.avencer') }}"><i class="fa fa-circle-o text-yellow"></i> À Vencer</a>
           </li>
           <li class="{{ Request::is('licencas/vencidas') ? 'active' : '' }}">
+
+            {{-- Caso hajam licenças vencidas, mostrar o badge --}}
+
+            @if(count($qtds['vencidas']) > 0)
+
+              <span class="label pull-right bg-red">{{ $qtds['vencidas'] }}</span>              
+
+            @endif
+
             <a href="{{ route('licencas.vencidas') }}"><i class="fa fa-circle-o text-red"></i> Vencidas</a>
           </li>
           <li class="{{ Request::is('licencas/create') ? 'active' : '' }}">
@@ -98,7 +131,7 @@
         <a href="#">
           <i class="fa fa-building-o"></i>
           <span>Empresas</span>
-          <span class="label label-primary pull-right">4</span>
+          <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
           <li class="{{ Request::is('empresas') ? 'active' : '' }}">
@@ -112,7 +145,7 @@
 
       <li class="{{ $class_usuarios }} treeview">
         <a href="pages/widgets.html">
-          <i class="fa fa-users"></i> <span>Usuários</span> <small class="label pull-right bg-green">new</small>
+          <i class="fa fa-users"></i> <span>Usuários</span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
           

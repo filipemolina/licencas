@@ -111,6 +111,16 @@
   </div>
 
   @include('includes.modal')
+
+  <script>
+
+    // Caminhos básicos
+
+    var users_path = "{{ route('users.index') }}";
+    var licencas_path = "{{ route('licencas.index') }}";
+    var empresas_path = "{{ route('empresas.index') }}";
+
+  </script>
 	
 	<script src="{{ asset('js/jquery.min.js') }}"></script>
 	<script src="{{ asset('js/bootstrap.min.js') }}"></script>

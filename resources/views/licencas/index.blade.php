@@ -20,7 +20,7 @@
 					
 					<div class="has-feedback">
 						
-						<input type="text" class="form-control input-sm" placeholder="Busca de Licenças">
+						<input type="text" id="busca-licenca" data-tipo="@if($padrao['subsecao'] == 'À Vencer') avencer @endif @if($padrao['subsecao'] == 'Vencidas') vencidas @endif " class="form-control input-sm" placeholder="Busca de Licenças">
 
 						<span class="glyphicon glyphicon-search form-control-feedback"></span>
 
