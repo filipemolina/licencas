@@ -324,15 +324,18 @@ class LicencasController extends Controller
             {
                 $data_maxima = date('Y-m-d', strtotime($this->antecedencia));
 
-                $licencas = Licenca::where('id', "$termo")->where('validade', '<=', $data_maxima)->with('Empresa')->paginate(10);
+                $licencas = Licenca::where('id', "$termo")->where('validade', '<=', $data_maxima)->with('Empresa')->paginate(1);
             }
             else if($tipo == 'vencidas')
             {
-                $licencas = Licenca::where('id', "$termo")->where('validade', '<=', date('Y-m-d'))->with('Empresa')->paginate(10);
+                $licencas = Licenca::where('id', "$termo")->where('validade', '<=', date('Y-m-d'))->with('Empresa')->paginate(1);
             }
             else
             {
-                $licencas = Licenca::where('id', "$termo")->with('Empresa')->paginate(10);      
+                //$licencas = Licenca::where('id', "$termo")->with('Empresa')->paginate(1);      
+                $licencas = Licenca::with(['Empresa' => function($query) use ($termo) {
+                    $query->where('razao_social', 'like', "%".$termo."%");
+                }])->paginate(2);
             }
         }
         else
@@ -343,15 +346,15 @@ class LicencasController extends Controller
             {
                 $data_maxima = date('Y-m-d', strtotime($this->antecedencia));
 
-                $licencas = Licenca::where('validade', '<=', $data_maxima)->with('Empresa')->paginate(10);
+                $licencas = Licenca::where('validade', '<=', $data_maxima)->with('Empresa')->paginate(1);
             }
             else if($tipo == 'vencidas')
             {
-                $licencas = Licenca::where('validade', '<=', date('Y-m-d'))->with('Empresa')->paginate(10);   
+                $licencas = Licenca::where('validade', '<=', date('Y-m-d'))->with('Empresa')->paginate(1);   
             }
             else
             {
-                $licencas = Licenca::with('Empresa')->paginate(10);      
+                $licencas = Licenca::with('Empresa')->paginate(1);      
             }
         }
 

@@ -279,11 +279,11 @@ class UsersController extends Controller
         {
             // Lista de todos os usuários que correspondem ao termo de busca
 
-            $usuarios = User::where('name', "like", "%$termo%")->paginate(10);
+            $usuarios = User::where('name', "like", "%$termo%")->with('Role')->paginate(1);
         }
         else
         {
-            $usuarios = User::paginate(10);
+            $usuarios = User::with('Role')->paginate(1);
         }
 
         return $usuarios->toJson();

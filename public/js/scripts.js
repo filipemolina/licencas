@@ -149,6 +149,141 @@ function montarPaginacao(anterior, proximo, atual)
 	$("div.mailbox-controls.footer-pagination").append(paginacao);
 }
 
+function paginarUsuarios(url)
+{
+	$.get(url, function(data){
+
+		// Esvaziar a tabela
+
+		$("table.table.table-hover tbody tr").remove();
+
+		var resposta = JSON.parse(data);
+		var row = '';
+
+		// Preencher a tabela com os novos dados
+
+		for(dado in resposta.data)
+		{
+			row =   '<tr>\
+						<td>'+resposta.data[dado].id+'</td>\
+						<td>'+resposta.data[dado].name+'</td>\
+						<td>'+resposta.data[dado].email+'</td>\
+						<td>'+resposta.data[dado].role.title+'</td>\
+						<td>\
+							<a href="'+users_path+'/'+resposta.data[dado].id+'/edit" class="btn btn-primary btn-sm">\
+								<i class="fa fa-edit"></i>\
+							</a>\
+							<button type="button" class="btn btn-danger btn-sm btn-excluir-usuario" data-toggle="modal" data-target="#modal-principal" data-user="'+resposta.data[dado].id+'" data-name="'+resposta.data[dado].name+'">\
+								<i class="fa fa-close"></i>\
+							</button>\
+						</td>\
+					</tr>';
+
+			$("table.table.table-hover tbody").append(row);
+		}
+
+		// Montar a paginação
+
+		if(resposta.total >= resposta.per_page)
+		{
+			montarPaginacao(resposta.prev_page_url, resposta.next_page_url, resposta.current_page);
+		}
+
+	});
+}
+
+function paginarEmpresas(url)
+{
+	$.get(url, function(data){
+
+		// Esvaziar a tabela
+
+		$("table.table.table-hover tbody tr").remove();
+
+		var resposta = JSON.parse(data);
+		var row = '';
+
+		// Preencher a tabela com os novos dados
+
+		for(dado in resposta.data)
+		{
+			row =   '<tr>\
+						<td>'+resposta.data[dado].id+'</td>\
+						<td>'+resposta.data[dado].razao_social+'</td>\
+						<td>'+resposta.data[dado].cnpj+'</td>\
+						<td>'+resposta.data[dado].telefone+'</td>\
+						<td>'+resposta.data[dado].contato+'</td>\
+						<td>\
+							<a href="'+empresas_path+'/'+resposta.data[dado].id+'/edit" class="btn btn-primary btn-sm">\
+								<i class="fa fa-edit"></i>\
+							</a>\
+							<button type="button" class="btn btn-danger btn-sm btn-excluir-empresa" data-toggle="modal" data-target="#modal-principal" data-empresa="'+resposta.data[dado].id+'" data-razao="'+resposta.data[dado].razao_social+'">\
+								<i class="fa fa-close"></i>\
+							</button>\
+						</td>\
+					</tr>';
+
+			$("table.table.table-hover tbody").append(row);
+		}
+
+		// Montar a paginação
+
+		if(resposta.total >= resposta.per_page)
+		{
+			montarPaginacao(resposta.prev_page_url, resposta.next_page_url, resposta.current_page);
+		}
+
+	});
+}
+
+function paginarLicencas(url, tipo)
+{
+	$.get(url, function(data){
+
+		// Esvaziar a tabela
+
+		$("table.table.table-hover tbody tr").remove();
+
+		var resposta = JSON.parse(data);
+		var row = '';
+		var emissao = '';
+		var vencimento = '';
+
+		// Preencher a tabela com os novos dados
+
+		for(dado in resposta.data)
+		{
+			emissao = resposta.data[dado].emissao.split("-").reverse().join("/");
+			vencimento = resposta.data[dado].validade.split("-").reverse().join("/");
+
+			row =   '<tr>\
+						<td>'+resposta.data[dado].id+'</td>\
+						<td>'+resposta.data[dado].empresa.razao_social+'</td>\
+						<td>'+emissao+'</td>\
+						<td>'+vencimento+'</td>\
+						<td>\
+							<a href="'+licencas_path+'/'+resposta.data[dado].id+'/edit" class="btn btn-primary btn-sm">\
+								<i class="fa fa-edit"></i>\
+							</a>\
+							<button type="button" class="btn btn-danger btn-sm btn-excluir-licenca" data-toggle="modal" data-target="#modal-principal" data-licenca="'+resposta.data[dado].id+'" data-titulo="'+resposta.data[dado].id+'">\
+								<i class="fa fa-close"></i>\
+							</button>\
+						</td>\
+					</tr>';
+
+			$("table.table.table-hover tbody").append(row);
+		}
+
+		// Montar a paginação
+
+		if(resposta.total >= resposta.per_page)
+		{
+			montarPaginacao(resposta.prev_page_url, resposta.next_page_url, resposta.current_page);
+		}
+
+	});
+}
+
 //////////////////////////////////////////////////////////////////////////// Scripts rodados após o carregamento da página
 
 $(function(){
@@ -473,7 +608,7 @@ $(function(){
 				$('table.table-hover tbody').append('<tr><td>'+resposta.data[dado].id+'</td><td>'+resposta.data[dado].name+'</td><td>'+resposta.data[dado].email+'</td><td>'+role+'</td><td><a href="'+users_path+'/'+resposta.data[dado].id+'/edit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a><button type="button" class="btn btn-danger btn-sm btn-excluir-usuario" data-toggle="modal" data-target="#modal-principal" data-user="'+resposta.data[dado].id+'" data-name="'+resposta.data[dado].name+'"><i class="fa fa-close"></i></button></td></tr>');
 			}
 
-			if(reposta.total <= resposta.per_page)
+			if(resposta.total >= resposta.per_page)
 			{
 				// Chamar a função que mostra a paginação via Ajax
 
@@ -521,6 +656,13 @@ $(function(){
 							</button>\
 						</td>\
 					</tr>');
+			}
+
+			// Montar a paginação
+
+			if(resposta.total >= resposta.per_page)
+			{
+				montarPaginacao(resposta.prev_page_url, resposta.next_page_url, resposta.current_page);
 			}
 
 		});
@@ -590,7 +732,51 @@ $(function(){
 				');
 			}
 
+			if(resposta.total > resposta.per_page)
+			{
+				console.log("Montou paginação");
+				console.log(resposta);
+				montarPaginacao(resposta.prev_page_url, resposta.next_page_url, resposta.current_page);
+			}
+
 		});
+
+	});
+
+	////////////////////////////////////////////////////////// Paginação Ajax
+
+	$(".mailbox-controls.footer-pagination").on('click', '.ajax-pagination', function(event){
+
+		// Evitar que o link recarregue a página normalmente
+
+		event.preventDefault();
+
+		// Obter a URL do link para fazer a chamada Ajax
+
+		var url = $(this).attr('href');
+
+		// No caso das licenças, obter o tipo de lista (todas, renovadas ou vencidas)
+
+		var tipo = $("input#busca-licenca").data('tipo').trim();
+
+		// Obter o nome da seção em que o usuário se encontra removendo espaços vazio e caracteres de nova linha
+
+		var secao = $(".content-header h1").html().trim().split(" ")[0].replace(/\r?\n|\r/g, "");
+
+		// Decidir para qual controler enviar a requisição baseado no nome da seção
+
+		if(secao == "Usuários")
+		{
+			paginarUsuarios(url);
+		}
+		else if(secao == "Empresas")
+		{
+			paginarEmpresas(url);
+		}
+		else if(secao == "Licenças")
+		{
+			paginarLicencas(url, tipo);
+		}
 
 	});
 

@@ -84,7 +84,7 @@
 
 				{{-- Footer --}}
 
-				<div class="mailbox-controls">
+				<div class="mailbox-controls footer-pagination">
 
 					{!! $licencas->render() !!}
 

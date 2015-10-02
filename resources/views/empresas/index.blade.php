@@ -76,7 +76,7 @@
 
 				{{-- Footer --}}
 
-				<div class="mailbox-controls">
+				<div class="mailbox-controls footer-pagination">
 
 					{!! $empresas->render() !!}
 
