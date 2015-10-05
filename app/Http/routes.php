@@ -37,6 +37,20 @@ Route::get('licencas/avencer', [
     'as' => 'licencas.avencer', 'uses' => 'LicencasController@avencer'
 ]);
 
+// Opções do Usuário
+
+Route::get('users/mudarsenha', [
+	'as' => 'users.mudarsenha', 'uses' => 'UsersController@mudarSenha'
+]);
+
+Route::post('users/mudarsenha', [
+	'as' => 'users.novasenha', 'uses' => 'UsersController@novaSenha'
+]);
+
+Route::get('users/alterarfoto', [
+	'as' => 'users.alterarfoto', 'uses' => 'UsersController@alterarFoto'
+]);
+
 // Busca
 
 Route::get('users/busca/{termo}', [
