@@ -106,6 +106,103 @@ function logar(dados)
 	console.log(dados);
 }
 
+function adicionaUsuario(usuario)
+{
+	row =   '<tr>\
+				<td>'+usuario.id+'</td>\
+				<td>'+usuario.name+'</td>\
+				<td>'+usuario.email+'</td>\
+				<td>'+usuario.role.title+'</td>\
+				<td>\
+					<a href="'+users_path+'/'+usuario.id+'/edit" class="btn btn-primary btn-sm">\
+						<i class="fa fa-edit"></i>\
+					</a>\
+					<button type="button" class="btn btn-danger btn-sm btn-excluir-usuario" data-toggle="modal" data-target="#modal-principal" data-user="'+usuario.id+'" data-name="'+usuario.name+'">\
+						<i class="fa fa-close"></i>\
+					</button>\
+				</td>\
+			</tr>';
+
+	$("table.table.table-hover tbody").append(row);
+}
+
+////////////////////////////////////////////// Adiciona uma empresa na tabela
+
+function adicionaEmpresa(empresa)
+{
+	$('table.table-hover tbody').append('\
+		<tr>\
+			<td>'+empresa.id+'</td>\
+			<td>'+empresa.razao_social+'</td>\
+			<td>'+empresa.cnpj+'</td>\
+			<td>'+empresa.telefone+'</td>\
+			<td>'+empresa.contato+'</td>\
+			<td>\
+				<a href="'+empresas_path+'/'+empresa.id+'/edit" class="btn btn-primary btn-sm">\
+					<i class="fa fa-edit"></i>\
+				</a>\
+				<button type="button" class="btn btn-danger btn-sm btn-excluir-empresa" data-toggle="modal" data-target="#modal-principal" data-empresa="'+empresa.id+'" data-razao="'+empresa.razao_social+'">\
+					<i class="fa fa-close"></i>\
+				</button>\
+			</td>\
+		</tr>');
+}
+
+////////////////////////////////////////////// Adiciona uma licença na tabela
+
+function adicionaLicenca(licenca)
+{
+	var emissao = licenca.emissao;
+	var vencimento = licenca.validade;
+
+	emissao = emissao.split('-').reverse().join('/');
+	vencimento = vencimento.split("-").reverse().join('/');
+
+	var hoje = new Date();
+	var venc = new Date(licenca.validade);
+	
+	var data_max = new Date();
+	data_max.setMonth(hoje.getMonth() + 6);
+
+	var tag = '';
+
+	if(venc < hoje)
+	{
+		if(licenca.renovada)
+			tag = '<span class="label pull-right bg-blue">Renovada</span>';
+		else
+			tag = '<span class="label pull-right bg-red">Vencida</span>';
+	}
+	else if(venc >= hoje && venc <= data_max)
+	{
+		if(licenca.renovada)
+			tag = '<span class="label pull-right bg-blue">Renovada</span>';
+		else
+			tag = '<span class="label pull-right bg-yellow">À Vencer</span>';
+	}
+	else
+	{
+		tag = '<span class="label pull-right bg-green">Ok</span>';
+	}
+
+	$('table.table-hover tbody').append('\
+		<tr>\
+			<td>'+licenca.id+'</td>\
+			<td>'+licenca.razao_social+'</td>\
+			<td>'+emissao+'</td>\
+			<td>'+vencimento+' '+tag+'</td>\
+			<td>\
+				<a href="'+licencas_path+'/'+licenca.id+'/edit" class="btn btn-primary btn-sm">\
+					<i class="fa fa-edit"></i>\
+				</a>\
+				<button type="button" class="btn btn-danger btn-sm btn-excluir-licenca" data-toggle="modal" data-target="#modal-principal" data-licenca="'+licenca.id+'" data-titulo="'+licenca.id+'">\
+					<i class="fa fa-close"></i>\
+				</button>\
+			</td>\
+		</tr>\
+	');
+}
+
 function montarPaginacao(anterior, proximo, atual)
 {
 	var link_anterior;
@@ -164,22 +261,9 @@ function paginarUsuarios(url)
 
 		for(dado in resposta.data)
 		{
-			row =   '<tr>\
-						<td>'+resposta.data[dado].id+'</td>\
-						<td>'+resposta.data[dado].name+'</td>\
-						<td>'+resposta.data[dado].email+'</td>\
-						<td>'+resposta.data[dado].role.title+'</td>\
-						<td>\
-							<a href="'+users_path+'/'+resposta.data[dado].id+'/edit" class="btn btn-primary btn-sm">\
-								<i class="fa fa-edit"></i>\
-							</a>\
-							<button type="button" class="btn btn-danger btn-sm btn-excluir-usuario" data-toggle="modal" data-target="#modal-principal" data-user="'+resposta.data[dado].id+'" data-name="'+resposta.data[dado].name+'">\
-								<i class="fa fa-close"></i>\
-							</button>\
-						</td>\
-					</tr>';
+			// Adicionar uma nova linha na tabela
 
-			$("table.table.table-hover tbody").append(row);
+			adicionaUsuario(resposta.data[dado]);
 		}
 
 		// Montar a paginação
@@ -207,23 +291,9 @@ function paginarEmpresas(url)
 
 		for(dado in resposta.data)
 		{
-			row =   '<tr>\
-						<td>'+resposta.data[dado].id+'</td>\
-						<td>'+resposta.data[dado].razao_social+'</td>\
-						<td>'+resposta.data[dado].cnpj+'</td>\
-						<td>'+resposta.data[dado].telefone+'</td>\
-						<td>'+resposta.data[dado].contato+'</td>\
-						<td>\
-							<a href="'+empresas_path+'/'+resposta.data[dado].id+'/edit" class="btn btn-primary btn-sm">\
-								<i class="fa fa-edit"></i>\
-							</a>\
-							<button type="button" class="btn btn-danger btn-sm btn-excluir-empresa" data-toggle="modal" data-target="#modal-principal" data-empresa="'+resposta.data[dado].id+'" data-razao="'+resposta.data[dado].razao_social+'">\
-								<i class="fa fa-close"></i>\
-							</button>\
-						</td>\
-					</tr>';
+			// Adicionar uma nova linha na tabela
 
-			$("table.table.table-hover tbody").append(row);
+			adicionaEmpresa(resposta.data[dado]);
 		}
 
 		// Montar a paginação
@@ -245,33 +315,12 @@ function paginarLicencas(url, tipo)
 		$("table.table.table-hover tbody tr").remove();
 
 		var resposta = JSON.parse(data);
-		var row = '';
-		var emissao = '';
-		var vencimento = '';
 
 		// Preencher a tabela com os novos dados
 
 		for(dado in resposta.data)
 		{
-			emissao = resposta.data[dado].emissao.split("-").reverse().join("/");
-			vencimento = resposta.data[dado].validade.split("-").reverse().join("/");
-
-			row =   '<tr>\
-						<td>'+resposta.data[dado].id+'</td>\
-						<td>'+resposta.data[dado].empresa.razao_social+'</td>\
-						<td>'+emissao+'</td>\
-						<td>'+vencimento+'</td>\
-						<td>\
-							<a href="'+licencas_path+'/'+resposta.data[dado].id+'/edit" class="btn btn-primary btn-sm">\
-								<i class="fa fa-edit"></i>\
-							</a>\
-							<button type="button" class="btn btn-danger btn-sm btn-excluir-licenca" data-toggle="modal" data-target="#modal-principal" data-licenca="'+resposta.data[dado].id+'" data-titulo="'+resposta.data[dado].id+'">\
-								<i class="fa fa-close"></i>\
-							</button>\
-						</td>\
-					</tr>';
-
-			$("table.table.table-hover tbody").append(row);
+			adicionaLicenca(resposta.data[dado]);
 		}
 
 		// Montar a paginação
@@ -594,18 +643,9 @@ $(function(){
 
 			for(dado in resposta.data)
 			{
-				var role = "";
+				// Adicionar uma nova linha na tabela
 
-				if(resposta.data[dado].role_id == 1)
-				{
-					role = "Administrador";
-				}
-				else
-				{
-					role = "Usuário";
-				}
-
-				$('table.table-hover tbody').append('<tr><td>'+resposta.data[dado].id+'</td><td>'+resposta.data[dado].name+'</td><td>'+resposta.data[dado].email+'</td><td>'+role+'</td><td><a href="'+users_path+'/'+resposta.data[dado].id+'/edit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a><button type="button" class="btn btn-danger btn-sm btn-excluir-usuario" data-toggle="modal" data-target="#modal-principal" data-user="'+resposta.data[dado].id+'" data-name="'+resposta.data[dado].name+'"><i class="fa fa-close"></i></button></td></tr>');
+				adicionaUsuario(resposta.data[dado]);
 			}
 
 			if(resposta.total >= resposta.per_page)
@@ -640,22 +680,9 @@ $(function(){
 
 			for(dado in resposta.data)
 			{
-				$('table.table-hover tbody').append('\
-					<tr>\
-						<td>'+resposta.data[dado].id+'</td>\
-						<td>'+resposta.data[dado].razao_social+'</td>\
-						<td>'+resposta.data[dado].cnpj+'</td>\
-						<td>'+resposta.data[dado].telefone+'</td>\
-						<td>'+resposta.data[dado].contato+'</td>\
-						<td>\
-							<a href="'+empresas_path+'/'+resposta.data[dado].id+'/edit" class="btn btn-primary btn-sm">\
-								<i class="fa fa-edit"></i>\
-							</a>\
-							<button type="button" class="btn btn-danger btn-sm btn-excluir-empresa" data-toggle="modal" data-target="#modal-principal" data-empresa="'+resposta.data[dado].id+'" data-razao="'+resposta.data[dado].razao_social+'">\
-								<i class="fa fa-close"></i>\
-							</button>\
-						</td>\
-					</tr>');
+				// Adicionar uma nova linha na tabela
+
+				adicionaEmpresa(resposta.data[dado]);
 			}
 
 			// Montar a paginação
@@ -675,7 +702,6 @@ $(function(){
 
 		var termo = $(this).val();
 		var tipo = $(this).data('tipo').trim();
-		console.log(tipo);
 		var caminho = '';
 
 		if(!termo)
@@ -708,34 +734,13 @@ $(function(){
 
 			for(dado in resposta.data)
 			{
-				var emissao = resposta.data[dado].emissao;
-				var vencimento = resposta.data[dado].validade;
+				// Adicionar uma nova linha na tabela
 
-				emissao = emissao.split('-').reverse().join('/');
-				vencimento = vencimento.split("-").reverse().join('/');
-
-				$('table.table-hover tbody').append('\
-					<tr>\
-						<td>'+resposta.data[dado].id+'</td>\
-						<td>'+resposta.data[dado].empresa.razao_social+'</td>\
-						<td>'+emissao+'</td>\
-						<td>'+vencimento+'</td>\
-						<td>\
-							<a href="'+licencas_path+'/'+resposta.data[dado].id+'/edit" class="btn btn-primary btn-sm">\
-								<i class="fa fa-edit"></i>\
-							</a>\
-							<button type="button" class="btn btn-danger btn-sm btn-excluir-licenca" data-toggle="modal" data-target="#modal-principal" data-licenca="'+resposta.data[dado].id+'" data-titulo="'+resposta.data[dado].id+'">\
-								<i class="fa fa-close"></i>\
-							</button>\
-						</td>\
-					</tr>\
-				');
+				adicionaLicenca(resposta.data[dado]);
 			}
 
 			if(resposta.total > resposta.per_page)
 			{
-				console.log("Montou paginação");
-				console.log(resposta);
 				montarPaginacao(resposta.prev_page_url, resposta.next_page_url, resposta.current_page);
 			}
 
@@ -757,7 +762,10 @@ $(function(){
 
 		// No caso das licenças, obter o tipo de lista (todas, renovadas ou vencidas)
 
-		var tipo = $("input#busca-licenca").data('tipo').trim();
+		if($("input#busca-licenca").length)
+		{
+			var tipo = $("input#busca-licenca").data('tipo').trim();
+		}
 
 		// Obter o nome da seção em que o usuário se encontra removendo espaços vazio e caracteres de nova linha
 

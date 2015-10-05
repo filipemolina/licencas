@@ -36,3 +36,10 @@ ul.pagination
     margin-right: 12px;
     display: none;
 }
+
+/******************************************* Senhas :: Listar */
+
+.table .label 
+{
+    margin-top: 7px;
+}

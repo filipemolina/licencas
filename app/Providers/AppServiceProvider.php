@@ -30,11 +30,15 @@ class AppServiceProvider extends ServiceProvider
 
         $data_maxima = date('Y-m-d', strtotime($this->antecedencia));
 
-        $qtds['avencer'] = Licenca::where('validade', '<=', $data_maxima)->count();
+        $qtds['avencer'] = Licenca::where('validade', '<=', $data_maxima)
+                                    ->where('validade', '>=', date('Y-m-d'))
+                                    ->count();
 
         // Obter a quantidade de licenças vencidas
 
-        $qtds['vencidas'] = Licenca::where('validade', '<=', date('Y-m-d'))->where('renovada', 0)->count();
+        $qtds['vencidas'] = Licenca::where('validade', '<', date('Y-m-d'))
+                                    ->where('renovada', 0)
+                                    ->count();
 
         view()->share('qtds', $qtds);
     }

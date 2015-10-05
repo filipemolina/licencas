@@ -95,7 +95,7 @@
         </a>
         <ul class="treeview-menu">
           <li class="{{ Request::is('licencas') ? 'active' : '' }}">
-            <a href="{{ route('licencas.index') }}"><i class="fa fa-circle-o text-blue"></i> Renovadas</a>
+            <a href="{{ route('licencas.index') }}"><i class="fa fa-circle-o text-blue"></i> Todas</a>
           </li>
           <li class="{{ Request::is('licencas/avencer') ? 'active' : '' }}">
 

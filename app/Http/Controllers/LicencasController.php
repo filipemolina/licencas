@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Auth;
+use DB;
 
 use App\Licenca;
 use App\Empresa;
@@ -47,7 +48,7 @@ class LicencasController extends Controller
         $padrao['subsecao'] = "Listar";
         $padrao['url'] = $request->url();
 
-        $licencas = Licenca::paginate(10);
+        $licencas = Licenca::orderBy('id', 'desc')->paginate(10);
 
         return view('licencas.index', compact('licencas', 'padrao'));
     }
@@ -274,7 +275,7 @@ class LicencasController extends Controller
 
         // Lista de licenças vencidas
 
-        $licencas = Licenca::where('validade', '<=', date('Y-m-d'))->paginate(10);
+        $licencas = Licenca::where('validade', '<=', date('Y-m-d'))->orderBy('id', 'desc')->paginate(10);
 
         return view('licencas.index', compact('padrao', 'licencas'));
     }
@@ -301,7 +302,10 @@ class LicencasController extends Controller
 
         // Lista de licenças à vencer
 
-        $licencas = Licenca::where('validade', '<=', $data_maxima)->paginate(10);
+        $licencas = Licenca::where('validade', '<=', $data_maxima)
+                            ->where('validade', '>=', date('Y-m-d'))
+                            ->orderBy('id', 'desc')
+                            ->paginate(10);
 
         return view('licencas.index', compact('padrao', 'licencas'));
     }
@@ -324,18 +328,33 @@ class LicencasController extends Controller
             {
                 $data_maxima = date('Y-m-d', strtotime($this->antecedencia));
 
-                $licencas = Licenca::where('id', "$termo")->where('validade', '<=', $data_maxima)->with('Empresa')->paginate(1);
+                $licencas = Licenca::select('licencas.id', 'empresas.razao_social', 'licencas.emissao', 'licencas.validade', 'licencas.renovada')
+                                    ->where('empresas.razao_social', 'like', "%$termo%")
+                                    ->where('validade', '<=', $data_maxima)
+                                    ->where('validade', '>=', date('Y-m-d'))
+                                    ->join('empresas', 'licencas.empresa_id', '=', 'empresas.id')
+                                    ->orderBy('id', 'desc')
+                                    ->paginate(10);
             }
             else if($tipo == 'vencidas')
             {
-                $licencas = Licenca::where('id', "$termo")->where('validade', '<=', date('Y-m-d'))->with('Empresa')->paginate(1);
+                $licencas = Licenca::select('licencas.id', 'empresas.razao_social', 'licencas.emissao', 'licencas.validade', 'licencas.renovada')
+                                    ->where('empresas.razao_social', 'like', "%$termo%")
+                                    ->where('validade', '<', date('Y-m-d'))
+                                    ->join('empresas', 'licencas.empresa_id', '=', 'empresas.id')
+                                    ->orderBy('id', 'desc')
+                                    ->paginate(10);
             }
             else
             {
-                //$licencas = Licenca::where('id', "$termo")->with('Empresa')->paginate(1);      
-                $licencas = Licenca::with(['Empresa' => function($query) use ($termo) {
-                    $query->where('razao_social', 'like', "%".$termo."%");
-                }])->paginate(2);
+                // Realizar um Join das tabelas "Empresas" e "Licenças" e retornar apenas as linhas onde a razão
+                // social da empresa corresponde ao termo de pesquisa.
+
+                $licencas = Licenca::select('licencas.id', 'empresas.razao_social', 'licencas.emissao', 'licencas.validade', 'licencas.renovada')
+                                    ->where('empresas.razao_social', 'like', "%$termo%")
+                                    ->join('empresas', 'licencas.empresa_id', '=', 'empresas.id')
+                                    ->orderBy('id', 'desc')
+                                    ->paginate(10);
             }
         }
         else
@@ -346,15 +365,27 @@ class LicencasController extends Controller
             {
                 $data_maxima = date('Y-m-d', strtotime($this->antecedencia));
 
-                $licencas = Licenca::where('validade', '<=', $data_maxima)->with('Empresa')->paginate(1);
+                $licencas = Licenca::select('licencas.id', 'empresas.razao_social', 'licencas.emissao', 'licencas.validade', 'licencas.renovada')
+                                    ->where('validade', '<=', $data_maxima)
+                                    ->where('validade', '>=', date('Y-m-d'))
+                                    ->join('empresas', 'licencas.empresa_id', '=', 'empresas.id')
+                                    ->orderBy('id', 'desc')
+                                    ->paginate(10);
             }
             else if($tipo == 'vencidas')
             {
-                $licencas = Licenca::where('validade', '<=', date('Y-m-d'))->with('Empresa')->paginate(1);   
+                $licencas = Licenca::select('licencas.id', 'empresas.razao_social', 'licencas.emissao', 'licencas.validade', 'licencas.renovada')
+                                    ->where('validade', '<', date('Y-m-d'))
+                                    ->join('empresas', 'licencas.empresa_id', '=', 'empresas.id')
+                                    ->orderBy('id', 'desc')
+                                    ->paginate(10);   
             }
             else
             {
-                $licencas = Licenca::with('Empresa')->paginate(1);      
+                $licencas = Licenca::select('licencas.id', 'empresas.razao_social', 'licencas.emissao', 'licencas.validade', 'licencas.renovada')
+                                    ->join('empresas', 'licencas.empresa_id', '=', 'empresas.id')
+                                    ->orderBy('id', 'desc')
+                                    ->paginate(10);
             }
         }
 
