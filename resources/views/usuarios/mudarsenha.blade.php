@@ -16,7 +16,7 @@
 
 				{{-- Formúlário de cadastro --}}
 
-				<form action="{{ route('users.novasenha') }}" method="POST" enctype="multipart/form-data" id="form-create-user">
+				<form action="{{ route('users.novasenha') }}" method="POST" enctype="multipart/form-data" id="form-mudar-senha">
 
 					{!! csrf_field() !!}
 

@@ -12,6 +12,7 @@ use App\Role;
 
 use Auth;
 use Hash;
+use Validator;
 
 class UsersController extends Controller
 {
@@ -340,9 +341,19 @@ class UsersController extends Controller
                 }
                 else
                 {
-                    return [ 'erros' => true ];
+                    abort(500, "Não foi possível gravar as alterações.");
                 }
             }
+            else
+            {
+                abort(500, "As senhas foram digitadas de forma diferente.");
+            }
+        }
+        else
+        {
+            return Response::json([
+                'responseJson' => ["A senha atual não foi digitada corretamente."]
+            ], 400);
         }
     }
 }

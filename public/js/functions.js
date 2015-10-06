@@ -4,6 +4,24 @@ var files;
 
 var App = {};
 
+function preparaForm(form)
+{
+	// Retirar qualquer aviso que tenha sido dado ao usuário
+
+	$("section.content div.callout").remove();
+
+	// Mostrar o Ajax-loader do lado do botão de enviar
+
+	$("img.ajax-loader").css('display', 'block');
+
+	// Obter a URL para ser usada na chamada AJAX
+
+	var url = $(form).attr('action');
+	var token = $("input[name=_token]").val();
+
+	return { url : url, token : token };
+}
+
 // Faz a chamada ajax dos formulários de cadastro e alteração
 
 function submitForm(url, token, form, msg_sucesso)
@@ -45,6 +63,8 @@ function submitForm(url, token, form, msg_sucesso)
 		},
 		error : function(xhr, status, error)
 		{
+			console.log(xhr);
+
 			// Houve algum erro de validação, mostrar esse erro ao usuário
 
 			var erros = xhr.responseJSON;

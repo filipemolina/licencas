@@ -468,4 +468,26 @@ $(function(){
 
 	});
 
+	//////////////////////////////////////////////////////////// Submit do form de mudar senha
+
+	$("#form-mudar-senha").submit(function(event){
+
+		// Evitar que o form seja submetido de forma tradicional
+
+		event.preventDefault();
+
+		// Preparar o formulário
+
+		var dados = preparaForm($(this));
+
+		// Envia os dados
+
+		submitForm(dados.url, dados.token, $(this), "Senha alterada com sucesso!");
+
+		// Evitar que o form seja submetido de forma tradicional
+
+		return false;
+
+	});
+
 });
