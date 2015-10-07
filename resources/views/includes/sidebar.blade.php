@@ -174,7 +174,7 @@
         </a>
         <ul class="treeview-menu">
           
-          <li>
+          <li class="{{ Request::is('alterarfoto') ? 'active' : '' }}">
             <a href="{{ route('users.alterarfoto') }}">
               <i class="fa fa-circle-o text-blue"></i>
               Alterar Foto

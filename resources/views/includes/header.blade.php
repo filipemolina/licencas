@@ -99,7 +99,7 @@
 									
 									<li>
 										<a href="#">
-											<i class="fa fa-warning text-yellow"></i> {{ $vencidas_lista->empresa->razao_social }}
+											<i class="fa fa-warning text-red"></i> {{ $vencidas_lista->empresa->razao_social }}
 										</a>
 									</li>
 
@@ -133,10 +133,6 @@
 							</div>
 						</li>
 					</ul>
-				</li>
-				<!-- Control Sidebar Toggle Button -->
-				<li>
-					<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
 				</li>
 			</ul>
 		</div>
