@@ -39,16 +39,20 @@ Route::get('licencas/avencer', [
 
 // Opções do Usuário
 
-Route::get('users/mudarsenha', [
-	'as' => 'users.mudarsenha', 'uses' => 'UsersController@mudarSenha'
+Route::get('/mudarsenha', [
+	'as' => 'users.mudarsenha', 'uses' => 'PagesController@mudarSenha'
 ]);
 
-Route::post('users/mudarsenha', [
-	'as' => 'users.novasenha', 'uses' => 'UsersController@novaSenha'
+Route::post('/mudarsenha', [
+	'as' => 'users.novasenha', 'uses' => 'PagesController@novaSenha'
 ]);
 
-Route::get('users/alterarfoto', [
-	'as' => 'users.alterarfoto', 'uses' => 'UsersController@alterarFoto'
+Route::get('/alterarfoto', [
+	'as' => 'users.alterarfoto', 'uses' => 'PagesController@alterarFoto'
+]);
+
+Route::post('/alterarfoto', [
+	'as' => 'users.novafoto', 'uses' => 'PagesController@novaFoto'
 ]);
 
 // Busca

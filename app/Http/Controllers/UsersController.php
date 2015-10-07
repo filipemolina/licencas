@@ -13,6 +13,7 @@ use App\Role;
 use Auth;
 use Hash;
 use Validator;
+use Illuminate\Http\Response;
 
 class UsersController extends Controller
 {
@@ -290,70 +291,5 @@ class UsersController extends Controller
 
         return $usuarios->toJson();
 
-    }
-
-    public function alterarFoto(Request $request)
-    {
-
-    }
-
-    public function mudarSenha(Request $request)
-    {
-        // Variáveis padrão
-
-        $padrao = [];
-
-        $padrao['secao'] = "Usuários";
-        $padrao['subsecao'] = "Mudar Senha";
-        $padrao['url'] = $request->url();
-
-        // Obter o usuário da seção
-
-        $usuario = Auth::user();
-
-        return view('usuarios.mudarsenha', compact('padrao', 'usuario'));
-    }
-
-    public function novaSenha(Request $request)
-    {
-        // Obter o usuário atual
-
-        $usuario = Auth::user();
-
-        // Compara a senha fornecida com a senha do usuário
-
-        if(Hash::check($request->input('senha_atual'), $usuario->password))
-        {
-            // Verificar se o usuário digitou a senha corretamente nos dois campos
-
-            if($request->input('nova_senha') == $request->input('nova_senha2'))
-            {
-                $nova_senha = bcrypt($request->input('nova_senha'));
-
-                $usuario->password = $nova_senha;
-
-                if($usuario->save())
-                {
-                    return [
-                        'erros' => false,
-                        'objeto' => $usuario->toJson() 
-                    ];
-                }
-                else
-                {
-                    abort(500, "Não foi possível gravar as alterações.");
-                }
-            }
-            else
-            {
-                abort(500, "As senhas foram digitadas de forma diferente.");
-            }
-        }
-        else
-        {
-            return Response::json([
-                'responseJson' => ["A senha atual não foi digitada corretamente."]
-            ], 400);
-        }
     }
 }

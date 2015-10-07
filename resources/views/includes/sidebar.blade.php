@@ -175,13 +175,13 @@
         <ul class="treeview-menu">
           
           <li>
-            <a href="">
+            <a href="{{ route('users.alterarfoto') }}">
               <i class="fa fa-circle-o text-blue"></i>
               Alterar Foto
             </a>
           </li>
 
-          <li>
+          <li class="{{ Request::is('mudarsenha') ? 'active' : '' }}">
             <a href="{{ route('users.mudarsenha') }}">
               <i class="fa fa-circle-o text-blue"></i>
               Mudar Senha
