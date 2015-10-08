@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use App\Licenca;
 use App\Empresa;
+use App\User;
 
 use Hash;
 use Auth;
@@ -203,5 +204,99 @@ class PagesController extends Controller
                 'responseJson' => ["A senha atual não foi digitada corretamente."]
             ], 400);
         }
+    }
+
+    /**
+    * Realiza a busca geral do sistema
+    *
+    * @return Response
+    */
+    public function busca(Request $request)
+    {
+        // Variáveis padrão
+
+        $padrao = [];
+
+        $padrao['secao'] = "Busca";
+        $padrao['subsecao'] = "Resumo dos Resultados";
+        $padrao['url'] = $request->url();
+
+        // Termo de pesquisa
+
+        $termo = $request->input('termo');
+
+        // Buscar por Empresas
+
+        $resultados['empresas'] = Empresa::where('razao_social', 'like', "%$termo%")
+                                ->take(5)
+                                ->get();
+
+        // Buscar por Licencas
+
+        $resultados['licencas'] = Licenca::select('licencas.id', 'empresas.razao_social', 'licencas.emissao', 'licencas.validade')
+                                ->where('empresas.razao_social', 'like', "%$termo%")
+                                ->join('empresas', 'licencas.empresa_id', '=', 'empresas.id')
+                                ->take(5)
+                                ->get();
+
+        // Buscar por Usuários
+
+        $resultados['usuarios'] = User::where('name', 'like', "%$termo%")
+                                ->take(5)
+                                ->get();
+
+        // Decidir quais resultados serão mostrados
+
+        $classes['empresas'] = 'hidden';
+        $classes['licencas'] = 'hidden';
+        $classes['usuarios'] = 'hidden';
+
+        if(count($resultados['empresas']))
+            $classes['empresas'] = '';
+
+        if(count($resultados['licencas']))
+            $classes['licencas'] = '';
+
+        if(count($resultados['usuarios']))
+            $classes['usuarios'] = '';        
+
+        return view('pages.busca', compact('padrao', 'termo', 'resultados', 'classes'));
+    }
+
+    /**
+    * Realiza a busca específica por objeto
+    *
+    * @return Response
+    */
+    public function buscaEspecifica(Request $request)
+    {
+        // Variáveis da pesquisa
+
+        $termo = $request->input('termo');
+        $objeto = $request->input('objeto');
+
+        // Realizar a pesquisa de acordo com o objeto
+
+        if($objeto == 'licencas')
+        {
+            $resultados = Licenca::select('licencas.id', 'empresas.razao_social', 'licencas.emissao', 'licencas.validade')
+                                ->where('empresas.razao_social', 'like', "%$termo%")
+                                ->join('empresas', 'licencas.empresa_id', '=', 'empresas.id')
+                                ->get();
+        }
+        else if($objeto == 'empresas')
+        {
+            $resultados = Empresa::where('razao_social', 'like', "%$termo%")->get();
+        }
+        else if($objeto == 'usuarios')
+        {
+            $resultados = User::select('users.id', 'users.name', 'users.email', 'roles.title')
+                                ->where('name', 'like', "%$termo%")
+                                ->join('roles', 'users.role_id', '=', 'roles.id')
+                                ->get();
+        }
+
+        return $resultados->toJson();
+
     }
 }

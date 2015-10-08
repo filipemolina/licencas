@@ -53,11 +53,14 @@
     </div>
 
     <!-- search form -->
-    <form action="#" method="get" class="sidebar-form">
+    <form action="{{ route('pages.busca') }}" method="POST" class="sidebar-form">
+
+      {!! csrf_field() !!}
+
       <div class="input-group">
-        <input type="text" name="q" class="form-control" placeholder="Pesquisa...">
+        <input type="text" name="termo" class="form-control" placeholder="Pesquisa...">
         <span class="input-group-btn">
-          <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+          <button type="submit" name="btn-enviar" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
         </span>
       </div>
     </form>

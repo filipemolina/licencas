@@ -119,6 +119,7 @@
     var users_path = "{{ route('users.index') }}";
     var licencas_path = "{{ route('licencas.index') }}";
     var empresas_path = "{{ route('empresas.index') }}";
+    var base_path = "{{ url('/') }}";
 
   </script>
 	

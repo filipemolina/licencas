@@ -69,6 +69,14 @@ Route::get('licencas/busca/{termo}/{tipo}', [
 	'as' => 'licencas.busca', 'uses' => 'LicencasController@busca'
 ]);
 
+Route::post('busca/', [
+	'as' => 'pages.busca', 'uses' => 'PagesController@busca'
+]);
+
+Route::post('buscaespecifica', [
+	'as' => 'pages.buscaespecifica', 'uses' => 'PagesController@buscaEspecifica'
+]);
+
 // RESTful Controllers
 Route::resource('/users', 'UsersController');
 Route::resource('/empresas', 'EmpresasController');

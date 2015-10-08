@@ -1,4 +1,4 @@
-////////////// Scripts rodados após o carregamento da página
+ ////////////// Scripts rodados após o carregamento da página
 
 // As funções:
 //		submitForm()
@@ -487,6 +487,107 @@ $(function(){
 		// Evitar que o form seja submetido de forma tradicional
 
 		return false;
+
+	});
+
+	////////////////////////////////////////////////////////////// Mostrar os resultados completos da pesquisa
+
+	$("a.btn-pesquisa").click(function(event){
+
+		event.preventDefault();
+
+		// Obter as variáveis da pesquisa
+
+		var termo = $("#termo-de-pesquisa").val();
+		var objeto = $(this).data('object');
+		var token = $("input[name=_token]").val();
+
+		// Campos da tabela para cada tipo de pesquita
+
+		var campos = {
+			licencas : ['id', 'razao_social', 'validade'],
+			empresas : ['id', 'razao_social', 'contato', 'telefone'],
+			usuarios : ['id', 'name', 'email', 'title']
+		};
+
+		// Mostrar a tela de carregamento
+
+		$("div.box").append('<div class="overlay">\
+                  						<i class="fa fa-refresh fa-spin"></i>\
+                					</div>');
+
+		// Enviar a requisição da pesquisa e mostrar os dados
+
+		$.post(base_path + "/buscaespecifica", { termo : termo, objeto : objeto, _token : token }, function(data){
+
+			var resposta = JSON.parse(data);
+
+			// Diminuir as abas com os outros resultados disparando um evento "click" nos "buttons" correspondentes
+
+			$("div.parciais").children('div').not('.result-' + objeto).find('button[data-widget=collapse]').trigger('click');
+
+			// Esvaziar a tabela com os resultados
+
+			$("div.parciais .result-" + objeto).find('table tbody tr').remove();
+
+			// Preencher novamente a tabela
+
+			var tabela = $("div.parciais .result-" + objeto).find('table tbody');
+
+			// Definir o caminho da API para cada tipo de objeto
+
+			var caminho = '';
+			var classe ='';
+
+			if(objeto == 'usuarios')
+			{
+				caminho = users_path;
+			}
+			else if(objeto == 'licencas')
+			{
+				caminho = licencas_path;
+			}
+			else if(objeto == 'empresas')
+			{
+				caminho = empresas_path;
+			}
+
+			// Iterar pelas linhas da tabela
+
+			var linha = '<tr>';
+
+			for(item in resposta)
+			{
+				// Iterar pelos campos da tabela
+
+				for(campo in campos[objeto])
+				{
+					linha += '<td>' + resposta[item][campos[objeto][campo]] + '</td>';
+				}
+
+				linha += '<td>\
+								<a href="'+caminho+'/'+resposta[item]['id']+'/edit" class="btn btn-primary btn-sm">\
+									<i class="fa fa-edit"></i>\
+								</a>\
+							</td>';
+
+				if(item == resposta.length - 1)
+				{
+					linha += '</tr>';
+				}
+				else
+				{
+					linha += '</tr><tr>';
+				}
+			}
+
+			// Remover a tela de carregamento
+
+			$("div.box .overlay").remove();
+
+			$(tabela).append(linha);
+
+		});
 
 	});
 
