@@ -61,7 +61,7 @@
 
 							</ul>
 						</li>
-						<li class="footer"><a href="#">Ver todas</a></li>
+						<li class="footer"><a href="{{ route('licencas.avencer') }}">Ver todas</a></li>
 					</ul>
 				</li>
 				<!-- Tasks: style can be found in dropdown.less -->
@@ -107,7 +107,7 @@
 							</ul>
 						</li>
 						<li class="footer">
-							<a href="#">Ver todas</a>
+							<a href="{{ route('licencas.vencidas') }}">Ver todas</a>
 						</li>
 					</ul>
 				</li>

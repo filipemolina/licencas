@@ -43,3 +43,15 @@ ul.pagination
 {
     margin-top: 7px;
 }
+
+/******************************************* Licenças :: Show */
+
+.row.no-print
+{
+	margin-top: 20px;
+}
+
+.no-print .btn 
+{
+    margin-right: 10px;
+}

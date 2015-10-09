@@ -110,9 +110,21 @@ class EmpresasController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        // Variáveis padrão
+
+        $padrao = [];
+
+        $padrao['secao'] = "Empresas";
+        $padrao['subsecao'] = "Exibir";
+        $padrao['url'] = $request->url();
+
+        // Obter a empresa
+
+        $empresa = Empresa::with('Licencas')->find($id);
+
+        return view('empresas.show', compact('padrao', 'empresa'));
     }
 
     /**

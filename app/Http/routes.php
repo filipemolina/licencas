@@ -11,7 +11,7 @@
 |
 */
 
-// Rotas de Autenticação
+//////////////////////////////////////////////////////////////// Rotas de Autenticação
 
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
@@ -25,7 +25,7 @@ Route::post('auth/register', 'Auth\AuthController@postRegister');
 Route::get('/home', 'PagesController@painel');
 Route::get('/', 'PagesController@painel');
 
-////////////////////////////////// Rotas Adicionais
+//////////////////////////////////////////////////////////////// Rotas Adicionais
 
 // Licenças
 
@@ -37,7 +37,7 @@ Route::get('licencas/avencer', [
     'as' => 'licencas.avencer', 'uses' => 'LicencasController@avencer'
 ]);
 
-// Opções do Usuário
+//////////////////////////////////////////////////////////////// Opções do Usuário
 
 Route::get('/mudarsenha', [
 	'as' => 'users.mudarsenha', 'uses' => 'PagesController@mudarSenha'
@@ -55,7 +55,7 @@ Route::post('/alterarfoto', [
 	'as' => 'users.novafoto', 'uses' => 'PagesController@novaFoto'
 ]);
 
-// Busca
+//////////////////////////////////////////////////////////////// Busca
 
 Route::get('users/busca/{termo}', [
 	'as' => 'users.busca', 'uses' => 'UsersController@busca'
@@ -73,11 +73,15 @@ Route::post('busca/', [
 	'as' => 'pages.busca', 'uses' => 'PagesController@busca'
 ]);
 
+Route::get('busca/', function(){
+	return redirect('/');
+});
+
 Route::post('buscaespecifica', [
 	'as' => 'pages.buscaespecifica', 'uses' => 'PagesController@buscaEspecifica'
 ]);
 
-// RESTful Controllers
+//////////////////////////////////////////////////////////////// RESTful Controllers
 Route::resource('/users', 'UsersController');
 Route::resource('/empresas', 'EmpresasController');
 Route::resource('/licencas', 'LicencasController');

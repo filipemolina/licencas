@@ -142,7 +142,19 @@ class LicencasController extends Controller
      */
     public function show(Request $request, $id)
     {
-        
+        // Variáveis padrão
+
+        $padrao = [];
+
+        $padrao['secao'] = "Licenças";
+        $padrao['subsecao'] = "Exibir";
+        $padrao['url'] = $request->url();   
+
+        // Obter a licença à ser exibida
+
+        $licenca = Licenca::with('Empresa')->find($id);
+
+        return view('licencas.show', compact('padrao', 'licenca'));
     }
 
     /**
@@ -275,7 +287,10 @@ class LicencasController extends Controller
 
         // Lista de licenças vencidas
 
-        $licencas = Licenca::where('validade', '<=', date('Y-m-d'))->orderBy('id', 'desc')->paginate(10);
+        $licencas = Licenca::where('validade', '<=', date('Y-m-d'))
+                            ->where('renovada', '=', 0)
+                            ->orderBy('id', 'desc')
+                            ->paginate(10);
 
         return view('licencas.index', compact('padrao', 'licencas'));
     }
@@ -304,6 +319,7 @@ class LicencasController extends Controller
 
         $licencas = Licenca::where('validade', '<=', $data_maxima)
                             ->where('validade', '>=', date('Y-m-d'))
+                            ->where('renovada', '=', 0)
                             ->orderBy('id', 'desc')
                             ->paginate(10);
 

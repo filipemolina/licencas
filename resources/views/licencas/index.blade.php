@@ -106,6 +106,9 @@
 
 									</td>
 									<td>
+										<a href="{{ route('licencas.show', ['licenceas' => $licenca->id]) }}" class="btn btn-success btn-sm">
+											<i class="fa fa-eye"></i>
+										</a>
 										<a href="{{ route('licencas.edit', ['licencas' => $licenca->id]) }}" class="btn btn-primary btn-sm">
 											<i class="fa fa-edit"></i>
 										</a>

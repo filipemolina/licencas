@@ -524,7 +524,14 @@ $(function(){
 
 			// Diminuir as abas com os outros resultados disparando um evento "click" nos "buttons" correspondentes
 
-			$("div.parciais").children('div').not('.result-' + objeto).find('button[data-widget=collapse]').trigger('click');
+			$("div.parciais").children('div').not('.result-' + objeto).each(function(){
+
+				if(!$(this).find('.box').hasClass('collapsed-box'))
+				{
+						$(this).find('button[data-widget=collapse]').trigger('click');
+				}
+
+			});
 
 			// Esvaziar a tabela com os resultados
 
@@ -565,11 +572,15 @@ $(function(){
 					linha += '<td>' + resposta[item][campos[objeto][campo]] + '</td>';
 				}
 
+				// Adicionar o botão de editar
+
 				linha += '<td>\
 								<a href="'+caminho+'/'+resposta[item]['id']+'/edit" class="btn btn-primary btn-sm">\
 									<i class="fa fa-edit"></i>\
 								</a>\
 							</td>';
+
+				// Fechar a linha e abrir uma nova, caso não seja a última
 
 				if(item == resposta.length - 1)
 				{
@@ -584,6 +595,8 @@ $(function(){
 			// Remover a tela de carregamento
 
 			$("div.box .overlay").remove();
+
+			// Inserir as novas linhas na tabela
 
 			$(tabela).append(linha);
 
