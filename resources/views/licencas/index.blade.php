@@ -84,7 +84,7 @@
 										@elseif($licenca->validade >= date('Y-m-d') && $licenca->validade <= date('Y-m-d', strtotime('+6 months')))
 
 											{{-- Caso a Validade seja maior do que a data atual e menor do que a  --}}
-											{{-- data máxima permitida, À Vencer --}}
+											{{-- data máxima permitida, À Vencer (A não ser que esteja renovada) --}}
 
 											@if($licenca->renovada)
 

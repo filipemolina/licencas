@@ -146,28 +146,34 @@
         </ul>
       </li>
 
-      <li class="{{ $class_usuarios }} treeview">
-        <a href="pages/widgets.html">
-          <i class="fa fa-users"></i> <span>Usuários</span> <i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-          
-          <li class="{{ Request::is('users') ? 'active' : '' }}">
-            <a href="{{ route('users.index') }}">
-              <i class="fa fa-circle-o text-blue"></i> 
-              Todos os Usuários
-            </a>
-          </li>
+      {{-- Testar se o usuário atual possui permissões de alteração de usuários --}}
 
-          <li class="{{ Request::is('users/create') ? 'active' : '' }}">
-            <a href="{{ route('users.create') }}">
-              <i class="fa fa-circle-o text-green"></i> 
-              Cadastrar
-            </a>
-          </li>
+      @can('controlar-usuarios')
 
-        </ul>
-      </li>
+        <li class="{{ $class_usuarios }} treeview">
+          <a href="pages/widgets.html">
+            <i class="fa fa-users"></i> <span>Usuários</span> <i class="fa fa-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu">
+            
+            <li class="{{ Request::is('users') ? 'active' : '' }}">
+              <a href="{{ route('users.index') }}">
+                <i class="fa fa-circle-o text-blue"></i> 
+                Todos os Usuários
+              </a>
+            </li>
+
+            <li class="{{ Request::is('users/create') ? 'active' : '' }}">
+              <a href="{{ route('users.create') }}">
+                <i class="fa fa-circle-o text-green"></i> 
+                Cadastrar
+              </a>
+            </li>
+
+          </ul>
+        </li>
+
+      @endcan
 
       <li class="{{ $class_opcoes }} treeview">
         <a href="#">

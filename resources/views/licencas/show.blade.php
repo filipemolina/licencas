@@ -93,14 +93,14 @@
 		<div class="row no-print">
 
 			<a href="{{ route('empresas.show', ['empresas' => $licenca->empresa->id]) }}" class="btn btn-success">
-				<i class="fa fa-eye"></i>
+			<i class="fa fa-eye"></i>
 				Visualizar Empresa
 			</a>
 
-			<a href="" class="btn btn-danger pull-right">
+			<button class="btn btn-danger pull-right btn-excluir-licenca" data-toggle="modal" data-target="#modal-principal" data-licenca="{{ $licenca->id }}" data-titulo="{{ $licenca->id }}">
 				<i class="fa fa-close"></i>
 				Excluir
-			</a>
+			</button>
 			
 			<a href="{{ route('licencas.edit', ['licencas' => $licenca->id]) }}" class="btn btn-info pull-right">
 				<i class="fa fa-edit"></i>

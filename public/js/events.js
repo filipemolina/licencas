@@ -220,7 +220,7 @@ $(function(){
 
 	//////////////////////////////////////////////////////////////////////////// Abrir o Modal de Exclusão de Empresa
 
-	$("table.table-hover").on('click', '.btn-excluir-empresa', function(){
+	$("table.table-hover, section.invoice").on('click', '.btn-excluir-empresa', function(){
 
 		var empresa_id = $(this).data('empresa');
 		var razao = $(this).data('razao');
@@ -262,7 +262,7 @@ $(function(){
 
 	//////////////////////////////////////////////////////////////////////////// Abrir o modal de exclusão de licença
 
-	$("table.table-hover").on('click', '.btn-excluir-licenca', function(){
+	$("table.table-hover, section.invoice").on('click', '.btn-excluir-licenca', function(){
 
 		var licenca_id = $(this).data('licenca');
 		var titulo = $(this).data('titulo');

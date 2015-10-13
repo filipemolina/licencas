@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\MessageBag;
 
 use App\Empresa;
 
 use Auth;
+use Session;
 
 class EmpresasController extends Controller
 {
@@ -123,6 +125,20 @@ class EmpresasController extends Controller
         // Obter a empresa
 
         $empresa = Empresa::with('Licencas')->find($id);
+
+        // Testar se o ID de empresa fornecido existe no banco de dados
+
+        if(!$empresa)
+        {
+            // Criar a variável de erros
+            $erros = new MessageBag(['1' => 'O ID da empresa fornecido não existe.']);
+
+            // Enviar os erros pela sessão
+            Session::flash('errors', $erros);
+
+            // Redirecionar para a lista de todas as empresas
+            return redirect('/empresas');
+        }
 
         return view('empresas.show', compact('padrao', 'empresa'));
     }

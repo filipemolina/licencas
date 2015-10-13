@@ -52,7 +52,7 @@
 								@foreach($qtds['avencer_lista'] as $avencer_lista)
 									
 									<li>
-										<a href="#">
+										<a href="{{ route('licencas.show', [ 'licencas' => $avencer_lista->id]) }}">
 											<i class="fa fa-warning text-yellow"></i> {{ $avencer_lista->empresa->razao_social }}
 										</a>
 									</li>
@@ -98,7 +98,7 @@
 								@foreach($qtds['vencidas_lista'] as $vencidas_lista)
 									
 									<li>
-										<a href="#">
+										<a href="{{ route('licencas.show', ['licencas' => $vencidas_lista->id]) }}">
 											<i class="fa fa-warning text-red"></i> {{ $vencidas_lista->empresa->razao_social }}
 										</a>
 									</li>

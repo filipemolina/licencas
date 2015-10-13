@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -14,6 +15,8 @@ use Auth;
 use Hash;
 use Validator;
 use Illuminate\Http\Response;
+use Session;
+use Gate;
 
 class UsersController extends Controller
 {
@@ -60,6 +63,26 @@ class UsersController extends Controller
         $this->middleware('auth');
     }
 
+    protected function verificaPermissao()
+    {
+        // Testa se o usuário possui a permissão "controlar-usuarios"
+
+        if(Gate::denies('controlar-usuarios'))
+        {
+            // Caso não possua, registrar um erro na sessão, e redirecionar para a homepage
+
+            $erros = new MessageBag(['1' => 'Você não possui permissão para realizar a ação desejada.']);
+
+            Session::flash('errors', $erros);
+
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -67,6 +90,11 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
+        // Verificar se o usuário atual possui permissão para realizar essa ação
+
+        if(!$this->verificaPermissao())
+            return redirect("/");
+
         // Variáveis padrão
 
         $padrao = [];
@@ -89,6 +117,11 @@ class UsersController extends Controller
      */
     public function create(Request $request)
     {
+        // Verificar se o usuário atual possui permissão para realizar essa ação
+
+        if(!$this->verificaPermissao())
+            return redirect("/");
+
         // Variáveis padrão
 
         $padrao = [];
@@ -112,6 +145,11 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
+        // Verificar se o usuário atual possui permissão para realizar essa ação
+
+        if(!$this->verificaPermissao())
+            return redirect("/");
+
         // Validação
 
         $this->validate($request, [
@@ -175,6 +213,11 @@ class UsersController extends Controller
      */
     public function edit(Request $request, $id)
     {
+        // Verificar se o usuário atual possui permissão para realizar essa ação
+
+        if(!$this->verificaPermissao())
+            return redirect("/");
+
         // Obter o usuário à ser editado
 
         $usuario = User::find($id);
@@ -203,6 +246,11 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Verificar se o usuário atual possui permissão para realizar essa ação
+
+        if(!$this->verificaPermissao())
+            return redirect("/");
+
         // Obter o usuário sendo atualizado
 
         $usuario = User::find($id);
@@ -247,6 +295,11 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
+        // Verificar se o usuário atual possui permissão para realizar essa ação
+
+        if(!$this->verificaPermissao())
+            return redirect("/");
+
         // Usuário ativo da seção
 
         $ativo = Auth::user();
@@ -275,6 +328,10 @@ class UsersController extends Controller
      */
     public function busca(Request $request, $termo)
     {
+        // Verificar se o usuário atual possui permissão para realizar essa ação
+
+        if(!$this->verificaPermissao())
+            return redirect("/");
 
         // Testa se o termo de busca não é vazio
 

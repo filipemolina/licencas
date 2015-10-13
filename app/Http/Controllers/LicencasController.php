@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Auth;
 use DB;
+use Session;
 
 use App\Licenca;
 use App\Empresa;
@@ -153,6 +155,20 @@ class LicencasController extends Controller
         // Obter a licença à ser exibida
 
         $licenca = Licenca::with('Empresa')->find($id);
+
+        // Verificar se o id de licença fornecido existe no banco de dados
+
+        if(!$licenca)
+        {
+            // Criar a variável de erros
+            $erros = new MessageBag([ '1' => 'O ID da licença fornecido não existe!']);
+
+            // Enviar os erros pela sessão
+            Session::flash('errors', $erros);
+
+            // Redirecionar para a lista de todas as licenças
+            return redirect('/licencas');
+        }
 
         return view('licencas.show', compact('padrao', 'licenca'));
     }

@@ -57,6 +57,9 @@
 									<td>{{ $empresa->telefone }}</td>
 									<td>{{ $empresa->contato }}</td>
 									<td>
+										<a href="{{ route('empresas.show', ['empresas' => $empresa->id]) }}" class="btn btn-success btn-sm">
+											<i class="fa fa-eye"></i>
+										</a>
 										<a href="{{ route('empresas.edit', ['empresas' => $empresa->id]) }}" class="btn btn-primary btn-sm">
 											<i class="fa fa-edit"></i>
 										</a>

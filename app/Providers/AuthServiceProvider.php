@@ -26,6 +26,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         parent::registerPolicies($gate);
 
-        //
+        // Informar se o usuário atual da aplicação pode criar, excluir e alterar usuários,
+        // em outras palavras, testar se ele é um administrador
+
+        $gate->define('controlar-usuarios', function($user){
+            return $user->role->title == 'Administrador';
+        });
     }
 }

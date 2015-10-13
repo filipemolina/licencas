@@ -49,6 +49,8 @@ ul.pagination
 .row.no-print
 {
 	margin-top: 20px;
+	border-top: 1px solid #eee;
+	padding-top: 10px;
 }
 
 .no-print .btn 
