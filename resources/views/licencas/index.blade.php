@@ -66,43 +66,7 @@
 									<td>
 										{{ implode('/', array_reverse(explode("-", $licenca->validade))) }}
 
-										@if($licenca->validade < date('Y-m-d'))
-
-											{{-- Caso a validade seja menor do que a data atual, Vencida, à menos --}}
-											{{-- que tenha sido renovada --}}
-
-											@if($licenca->renovada)
-
-												<span class="label pull-right bg-blue">Renovada</span>
-
-											@else
-												
-												<span class="label pull-right bg-red">Vencida</span>
-
-											@endif
-
-										@elseif($licenca->validade >= date('Y-m-d') && $licenca->validade <= date('Y-m-d', strtotime('+6 months')))
-
-											{{-- Caso a Validade seja maior do que a data atual e menor do que a  --}}
-											{{-- data máxima permitida, À Vencer (A não ser que esteja renovada) --}}
-
-											@if($licenca->renovada)
-
-												<span class="label pull-right bg-blue">Renovada</span>
-
-											@else
-
-												<span class="label pull-right bg-yellow">À Vencer</span>
-
-											@endif
-
-										@else
-
-											{{-- Caso contrário, a validade está OK --}}
-
-											<span class="label pull-right bg-green">Ok</span>
-
-										@endif
+										{!! $licenca->statusTag('pull-right') !!}
 
 									</td>
 									<td>
