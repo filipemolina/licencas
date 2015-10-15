@@ -17,6 +17,10 @@
       $class_licencas = 'active';
       break;
 
+    case "Tipos de Licença":
+      $class_licencas = 'active';
+      break;
+
     case "Empresas":
       $class_empresas = 'active';
       break;
@@ -126,6 +130,22 @@
           </li>
           <li class="{{ Request::is('licencas/create') ? 'active' : '' }}">
             <a href="{{ route('licencas.create') }}"><i class="fa fa-circle-o text-green"></i>Cadastrar</a>
+          </li>
+
+          {{-- Tipos de Licenças --}}
+
+          <li class="{{ Request::is('tipos') ? 'active' : '' }}">
+            <a href="#"><i class="fa fa-circle-o"></i>Tipos</a>
+
+            <ul class="treeview-menu">
+              <li class="{{ Request::is('tipos') ? 'active' : '' }}">
+                <a href="{{ route('tipos.index') }}"><i class="fa fa-circle-o text-blue"></i>Todos</a>
+              </li>
+              <li class="{{ Request::is('tipos/create') ? 'active' : '' }}">
+                <a href="{{ route('tipos.create') }}"><i class="fa fa-circle-o text-blue"></i>Cadastrar</a>
+              </li>
+            </ul>
+
           </li>
         </ul>
       </li>

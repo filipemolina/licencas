@@ -85,3 +85,4 @@ Route::post('buscaespecifica', [
 Route::resource('/users', 'UsersController');
 Route::resource('/empresas', 'EmpresasController');
 Route::resource('/licencas', 'LicencasController');
+Route::resource('/tipos', 'TiposController');

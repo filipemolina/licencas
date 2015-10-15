@@ -95,6 +95,31 @@ $(function(){
 		return false;
 	});
 
+	//////////////////////////////////////////////////////////////////////////// Submit do form de Criação de Tipos de Licença
+
+	$("#form-create-tipo").submit(function(event){
+
+		event.preventDefault();
+
+		// Retirar qualquer aviso que tenha sido dado ao usuário
+
+		$('section.content div.callout').remove();
+
+		// Mostrar o Ajax-loader ao lado do botão de enviar
+
+		$("img.ajax-loader").css('display', 'block');
+
+		// Obter a URL para ser usada na chamada AJAX
+
+		var url = $(this).attr('action');
+		var token = $("input[name=_token]").val();
+
+		submitForm(url, token, $(this), "O Tipo de Licença foi cadastrado no banco de dados.");
+
+		return false;
+
+	});
+
 	//////////////////////////////////////////////////////////////////////////// Submit do form de Alteração de usuários
 
 	$("#form-edit-user").submit(function(event){

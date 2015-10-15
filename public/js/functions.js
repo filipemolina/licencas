@@ -63,12 +63,6 @@ function submitForm(url, token, form, msg_sucesso)
 		},
 		error : function(xhr, status, error)
 		{
-			console.log("XHR");
-			console.log(xhr);
-			console.log("Status");
-			console.log(status);
-			console.log("Error");
-
 			// Houve algum erro de validação, mostrar esse erro ao usuário
 
 			var erros = xhr.responseJSON;

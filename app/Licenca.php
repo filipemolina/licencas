@@ -17,6 +17,13 @@ class Licenca extends Model
     	return $this->belongsTo('App\Empresa');
     }
 
+    // Relacionamento das Licenças com o Tipo de Licença
+
+    public function tipo()
+    {
+    	return $this->belongsTo('App\Tipo');
+    }
+
     // Criar uma tag HTML mostrando o status atual da licença, baseada na data de vencimento.
     // [Vencida, à Vencer, Renovada ou OK]
     // Utilizada na view 'licenca.index'
