@@ -202,6 +202,33 @@ $(function(){
 		return false;
 	});
 
+	//////////////////////////////////////////////////////////////////////////// Submit do form de alteração de Tipos de Licença
+
+	$("#form-edit-tipo").submit(function(event){
+
+		event.preventDefault();
+
+		// Retirar qualquer aviso que tenha sido dado ao usuário
+
+		$("section.content div.callout").remove();
+
+		// Mostrar o Ajax-loader do lado do botão de enviar
+
+		$("img.ajax-loader").css('display', 'block');
+
+		// Obter a URL para ser usada na chamada AJAX
+
+		var url = $(this).attr('action');
+		var token = $("input[name=_token]").val();
+
+		// Iniciar a chamada AJAX
+
+		submitForm(url, token, $(this), "Tipo de Licença alterado com sucesso no banco de dados.", true);
+
+		return false;
+
+	});
+
 	//////////////////////////////////////////////////////////////////////////// Abrir o Modal de Exclusão de Usuário
 
 	$("table.table-hover").on('click', '.btn-excluir-usuario', function(){

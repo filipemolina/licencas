@@ -8,7 +8,7 @@ class Licenca extends Model
 {
     // Atributos para o Mass Assignment
 
-    protected $fillable = [ 'emissao', 'validade', 'empresa_id', 'renovada' ];
+    protected $fillable = [ 'emissao', 'validade', 'empresa_id', 'renovada', 'tipo_id', 'numero', 'n_processo' ];
 
     // Relacionamento das Licenças com as empresas
 

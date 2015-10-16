@@ -12,7 +12,7 @@
 			
 			<div class="col-xs-12">
 				<h2 class="page-header">
-					<i class="fa fa-globe"></i> Licença Ambiental {{ $licenca->id }}
+					<i class="fa fa-globe"></i> {{ $licenca->tipo->descricao }} {{ $licenca->numero }}
 					<small class="pull-right">Emissão: {{ implode("/", array_reverse(explode('-', $licenca->emissao))) }}</small>
 				</h2>
 			</div>
@@ -40,50 +40,17 @@
 			{{-- Dados da Licença --}}
 
 			<div class="col-sm-4 invoice-col">
+				<strong>Número: </strong> {{ $licenca->numero }}
+				<br>
+				<strong>Tipo: </strong> {{ $licenca->tipo->descricao }}
+				<br>
 				<strong>Emissão:</strong> {{ implode('/', array_reverse(explode('-', $licenca->emissao))) }}
 				<br/>
 				<strong>Validade:</strong> {{ implode('/', array_reverse(explode('-', $licenca->validade))) }}
 				<br/>
-				<strong>Status:</strong>
-					
-					@if($licenca->validade < date('Y-m-d'))
-
-						{{-- Caso a validade seja menor do que a data atual, Vencida, à menos --}}
-						{{-- que tenha sido renovada --}}
-
-						@if($licenca->renovada)
-
-							<span class="label bg-blue">Renovada</span>
-
-						@else
-							
-							<span class="label bg-red">Vencida</span>
-
-						@endif
-
-					@elseif($licenca->validade >= date('Y-m-d') && $licenca->validade <= date('Y-m-d', strtotime('+6 months')))
-
-						{{-- Caso a Validade seja maior do que a data atual e menor do que a  --}}
-						{{-- data máxima permitida, À Vencer --}}
-
-						@if($licenca->renovada)
-
-							<span class="label bg-blue">Renovada</span>
-
-						@else
-
-							<span class="label bg-yellow">À Vencer</span>
-
-						@endif
-
-					@else
-
-						{{-- Caso contrário, a validade está OK --}}
-
-						<span class="label bg-green">Ok</span>
-
-					@endif
-
+				<strong>Status:</strong> {!! $licenca->statusTag('') !!}
+				<br>
+				<strong>Número do Processo</strong> {{ $licenca->n_processo }}
 			</div>
 
 		</div>

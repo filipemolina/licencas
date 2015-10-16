@@ -4,6 +4,8 @@ var files;
 
 var App = {};
 
+App.objeto = {};
+
 function preparaForm(form)
 {
 	// Retirar qualquer aviso que tenha sido dado ao usuário
@@ -22,10 +24,31 @@ function preparaForm(form)
 	return { url : url, token : token };
 }
 
+// Atualiza os campos do formulário com os novos dados fornecidos
+
+function atualizaCampos(objeto)
+{
+	// Iterar pelos campos do objeto
+
+	for(campo in objeto)
+	{
+		// Testar se existe um campo no formulário com o mesmo nome da properiedade
+
+		if($("#" + campo).length)
+		{
+			// Caso exista, preencher o campo com o valor da propriedade
+
+			$("#" + campo).val(objeto[campo]);
+		}
+	}
+}
+
 // Faz a chamada ajax dos formulários de cadastro e alteração
 
-function submitForm(url, token, form, msg_sucesso)
+function submitForm(url, token, form, msg_sucesso, atualizarCampos)
 {
+	if(atualizarCampos === undefined) atualizarCampos = false;
+
 	/// Obtem os dados do formulário
 
 	var data = $(form).serializeArray();
@@ -41,7 +64,7 @@ function submitForm(url, token, form, msg_sucesso)
 		data : data,
 		success : function(data)
 		{
-			var objeto = JSON.parse(data.objeto)
+			var objeto = JSON.parse(data.objeto);
 
 			// Não houve nenhum erro, criar uma div de sucesso para o usuário
 
@@ -60,6 +83,14 @@ function submitForm(url, token, form, msg_sucesso)
 			$('html, body').animate({
 		        scrollTop: 0
 		    }, 500);
+
+		    // Atualizar os campos do formulário, caso a variável seja true
+
+			if(atualizarCampos)
+			{
+				atualizaCampos(objeto);
+			}
+
 		},
 		error : function(xhr, status, error)
 		{
@@ -88,7 +119,9 @@ function submitForm(url, token, form, msg_sucesso)
 		        scrollTop: 0
 		    }, 500);
 		}
+
 	});
+
 }
 
 function excluir(url, id, token, form)

@@ -14,15 +14,16 @@ use Session;
 
 use App\Licenca;
 use App\Empresa;
+use App\Tipo;
 
 class LicencasController extends Controller
 {
     // Mensagens de erro de validação
 
     protected $mensagens = [
-        'emissao.required'   => 'O campo "Emissão" é obrigatório.',
-        'validade.required'   => 'O campo "Validade" é obritagótio.',
-        'empresa_id.required' => 'O campo "Empresa" é obrigatório.'
+        'emissao.required'    => 'O campo "Emissão" é obrigatório.',
+        'empresa_id.required' => 'O campo "Empresa" é obrigatório.',
+        'tipo_id.required'    => 'O campo "Tipo de Licença" é obrigatório.',
     ];
 
     // Antecedência com a qual o sistema alertará sobre o vencimento de uma licença
@@ -74,7 +75,11 @@ class LicencasController extends Controller
 
         $empresas = Empresa::all();
 
-        return view('licencas.create', compact('empresas', 'padrao'));
+        // Obter uma lista de tipos de licença
+
+        $tipos = Tipo::all();
+
+        return view('licencas.create', compact('empresas', 'tipos', 'padrao'));
     }
 
     /**
@@ -85,6 +90,14 @@ class LicencasController extends Controller
      */
     public function store(Request $request)
     {
+        // Validar os dados
+
+        $this->validate($request, [
+            'emissao' => 'required',
+            'empresa_id' => 'required',
+            'tipo_id' => 'required'
+        ], $this->mensagens);
+
         // Tratar os dados da $request
 
         $renovada = '';
@@ -92,21 +105,28 @@ class LicencasController extends Controller
         if($request->has('renovada'))
             $renovada = $request->input('renovada');
 
+        // Tratar a data de emissão
+
+        $emissao = implode('-', array_reverse(explode('/', $request->input('emissao'))));
+
+        // Obter o tipo de licença escolhido pelo usuário
+
+        $tipo = Tipo::find($request->input('tipo_id'));
+
+        // Calcular a validade baseada no prazo do tipo de licença
+
+        $validade = date('Y-m-d', strtotime("+$tipo->prazo years", strtotime($emissao)));
+
         $request->replace([
             '_token' => $request->input('_token'),
-            'emissao' => implode('-', array_reverse(explode('/', $request->input('emissao')))),
-            'validade' => implode('-', array_reverse(explode('/', $request->input('validade')))),
+            'emissao' => $emissao,
+            'validade' => $validade,
             'empresa_id' => $request->input('empresa_id'),
+            'tipo_id' => $request->input('tipo_id'),
+            'numero' => $request->input('numero'),
+            'n_processo' => $request->input('n_processo'),
             'renovada' => $renovada
         ]);
-
-        // Validar os dados
-
-        $this->validate($request, [
-            'emissao' => 'required',
-            'validade' => 'required',
-            'empresa_id' => 'required',
-        ], $this->mensagens);
 
         // Criar uma nova licença
 

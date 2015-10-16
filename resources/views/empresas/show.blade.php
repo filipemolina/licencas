@@ -83,6 +83,8 @@
 						
 						<tr>
 							<th>ID</th>
+							<th>Tipo</th>
+							<th>Número</th>
 							<th>Emissão</th>
 							<th>Validade</th>
 							<th>Status</th>
@@ -97,10 +99,12 @@
 
 							<tr>
 								<td>{{ $licenca->id }}</td>
+								<td>{{ $licenca->tipo->sigla }}</td>
+								<td>{{ $licenca->numero }}</td>
 								<td>{{ implode("/", array_reverse(explode('-', $licenca->emissao))) }}</td>
 								<td>{{ implode("/", array_reverse(explode('-', $licenca->validade))) }}</td>
 								<td>
-									{!! $licenca->statusTag() !!}
+									{!! $licenca->statusTag('') !!}
 								</td>
 								<td>
 									<a href="{{ route('licencas.show', ['licencas' => $licenca->id]) }}" class="btn btn-success btn-sm">

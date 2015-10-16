@@ -16,9 +16,15 @@
 
 				{{-- Formulário de cadastro --}}
 
-				<form action="{{ url('/tipos') }}" method="POST" enctype="multipart/form-data" id="form-edit-tipo">
+				<form action="{{ url('/tipos/'.$tipo->id) }}" method="POST" enctype="multipart/form-data" id="form-edit-tipo">
+
+					{{-- Proteção CSRF --}}
 
 					{!! csrf_field() !!}
+
+					{{-- Method Spoofing, já que HTML 5 não tem suporte à PUT --}}
+
+					{!! method_field('PUT') !!}
 
 					{{-- Corpo do Formulário --}}
 					

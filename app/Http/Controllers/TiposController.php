@@ -139,7 +139,35 @@ class TiposController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Obter o tipo sendo editado
+
+        $tipo = Tipo::find($id);
+
+        // Validar os dados
+
+        $this->validate($request, [
+            'sigla' => 'required',
+            'descricao' => 'required',
+            'prazo' => 'required'
+        ], $this->mensagens);
+
+        // Preencher os novos dados da licenca
+
+        $tipo->fill($request->all());
+
+        // Gravar as mudanças no banco
+
+        if($tipo->save())
+        {
+            return [
+                'erros' => false,
+                'objeto' => $tipo->toJson() 
+            ];
+        }
+        else
+        {
+            return [ 'erros' => true ];
+        }
     }
 
     /**

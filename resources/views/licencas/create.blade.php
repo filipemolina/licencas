@@ -25,6 +25,20 @@
 					<div class="box-body">
 
 						<div class="form-group">
+							<label for="tipo_id">Tipo de Licença</label>
+							<select name="tipo_id" id="tipo_id" class="form-control">
+								<option value="">Escolha um Tipo de Licença</option>
+								
+								@foreach($tipos as $tipo)
+
+									<option value="{{ $tipo->id }}">{{ $tipo->descricao }}</option>
+
+								@endforeach
+
+							</select>
+						</div>
+
+						<div class="form-group">
 							<label for="empresa_id">Empresa</label>
 							<select name="empresa_id" id="empresa_id" class="form-control">
 								<option value="">Escolha uma Empresa</option>
@@ -50,16 +64,18 @@
 		                    </div>
 		                </div>
 
-						{{-- Data de Validade --}}
+		                {{-- Número da Licença --}}
 
-						<div class="form-group">
-		                    <label for="emissao">Validade</label>
-		                    <div class="input-group">
-								<div class="input-group-addon">
-									<i class="fa fa-calendar"></i>
-								</div>
-								<input type="text" name="validade" id="validade" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="">
-		                    </div>
+		                <div class="form-group">
+		                	<label for="numero">Número da Licença</label>
+		                	<input type="text" name="numero" id="numero" class="form-control" placeholder="Número da Licença"/>
+		                </div>
+
+		                {{-- Número do Processo --}}
+
+						 <div class="form-group">
+		                	<label for="n_processo">Número do Processo</label>
+		                	<input type="text" name="n_processo" id="n_processo" class="form-control" placeholder="Número do Processo"/>
 		                </div>
 
 						{{-- Renovada --}}
