@@ -45,6 +45,16 @@
 					{{-- Tabela de Usuários --}}
 
 					<table class="table table-hover table-striped">
+
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Nome Fantasia</th>
+								<th>CNPJ</th>
+								<th>Inscrição Estadual</th>
+								<th>Ações</th>
+							</tr>
+						</thead>
 						
 						<tbody>
 							
@@ -52,10 +62,9 @@
 		
 								<tr>
 									<td>{{ $empresa->id }}</td>
-									<td>{{ $empresa->razao_social }}</td>
+									<td>{{ $empresa->nome_fantasia }}</td>
 									<td>{{ $empresa->cnpj }}</td>
-									<td>{{ $empresa->telefone }}</td>
-									<td>{{ $empresa->contato }}</td>
+									<td>{{ $empresa->inscricao_estadual }}</td>
 									<td>
 										<a href="{{ route('empresas.show', ['empresas' => $empresa->id]) }}" class="btn btn-success btn-sm">
 											<i class="fa fa-eye"></i>

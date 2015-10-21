@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\MessageBag;
 
 use App\Empresa;
+use App\Pessoa;
+use App\Endereco;
 
 use Auth;
 use Session;
@@ -18,11 +20,33 @@ class EmpresasController extends Controller
     // Mensagens de validação
 
     protected $mensagens = [
-        'cnpj.required'         => 'O campo CNPJ é obrigatório.',
-        'cnpj.unique'           => 'O CNPJ fornecido já está cadastrado no banco de dados.',
-        'razao_social.required' => 'O campo Razão Social é obrigatório.',
-        'contato.required'      => 'O campo Contato é obrigatório.',
-        'telefone.required'     => 'O campo Telefone é obrigatório'
+        // Dados da Empresa
+
+        'cnpj.unique'                      => 'O CNPJ fornecido já está cadastrado no banco de dados.',
+        'cnpj.required'                  => 'O campo CNPJ é obrigatório.',
+        'razao_social.required'          => 'O campo "Razão Social" é obrigatório',
+        'nome_fantasia.required'         => 'O campo "Nome Fantasia" é obrigatório',
+        'inscricao_estadual.required'    => 'O campo "Inscrição Estadual" é obrigatório',
+        'logradouro_requerente.required' => 'O campo "Logradouro" é obrigatório',
+        'bairro_requerente.required'     => 'O campo "Bairro" é obrigatório',
+        'municipio_requerente.required'  => 'O campo "Município" é obrigatório',
+        'uf_requerente.required'         => 'O campo "UF" é obrigatório',
+        'cep_requerente.required'        => 'O campo "CEP" é obrigatório',
+        'telefone_requerente.required'   => 'O campo "Telefone" é obrigatório',
+
+        // Dados do Contato
+
+        'nome_contato.required_with'     => 'Preencha o campo "Nome" do contato.',
+        'telefone_contato.required_with' => 'Preencha o campo "Telefone" do contato.',
+        'cpf_rg_contato.required_with'   => 'Preencha o campo "CPF/RG" do contato.',
+
+        // Dados do Empreendimento
+
+        'logradouro_empreendimento' => 'Preencha o campo "Logradouro" do Empreendimento.',
+        'bairro_empreendimento' => 'Preencha o campo "Bairro" do Empreendimento.',
+        'municipio_empreendimento' => 'Preencha o campo "Município" do Empreendimento.',
+        'uf_empreendimento' => 'Preencha o campo "UF" do Empreendimento.',
+        'cep_empreendimento' => 'Preencha o campo "CEP" do Empreendimento.',
     ];
 
     // Proteger com autenticação
@@ -179,17 +203,55 @@ class EmpresasController extends Controller
 
         $empresa = Empresa::find($id);
 
-        // Validar os dados
+        ////////////////////////////////////////////////////////////////// Validar os dados da empresa
 
         $this->validate($request, [
             'cnpj' => 'required|unique:empresas,cnpj,' . $id,
             'razao_social' => 'required',
-            'telefone' => 'required'
+            'nome_fantasia' =>'required',
+            'inscricao_estadual' => 'required',
+            'logradouro_requerente' => 'required',
+            'bairro_requerente' => 'required',
+            'municipio_requerente' => 'required',
+            'uf_requerente' => 'required',
+            'cep_requerente' => 'required',
+            'telefone_requerente' => 'required',
         ], $this->mensagens);
 
         // Preencher os novos dados do usuário
 
         $empresa->fill($request->all());
+
+        ////////////////////////////////////////////////////////////////// Validar os dados do Contato
+
+        $this->validate($request, [
+            'nome_contato' => 'required_with:telefone_contato,cpf_rg_contato',
+            'telefone_contato' => 'required_with:nome_contato,cpf_rg_contato',
+            'cpf_rg_contato' => 'required_with:nome_contato,telefone_contato',
+        ], $this->mensagens);
+
+        // Gravar os dados do contato
+
+        $contato = Pessoa::firstOrCreate(['id' => $empresa->contato_id]);
+
+        $contato->nome = $request->input('nome_contato');
+        $contato->cpf_rg = $request->input('cpf_rg_contato');
+        $contato->telefone = $request->input('telefone_contato');
+        $contato->fax = $request->input('fax_contato');
+        $contato->celular = $request->input('celular_contato');
+        $contato->email = $request->input('email_contato');
+
+        $contato->save();
+
+        ////////////////////////////////////////////////////////////// Validar os dados do Empreendimento
+
+        $this->validate($request, [
+            'logradouro_empreendimento' => 'required_with:bairro_empreendimento,municipio_empreendimento,uf_empreendimento,cep_empreendimento',
+            'bairro_empreendimento' => 'required_with:logradouro_empreendimento,municipio_empreendimento,uf_empreendimento,cep_empreendimento',
+            'municipio_empreendimento' => 'required_with:logradouro_empreendimento,bairro_empreendimento,uf_empreendimento,cep_empreendimento',
+            'uf_empreendimento' => 'required_with:logradouro_empreendimento,municipio_empreendimento,bairro_empreendimento,cep_empreendimento',
+            'cep_empreendimento' => 'required_with:logradouro_empreendimento,municipio_empreendimento,uf_empreendimento,bairro_empreendimento',
+        ], $this->mensagens);
 
         // Gravar as mudanças no banco
 
