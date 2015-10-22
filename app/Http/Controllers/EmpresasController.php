@@ -22,31 +22,48 @@ class EmpresasController extends Controller
     protected $mensagens = [
         // Dados da Empresa
 
-        'cnpj.unique'                      => 'O CNPJ fornecido já está cadastrado no banco de dados.',
-        'cnpj.required'                  => 'O campo CNPJ é obrigatório.',
-        'razao_social.required'          => 'O campo "Razão Social" é obrigatório',
-        'nome_fantasia.required'         => 'O campo "Nome Fantasia" é obrigatório',
-        'inscricao_estadual.required'    => 'O campo "Inscrição Estadual" é obrigatório',
-        'logradouro_requerente.required' => 'O campo "Logradouro" é obrigatório',
-        'bairro_requerente.required'     => 'O campo "Bairro" é obrigatório',
-        'municipio_requerente.required'  => 'O campo "Município" é obrigatório',
-        'uf_requerente.required'         => 'O campo "UF" é obrigatório',
-        'cep_requerente.required'        => 'O campo "CEP" é obrigatório',
-        'telefone_requerente.required'   => 'O campo "Telefone" é obrigatório',
+        'cnpj.unique'                              => 'O CNPJ fornecido já está cadastrado no banco de dados.',
+        'cnpj.required'                            => 'O campo CNPJ é obrigatório.',
+        'razao_social.required'                    => 'O campo "Razão Social" é obrigatório',
+        'nome_fantasia.required'                   => 'O campo "Nome Fantasia" é obrigatório',
+        'inscricao_estadual.required'              => 'O campo "Inscrição Estadual" é obrigatório',
+        'logradouro_requerente.required'           => 'O campo "Logradouro" é obrigatório',
+        'bairro_requerente.required'               => 'O campo "Bairro" é obrigatório',
+        'municipio_requerente.required'            => 'O campo "Município" é obrigatório',
+        'uf_requerente.required'                   => 'O campo "UF" é obrigatório',
+        'cep_requerente.required'                  => 'O campo "CEP" é obrigatório',
+        'telefone_requerente.required'             => 'O campo "Telefone" é obrigatório',
 
         // Dados do Contato
 
-        'nome_contato.required_with'     => 'Preencha o campo "Nome" do contato.',
-        'telefone_contato.required_with' => 'Preencha o campo "Telefone" do contato.',
-        'cpf_rg_contato.required_with'   => 'Preencha o campo "CPF/RG" do contato.',
+        'nome_contato.required_with'               => 'Preencha o campo "Nome" do contato.',
+        'telefone_contato.required_with'           => 'Preencha o campo "Telefone" do contato.',
+        'cpf_rg_contato.required_with'             => 'Preencha o campo "CPF/RG" do contato.',
 
         // Dados do Empreendimento
 
-        'logradouro_empreendimento' => 'Preencha o campo "Logradouro" do Empreendimento.',
-        'bairro_empreendimento' => 'Preencha o campo "Bairro" do Empreendimento.',
-        'municipio_empreendimento' => 'Preencha o campo "Município" do Empreendimento.',
-        'uf_empreendimento' => 'Preencha o campo "UF" do Empreendimento.',
-        'cep_empreendimento' => 'Preencha o campo "CEP" do Empreendimento.',
+        'logradouro_empreendimento.required_with'  => 'Preencha o campo "Logradouro" do Empreendimento.',
+        'bairro_empreendimento.required_with'      => 'Preencha o campo "Bairro" do Empreendimento.',
+        'municipio_empreendimento.required_with'   => 'Preencha o campo "Município" do Empreendimento.',
+        'uf_empreendimento.required_with'          => 'Preencha o campo "UF" do Empreendimento.',
+        'cep_empreendimento.required_with'         => 'Preencha o campo "CEP" do Empreendimento.',
+
+        // Dados de Correspondência
+
+        'logradouro_correspondencia.required_with' => 'Preencha o campo "Logradouro" de Correspondência.',
+        'bairro_correspondencia.required_with'     => 'Preencha o campo "Bairro" de Correspondência.',
+        'municipio_correspondencia.required_with'  => 'Preencha o campo "Município" de Correspondência.',
+        'uf_correspondencia.required_with'         => 'Preencha o campo "UF" de Correspondência.',
+        'cep_correspondencia.required_with'        => 'Preencha o campo "CEP" de Correspondência.',
+
+        // Representantes Legais
+
+        'nome_representante_1.required_with'     => 'Preencha o campo "Nome" do 1º Representante Legal',
+        'cpf_rg_representante_1.required_with'   => 'Preencha o campo "CPF / RG" do 1º Representante Legal',
+        'telefone_representante_1.required_with' => 'Preencha o campo "Telefone" do 1º Representante Legal',
+        'nome_representante_2.required_with'     => 'Preencha o campo "Nome" do 2º Representante Legal',
+        'cpf_rg_representante_2.required_with'   => 'Preencha o campo "CPF / RG" do 2º Representante Legal',
+        'telefone_representante_2.required_with' => 'Preencha o campo "Telefone" do 2º Representante Legal',
     ];
 
     // Proteger com autenticação
@@ -203,34 +220,61 @@ class EmpresasController extends Controller
 
         $empresa = Empresa::find($id);
 
-        ////////////////////////////////////////////////////////////////// Validar os dados da empresa
-
+        ////////////////////////////////////////////////////////////////// Validar os dados do Cadastro
+        
         $this->validate($request, [
-            'cnpj' => 'required|unique:empresas,cnpj,' . $id,
-            'razao_social' => 'required',
-            'nome_fantasia' =>'required',
-            'inscricao_estadual' => 'required',
-            'logradouro_requerente' => 'required',
-            'bairro_requerente' => 'required',
-            'municipio_requerente' => 'required',
-            'uf_requerente' => 'required',
-            'cep_requerente' => 'required',
-            'telefone_requerente' => 'required',
+
+            // Dados da empresa
+
+            'cnpj'                       => 'required|unique:empresas,cnpj,' . $id,
+            'razao_social'               => 'required',
+            'nome_fantasia'              =>'required',
+            'inscricao_estadual'         => 'required',
+            'logradouro_requerente'      => 'required',
+            'bairro_requerente'          => 'required',
+            'municipio_requerente'       => 'required',
+            'uf_requerente'              => 'required',
+            'cep_requerente'             => 'required',
+            'telefone_requerente'        => 'required',
+
+            // Dados do Contato
+
+            'nome_contato'               => 'required_with:telefone_contato,cpf_rg_contato',
+            'telefone_contato'           => 'required_with:nome_contato,cpf_rg_contato',
+            'cpf_rg_contato'             => 'required_with:nome_contato,telefone_contato',
+
+            // Dados do Empreendimento
+
+            'logradouro_empreendimento'  => 'required_with:bairro_empreendimento,municipio_empreendimento,uf_empreendimento,cep_empreendimento',
+            'bairro_empreendimento'      => 'required_with:logradouro_empreendimento,municipio_empreendimento,uf_empreendimento,cep_empreendimento',
+            'municipio_empreendimento'   => 'required_with:logradouro_empreendimento,bairro_empreendimento,uf_empreendimento,cep_empreendimento',
+            'uf_empreendimento'          => 'required_with:logradouro_empreendimento,municipio_empreendimento,bairro_empreendimento,cep_empreendimento',
+            'cep_empreendimento'         => 'required_with:logradouro_empreendimento,municipio_empreendimento,uf_empreendimento,bairro_empreendimento',
+
+            // Dados da Correspondência
+
+            'logradouro_correspondencia' => 'required_with:bairro_correspondencia,municipio_correspondencia,uf_correspondencia,cep_correspondencia,telefone_correspondencia,fax_correspondencia,celular_correspondencia,email_correspondencia',
+            'bairro_correspondencia'     => 'required_with:logradouro_correspondencia,municipio_correspondencia,uf_correspondencia,cep_correspondencia,telefone_correspondencia,fax_correspondencia,celular_correspondencia,email_correspondencia',
+            'municipio_correspondencia'  => 'required_with:logradouro_correspondencia,bairro_correspondencia,uf_correspondencia,cep_correspondencia,telefone_correspondencia,fax_correspondencia,celular_correspondencia,email_correspondencia',
+            'uf_correspondencia'         => 'required_with:logradouro_correspondencia,bairro_correspondencia,municipio_correspondencia,cep_correspondencia,telefone_correspondencia,fax_correspondencia,celular_correspondencia,email_correspondencia',
+            'cep_correspondencia'        => 'required_with:logradouro_correspondencia,bairro_correspondencia,municipio_correspondencia,uf_correspondencia,telefone_correspondencia,fax_correspondencia,celular_correspondencia,email_correspondencia',
+
+            // Representantes Legais
+
+            'nome_representante_1'       => 'required_with:cpf_rg_representante_1,telefone_representante_1',
+            'cpf_rg_representante_1'     => 'required_with:nome_representante_1,telefone_representante_1',
+            'telefone_representante_1'   => 'required_with:nome_representante_1,cpf_rg_representante_1',
+            'nome_representante_2'       => 'required_with:cpf_rg_representante_2,telefone_representante_2',
+            'cpf_rg_representante_2'     => 'required_with:nome_representante_2,telefone_representante_2',
+            'telefone_representante_2'   => 'required_with:nome_representante_2,cpf_rg_representante_2',
+
         ], $this->mensagens);
 
         // Preencher os novos dados do usuário
 
         $empresa->fill($request->all());
 
-        ////////////////////////////////////////////////////////////////// Validar os dados do Contato
-
-        $this->validate($request, [
-            'nome_contato' => 'required_with:telefone_contato,cpf_rg_contato',
-            'telefone_contato' => 'required_with:nome_contato,cpf_rg_contato',
-            'cpf_rg_contato' => 'required_with:nome_contato,telefone_contato',
-        ], $this->mensagens);
-
-        // Gravar os dados do contato
+        ////////////////////////////////////////////////////////////////// Gravar dados do Contato
 
         $contato = Pessoa::firstOrCreate(['id' => $empresa->contato_id]);
 
@@ -243,15 +287,75 @@ class EmpresasController extends Controller
 
         $contato->save();
 
-        ////////////////////////////////////////////////////////////// Validar os dados do Empreendimento
+        ////////////////////////////////////////////////////////////// Gravar os dados do Empreendimento
 
-        $this->validate($request, [
-            'logradouro_empreendimento' => 'required_with:bairro_empreendimento,municipio_empreendimento,uf_empreendimento,cep_empreendimento',
-            'bairro_empreendimento' => 'required_with:logradouro_empreendimento,municipio_empreendimento,uf_empreendimento,cep_empreendimento',
-            'municipio_empreendimento' => 'required_with:logradouro_empreendimento,bairro_empreendimento,uf_empreendimento,cep_empreendimento',
-            'uf_empreendimento' => 'required_with:logradouro_empreendimento,municipio_empreendimento,bairro_empreendimento,cep_empreendimento',
-            'cep_empreendimento' => 'required_with:logradouro_empreendimento,municipio_empreendimento,uf_empreendimento,bairro_empreendimento',
-        ], $this->mensagens);
+        if($request->has('logradouro_empreendimento'))
+        {
+            // Salvar os dados
+
+            $end_emp = Endereco::firstOrCreate(['id' => $empresa->endereco_empreendimento_id]);
+
+            $end_emp->logradouro = $request->input('logradouro_empreendimento');
+            $end_emp->bairro = $request->input('bairro_empreendimento');
+            $end_emp->municipio = $request->input('municipio_empreendimento');
+            $end_emp->uf = $request->input('uf_empreendimento');
+            $end_emp->cep = $request->input('cep_empreendimento');
+
+            $end_emp->save();
+        }
+
+        ////////////////////////////////////////////////////////////// Gravar os dados da Correspondência
+
+        if($request->has('logradouro_correspondencia'))
+        {
+            $end_cor = Endereco::firstOrCreate([ 'id' => $empresa->endereco_correspondencia_id ]);
+
+            $end_cor->logradouro = $request->input('logradouro_correspondencia');
+            $end_cor->bairro = $request->input('bairro_correspondencia');
+            $end_cor->municipio = $request->input('municipio_correspondencia');
+            $end_cor->uf = $request->input('uf_correspondencia');
+            $end_cor->cep = $request->input('cep_correspondencia');
+            $end_cor->telefone = $request->input('telefone_correspondencia', '');
+            $end_cor->fax = $request->input('fax_correspondencia', '');
+            $end_cor->celular = $request->input('celular_correspondencia', '');
+            $end_cor->email = $request->input('email_correspondencia', '');
+
+            $end_cor->save();
+        }
+
+        ////////////////////////////////////////////////////////////// Gravar os dados dos Representantes
+
+        // Representante 1
+
+        if($request->has('nome_representante_1'))
+        {
+            $rep_1 = Pessoa::firstOrCreate(['id' => $empresa->representante_1_id]);
+
+            $rep_1->nome = $request->input('nome_representante_1');
+            $rep_1->cpf_rg = $request->input('cpf_rg_representante_1');
+            $rep_1->telefone = $request->input('telefone_representante_1', '');
+            $rep_1->fax = $request->input('fax_representante_1', '');
+            $rep_1->celular = $request->input('celular_representante_1', '');
+            $rep_1->email = $request->input('email_representante_1', '');
+
+            $rep_1->save();
+        }
+
+        // Representante 2
+
+        if($request->has('nome_representante_2'))
+        {
+            $rep_2 = Pessoa::firstOrCreate(['id' => $empresa->representante_2_id]);
+
+            $rep_2->nome = $request->input('nome_representante_2');
+            $rep_2->cpf_rg = $request->input('cpf_rg_representante_2');
+            $rep_2->telefone = $request->input('telefone_representante_2', '');
+            $rep_2->fax = $request->input('fax_representante_2', '');
+            $rep_2->celular = $request->input('celular_representante_2', '');
+            $rep_2->email = $request->input('email_representante_2', '');
+
+            $rep_2->save();
+        }
 
         // Gravar as mudanças no banco
 
