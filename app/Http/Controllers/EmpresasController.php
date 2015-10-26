@@ -122,28 +122,185 @@ class EmpresasController extends Controller
         // Validação
 
         $this->validate($request, [
-            'cnpj'         => 'required',
-            'razao_social' => 'required',
-            'contato'      => 'required',
-            'telefone'     => 'required'
+
+            // Dados da empresa
+
+            'cnpj'                       => 'required|unique:empresas',
+            'razao_social'               => 'required',
+            'nome_fantasia'              => 'required',
+            'inscricao_estadual'         => 'required',
+            'logradouro_requerente'      => 'required',
+            'bairro_requerente'          => 'required',
+            'municipio_requerente'       => 'required',
+            'uf_requerente'              => 'required',
+            'cep_requerente'             => 'required',
+            'telefone_requerente'        => 'required',
+
+            // Dados do Contato
+
+            'nome_contato'               => 'required_with:telefone_contato,cpf_rg_contato',
+            'telefone_contato'           => 'required_with:nome_contato,cpf_rg_contato',
+            'cpf_rg_contato'             => 'required_with:nome_contato,telefone_contato',
+
+            // Dados do Empreendimento
+
+            'logradouro_empreendimento'  => 'required_with:bairro_empreendimento,municipio_empreendimento,uf_empreendimento,cep_empreendimento',
+            'bairro_empreendimento'      => 'required_with:logradouro_empreendimento,municipio_empreendimento,uf_empreendimento,cep_empreendimento',
+            'municipio_empreendimento'   => 'required_with:logradouro_empreendimento,bairro_empreendimento,uf_empreendimento,cep_empreendimento',
+            'uf_empreendimento'          => 'required_with:logradouro_empreendimento,municipio_empreendimento,bairro_empreendimento,cep_empreendimento',
+            'cep_empreendimento'         => 'required_with:logradouro_empreendimento,municipio_empreendimento,uf_empreendimento,bairro_empreendimento',
+
+            // Dados da Correspondência
+
+            'logradouro_correspondencia' => 'required_with:bairro_correspondencia,municipio_correspondencia,uf_correspondencia,cep_correspondencia,telefone_correspondencia,fax_correspondencia,celular_correspondencia,email_correspondencia',
+            'bairro_correspondencia'     => 'required_with:logradouro_correspondencia,municipio_correspondencia,uf_correspondencia,cep_correspondencia,telefone_correspondencia,fax_correspondencia,celular_correspondencia,email_correspondencia',
+            'municipio_correspondencia'  => 'required_with:logradouro_correspondencia,bairro_correspondencia,uf_correspondencia,cep_correspondencia,telefone_correspondencia,fax_correspondencia,celular_correspondencia,email_correspondencia',
+            'uf_correspondencia'         => 'required_with:logradouro_correspondencia,bairro_correspondencia,municipio_correspondencia,cep_correspondencia,telefone_correspondencia,fax_correspondencia,celular_correspondencia,email_correspondencia',
+            'cep_correspondencia'        => 'required_with:logradouro_correspondencia,bairro_correspondencia,municipio_correspondencia,uf_correspondencia,telefone_correspondencia,fax_correspondencia,celular_correspondencia,email_correspondencia',
+
+            // Representantes Legais
+
+            'nome_representante_1'       => 'required_with:cpf_rg_representante_1,telefone_representante_1',
+            'cpf_rg_representante_1'     => 'required_with:nome_representante_1,telefone_representante_1',
+            'telefone_representante_1'   => 'required_with:nome_representante_1,cpf_rg_representante_1',
+            'nome_representante_2'       => 'required_with:cpf_rg_representante_2,telefone_representante_2',
+            'cpf_rg_representante_2'     => 'required_with:nome_representante_2,telefone_representante_2',
+            'telefone_representante_2'   => 'required_with:nome_representante_2,cpf_rg_representante_2',
+
         ], $this->mensagens);
 
-        // Criar uma nova empresa
-
+       // Criar uma nova empresa
+        
         $empresa = new Empresa;
 
         $empresa->fill($request->all());
 
+        ////////////////////////////////////////////////////////////////// Gravar dados do Requerente
+
+        $dados_req = new Endereco;
+
+        $dados_req->logradouro = $request->input('logradouro_requerente');
+        $dados_req->bairro     = $request->input('bairro_requerente');
+        $dados_req->municipio  = $request->input('municipio_requerente');
+        $dados_req->uf         = $request->input('uf_requerente');
+        $dados_req->cep        = $request->input('cep_requerente');
+        $dados_req->telefone   = $request->input('telefone_requerente');
+        $dados_req->fax        = $request->input('fax_requerente');
+        $dados_req->celular    = $request->input('celular_requerente');
+        $dados_req->email      = $request->input('email_requerente');
+
+        $dados_req->save();
+
+        $empresa->endereco_requerente_id = $dados_req->id;
+
+        ////////////////////////////////////////////////////////////////// Gravar dados do Contato
+
+        if($request->has('nome_contato'))
+        {
+            $contato = new Pessoa;
+
+            $contato->nome = $request->input('nome_contato');
+            $contato->cpf_rg = $request->input('cpf_rg_contato');
+            $contato->telefone = $request->input('telefone_contato');
+            $contato->fax = $request->input('fax_contato');
+            $contato->celular = $request->input('celular_contato');
+            $contato->email = $request->input('email_contato');
+
+            $contato->save();
+
+            $empresa->contato_id = $contato->id;
+        }
+
+        ////////////////////////////////////////////////////////////// Gravar os dados do Empreendimento
+
+        if($request->has('logradouro_empreendimento'))
+        {
+            // Salvar os dados
+
+            $end_emp = new Endereco;
+
+            $end_emp->logradouro = $request->input('logradouro_empreendimento');
+            $end_emp->bairro = $request->input('bairro_empreendimento');
+            $end_emp->municipio = $request->input('municipio_empreendimento');
+            $end_emp->uf = $request->input('uf_empreendimento');
+            $end_emp->cep = $request->input('cep_empreendimento');
+
+            $end_emp->save();
+
+            $empresa->endereco_empreendimento_id = $end_emp->id;
+        }
+
+        ////////////////////////////////////////////////////////////// Gravar os dados da Correspondência
+
+        if($request->has('logradouro_correspondencia'))
+        {
+            $end_cor = new Endereco;
+
+            $end_cor->logradouro = $request->input('logradouro_correspondencia');
+            $end_cor->bairro = $request->input('bairro_correspondencia');
+            $end_cor->municipio = $request->input('municipio_correspondencia');
+            $end_cor->uf = $request->input('uf_correspondencia');
+            $end_cor->cep = $request->input('cep_correspondencia');
+            $end_cor->telefone = $request->input('telefone_correspondencia', '');
+            $end_cor->fax = $request->input('fax_correspondencia', '');
+            $end_cor->celular = $request->input('celular_correspondencia', '');
+            $end_cor->email = $request->input('email_correspondencia', '');
+
+            $end_cor->save();
+
+            $empresa->endereco_correspondencia_id = $end_cor->id;
+        }
+
+        ////////////////////////////////////////////////////////////// Gravar os dados dos Representantes
+
+        // Representante 1
+
+        if($request->has('nome_representante_1'))
+        {
+            $rep_1 = new Pessoa;
+
+            $rep_1->nome = $request->input('nome_representante_1');
+            $rep_1->cpf_rg = $request->input('cpf_rg_representante_1');
+            $rep_1->telefone = $request->input('telefone_representante_1', '');
+            $rep_1->fax = $request->input('fax_representante_1', '');
+            $rep_1->celular = $request->input('celular_representante_1', '');
+            $rep_1->email = $request->input('email_representante_1', '');
+
+            $rep_1->save();
+
+            $empresa->representante_1_id = $rep_1->id;
+        }
+
+        // Representante 2
+
+        if($request->has('nome_representante_2'))
+        {
+            $rep_2 = new Pessoa;
+
+            $rep_2->nome = $request->input('nome_representante_2');
+            $rep_2->cpf_rg = $request->input('cpf_rg_representante_2');
+            $rep_2->telefone = $request->input('telefone_representante_2', '');
+            $rep_2->fax = $request->input('fax_representante_2', '');
+            $rep_2->celular = $request->input('celular_representante_2', '');
+            $rep_2->email = $request->input('email_representante_2', '');
+
+            $rep_2->save();
+
+            $empresa->representante_2_id = $rep_2->id;
+        }
+
+        // Gravar as mudanças no banco
+
         if($empresa->save())
         {
-            return json_encode([
-                'erros'   => false,
-                'objeto' => $empresa->toJson()
-            ]);
+            return [
+                'erros' => false,
+                'objeto' => $empresa->toJson() 
+            ];
         }
         else
         {
-            return json_encode([ 'erros' => true ]);
+            return [ 'erros' => true ];
         }
     }
 
@@ -274,18 +431,41 @@ class EmpresasController extends Controller
 
         $empresa->fill($request->all());
 
+        ////////////////////////////////////////////////////////////////// Gravar dados do Requerente
+
+        $dados_req = Endereco::firstOrCreate(['id' => $empresa->endereco_requerente_id]);
+
+        $dados_req->logradouro = $request->input('logradouro_requerente');
+        $dados_req->bairro     = $request->input('bairro_requerente');
+        $dados_req->municipio  = $request->input('municipio_requerente');
+        $dados_req->uf         = $request->input('uf_requerente');
+        $dados_req->cep        = $request->input('cep_requerente');
+        $dados_req->telefone   = $request->input('telefone_requerente');
+        $dados_req->fax        = $request->input('fax_requerente');
+        $dados_req->celular    = $request->input('celular_requerente');
+        $dados_req->email      = $request->input('email_requerente');
+
+        $dados_req->save();
+
+        $empresa->endereco_requerente_id = $dados_req->id;
+
         ////////////////////////////////////////////////////////////////// Gravar dados do Contato
 
-        $contato = Pessoa::firstOrCreate(['id' => $empresa->contato_id]);
+        if($request->has('nome_contato'))
+        {
+            $contato = Pessoa::firstOrCreate(['id' => $empresa->contato_id]);
 
-        $contato->nome = $request->input('nome_contato');
-        $contato->cpf_rg = $request->input('cpf_rg_contato');
-        $contato->telefone = $request->input('telefone_contato');
-        $contato->fax = $request->input('fax_contato');
-        $contato->celular = $request->input('celular_contato');
-        $contato->email = $request->input('email_contato');
+            $contato->nome = $request->input('nome_contato');
+            $contato->cpf_rg = $request->input('cpf_rg_contato');
+            $contato->telefone = $request->input('telefone_contato');
+            $contato->fax = $request->input('fax_contato');
+            $contato->celular = $request->input('celular_contato');
+            $contato->email = $request->input('email_contato');
 
-        $contato->save();
+            $contato->save();
+
+            $empresa->contato_id = $contato->id;
+        }
 
         ////////////////////////////////////////////////////////////// Gravar os dados do Empreendimento
 
@@ -302,6 +482,8 @@ class EmpresasController extends Controller
             $end_emp->cep = $request->input('cep_empreendimento');
 
             $end_emp->save();
+
+            $empresa->endereco_empreendimento_id = $end_emp->id;
         }
 
         ////////////////////////////////////////////////////////////// Gravar os dados da Correspondência
@@ -321,6 +503,8 @@ class EmpresasController extends Controller
             $end_cor->email = $request->input('email_correspondencia', '');
 
             $end_cor->save();
+
+            $empresa->endereco_correspondencia_id = $end_cor->id;
         }
 
         ////////////////////////////////////////////////////////////// Gravar os dados dos Representantes
@@ -339,6 +523,8 @@ class EmpresasController extends Controller
             $rep_1->email = $request->input('email_representante_1', '');
 
             $rep_1->save();
+
+            $empresa->representante_1_id = $rep_1->id;
         }
 
         // Representante 2
@@ -355,6 +541,8 @@ class EmpresasController extends Controller
             $rep_2->email = $request->input('email_representante_2', '');
 
             $rep_2->save();
+
+            $empresa->representante_2_id = $rep_2->id;
         }
 
         // Gravar as mudanças no banco

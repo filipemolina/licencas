@@ -8,7 +8,7 @@ class Empresa extends Model
 {
     // Atributos para o Mass Assignment
 
-    protected $fillable = [ 'cnpj', 'razao_social', 'telefone', 'contato' ];
+    protected $fillable = [ 'cnpj', 'razao_social', 'nome_fantasia', 'inscricao_estadual', 'telefone', 'contato' ];
 
     ////////////// Relacionamentos
 
