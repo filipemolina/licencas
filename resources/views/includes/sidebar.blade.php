@@ -52,7 +52,7 @@
       </div>
       <div class="pull-left info">
         <p>{{ $usuario->name }}</p>
-        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        <a href="javascript:void(0)"><i class="fa fa-circle text-success"></i> Online</a>
       </div>
     </div>
 

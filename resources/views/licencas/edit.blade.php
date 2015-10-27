@@ -15,7 +15,7 @@
 		
 		{{-- Início do Box do Formulário --}}
 
-		<div class="box box-primary">
+		<div class="box box-success">
 			
 			<div class="box-header with-border">
 				<h3>{{ $licenca->id }}</h3>

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
 
-	<title>Admin</title>
+	<title>SGLA</title>
 	<meta name="description" content="Área Administrativa">
 	<meta name="author" content="CDTI - Prefeitura Municipal de Mesquita">
 	
@@ -45,7 +45,7 @@
 
 </head>
 
-<body class="hold-transition skin-blue">
+<body class="hold-transition skin-green">
 
   <div class="wrapper">
     

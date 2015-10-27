@@ -59,7 +59,7 @@
 
 	<div class="col-md-8">
 		
-		<div class="box box-info">
+		<div class="box box-success">
 		
 			{{-- Box-Header --}}
 
@@ -100,7 +100,7 @@
 			{{-- Box-Footer --}}
 
 			<div class="box-footer clearfix">
-				<a href="" class="btn btn-sm btn-default btn-flat pull-right">Ver últimas licenças</a>
+				<a href="{{ route('licencas.index') }}" class="btn btn-sm btn-default btn-flat pull-right">Ver últimas licenças</a>
 			</div>
 		</div>
 	</div>
@@ -109,7 +109,7 @@
 
 	<div class="col-md-4">
 		
-		<div class="box box-primary">
+		<div class="box box-success">
 		
 		{{-- Box-Header --}}
 
@@ -156,7 +156,7 @@
 			{{-- Box-Footer --}}
 
 			<div class="box-footer text-center">
-				<a href="" class="uppercase">Ver todas as Empresas</a>
+				<a href="{{ route('empresas.index') }}" class="uppercase">Ver todas as Empresas</a>
 			</div>
 
 		</div>
