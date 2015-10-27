@@ -28,11 +28,15 @@
 				<br/>
 				<strong>CNPJ:</strong> {{ $licenca->empresa->cnpj }}
 				<br/>
-				<strong>E-mail:</strong> {{ $licenca->empresa->email }}
+				<strong>Contato:</strong> {{ $licenca->empresa->contato->nome }}
 				<br/>
-				<strong>Contato:</strong> {{ $licenca->empresa->contato }}
+				<strong>Telefone:</strong> {{ $licenca->empresa->endereco_requerente->telefone }}
 				<br/>
-				<strong>Telefone:</strong> {{ $licenca->empresa->telefone }}
+				<strong>Celular:</strong> {{ $licenca->empresa->endereco_requerente->celular }}
+				<br/>
+				<strong>Fax:</strong> {{ $licenca->empresa->endereco_requerente->fax }}
+				<br/>
+				<strong>E-mail:</strong> {{ $licenca->empresa->endereco_requerente->email }}
 				<br/>
 
 			</div>

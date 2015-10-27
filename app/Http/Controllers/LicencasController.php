@@ -205,6 +205,10 @@ class LicencasController extends Controller
 
         $licenca = Licenca::find($id);
 
+        // Obter todos os tipos de licença
+
+        $tipos = Tipo::all();
+
         // Variáveis padrão
 
         $padrao = [];
@@ -217,7 +221,7 @@ class LicencasController extends Controller
 
         $empresas = Empresa::all();
 
-        return view('licencas.edit', compact('licenca', 'padrao', 'empresas'));
+        return view('licencas.edit', compact('licenca', 'tipos', 'padrao', 'empresas'));
     }
 
     /**
@@ -229,6 +233,14 @@ class LicencasController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Validar os dados
+
+        $this->validate($request, [
+            'emissao' => 'required',
+            'empresa_id' => 'required',
+            'tipo_id' => 'required',
+        ], $this->mensagens);
+
         // Tratar os dados da $request
 
         $renovada = '';
@@ -236,28 +248,33 @@ class LicencasController extends Controller
         if($request->has('renovada'))
             $renovada = $request->input('renovada');
 
-        $request->replace([
-            '_token' => $request->input('_token'),
-            '_method' => $request->input('_method'),
-            'emissao' => implode('-', array_reverse(explode('/', $request->input('emissao')))),
-            'validade' => implode('-', array_reverse(explode('/', $request->input('validade')))),
-            'empresa_id' => $request->input('empresa_id'),
-            'renovada' => $renovada
-        ]);
-
-        // Validar os dados
-
-        $this->validate($request, [
-            'emissao' => 'required',
-            'validade' => 'required',
-            'empresa_id' => 'required',
-        ], $this->mensagens);
-
         // Atualizar a licenca
 
         $licenca = Licenca::find($id);
 
+        // Obter o tipo de licença escolhido pelo usuário
+
+        $tipo = Tipo::find($request->input('tipo_id'));
+
+        // Tratar a data de emissão
+
+        $emissao = implode('-', array_reverse(explode('/', $request->input('emissao'))));
+
+        // Calcular a validade baseada no prazo do tipo de licença
+
+        $validade = date('Y-m-d', strtotime("+$tipo->prazo year", strtotime($emissao)));
+
+        $request->replace([
+            '_token' => $request->input('_token'),
+            '_method' => $request->input('_method'),
+            'emissao' => $emissao,
+            'empresa_id' => $request->input('empresa_id'),
+            'renovada' => $renovada,
+        ]);
+
         $licenca->fill($request->all());
+
+        $licenca->validade = $validade;
 
         // Alterar o status de renovada da licença
 

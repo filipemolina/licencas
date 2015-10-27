@@ -35,6 +35,22 @@
 				
 				<div class="box-body">
 
+						{{-- Tipo de Licença --}}
+
+						<div class="form-group">
+							<label for="tipo_id">Tipo de Licença</label>
+							<select name="tipo_id" id="tipo_id" class="form-control">
+								<option value="">Escolha um Tipo de Licença</option>
+								
+								@foreach($tipos as $tipo)
+
+									<option value="{{ $tipo->id }}" @if($licenca->tipo_id == $tipo->id) selected @endif>{{ $tipo->descricao }}</option>
+
+								@endforeach
+
+							</select>
+						</div>
+
 						{{-- Empresa --}}
 
 						<div class="form-group">
@@ -63,16 +79,18 @@
 		                    </div>
 		                </div>
 
-						{{-- Data de Validade --}}
+		                 {{-- Número da Licença --}}
 
-						<div class="form-group">
-		                    <label for="emissao">Validade</label>
-		                    <div class="input-group">
-								<div class="input-group-addon">
-									<i class="fa fa-calendar"></i>
-								</div>
-								<input type="text" name="validade" id="validade" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" value="{{ $validade }}">
-		                    </div>
+		                <div class="form-group">
+		                	<label for="numero">Número da Licença</label>
+		                	<input type="text" name="numero" id="numero" class="form-control" placeholder="Número da Licença" value="{{ $licenca->numero }}"/>
+		                </div>
+
+		                {{-- Número do Processo --}}
+
+		                <div class="form-group">
+		                	<label for="n_processo">Número do Processo</label>
+		                	<input type="text" name="n_processo" id="n_processo" class="form-control" placeholder="Número do Processo" value="{{ $licenca->n_processo }}"/>
 		                </div>
 
 						{{-- Renovada --}}
