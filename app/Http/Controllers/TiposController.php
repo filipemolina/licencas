@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Gate;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -178,6 +179,18 @@ class TiposController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        //
+        // Obter o usuário da seção
+
+        $usuario = Auth::user();
+
+        if(Gate::allows('controlar-usuarios'))
+        {
+            // Excluir o tipo de licença
+
+            if(Tipo::destroy($id))
+                return json_encode('sucesso');
+            else
+                return json_encode('erro');
+        }
     }
 }

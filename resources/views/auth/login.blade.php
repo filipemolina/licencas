@@ -4,7 +4,7 @@
 @section('content')
 
     <!-- Horizontal Form -->
-    <div class="box box-info col-md-6 col-md-offset-3 box-login">
+    <div class="box box-success col-md-6 col-md-offset-3 box-login">
 
         <div class="box-header with-border">
             <h3 class="box-title">Login</h3>
@@ -45,7 +45,7 @@
 
             </div><!-- /.box-body -->
             <div class="box-footer">
-                <button type="submit" class="btn btn-info pull-right">Entrar</button>
+                <button type="submit" class="btn btn-success pull-right">Entrar</button>
             </div><!-- /.box-footer -->
         </form>
     </div>

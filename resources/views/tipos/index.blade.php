@@ -72,7 +72,7 @@
 										<a href="{{ route('tipos.edit', ['tipos' => $tipo->id]) }}" class="btn btn-primary btn-sm">
 											<i class="fa fa-edit"></i>
 										</a>
-										<button type="button" class="btn btn-danger btn-sm btn-excluir-tipo" data-toggle="modal" data-target="#modal-principal" data-empresa="{{ $tipo->id }}" data-razao="{{ $tipo->descricao }}">
+										<button type="button" class="btn btn-danger btn-sm btn-excluir-tipo" data-toggle="modal" data-target="#modal-principal" data-tipo="{{ $tipo->id }}" data-desc="{{ $tipo->descricao }}">
 											<i class="fa fa-close"></i>
 										</button>
 									</td>

@@ -354,6 +354,46 @@ $(function(){
 
 	});
 
+	//////////////////////////////////////////////////////////////////////////// Abrir o modal de exclusão de Tipos
+
+	$("table.table-hover, section.invoice").on('click', '.btn-excluir-tipo', function(){
+
+		var tipo_id = $(this).data('tipo');
+		var titulo = $(this).data('desc');
+
+		// Título do Modal
+
+		$("#modal-principal h4").html('Atenção!');
+
+		// Texto do corpo do modal
+
+		$("#modal-principal .modal-body p").html("Tem certeza que deseja excluir o tipo " + titulo + " ?");
+
+		// Texto do botão
+
+		$("#modal-principal #btn-principal").removeClass('btn-primary').addClass('btn-danger').html("Excluir");
+		$("#modal-principal #btn-principal").data('id', tipo_id);
+		$("#modal-principal #btn-principal").addClass('excluir-tipo');
+
+	});
+
+	/////////////////////////////////////////////////////////////////////////// Excluir Tipo
+
+	$("#modal-principal").on('click', '.excluir-tipo', function(){
+
+		// // Id do tipo à ser excluido
+		var tipo_id = $(this).data('id');
+
+		// URL e Token para serem enviados por ajax
+		var url = $("form#form-excluir-tipo").attr('action');
+		var token = $("form#form-excluir-tipo input[name=_token]").val();
+
+		$("#form-excluir-tipo #tipo_id").val(tipo_id);
+
+		excluir(url, tipo_id, token, $("form#form-excluir-licenca"));
+
+	});
+
 	/////////////////////////////////////////////////////////////////////////// Busca de Usuários
 
 	$("input#busca-usuario").change(function(event){

@@ -43,3 +43,11 @@
   {!! method_field('DELETE') !!}
   <input type="hidden" value="" name="id" id="licenca_id">
 </form>
+
+{{-- Form oculto para enviar as requisições de exclusão dos Tipos --}}
+
+<form action="{{ url('tipos/') }}" method="POST" id="form-excluir-tipos">
+  {!! csrf_field() !!}
+  {!! method_field('DELETE') !!}
+  <input type="hidden" value="" name="id" id="tipo_id">
+</form>
