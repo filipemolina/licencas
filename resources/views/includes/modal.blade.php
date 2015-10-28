@@ -46,7 +46,7 @@
 
 {{-- Form oculto para enviar as requisições de exclusão dos Tipos --}}
 
-<form action="{{ url('tipos/') }}" method="POST" id="form-excluir-tipos">
+<form action="{{ url('tipos/') }}" method="POST" id="form-excluir-tipo">
   {!! csrf_field() !!}
   {!! method_field('DELETE') !!}
   <input type="hidden" value="" name="id" id="tipo_id">

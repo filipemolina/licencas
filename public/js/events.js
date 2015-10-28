@@ -390,7 +390,7 @@ $(function(){
 
 		$("#form-excluir-tipo #tipo_id").val(tipo_id);
 
-		excluir(url, tipo_id, token, $("form#form-excluir-licenca"));
+		excluir(url, tipo_id, token, $("form#form-excluir-tipo"));
 
 	});
 
