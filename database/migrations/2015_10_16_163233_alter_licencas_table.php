@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterLicencasTable extends Migration
+class AlterLicencasTable2 extends Migration
 {
     /**
      * Run the migrations.
