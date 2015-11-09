@@ -1,0 +1,30 @@
+/******************************************* Licenças :: PDF */
+
+html
+{
+	background-image: url('../img/licencas.png');
+	margin: 0;
+	padding: 0;
+	border: 0;
+	height: 100%;
+}
+
+body
+{
+	margin: 0;
+	border: 0;
+	padding: 0;
+	height: 100%;
+}
+
+.page-break
+{
+	page-break-after: always;
+}
+
+img.fundo
+{
+	position: absolute;
+	left: 0;
+	top: 0;
+}

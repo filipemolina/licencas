@@ -196,7 +196,9 @@ class LicencasController extends Controller
 
     public function imprimir(Request $request)
     {
-        return PDF::loadFile('http://www.github.com')->stream('github.pdf');
+        return PDF::loadView('licencas.pdf', ['nome' => 'Teste!'])
+                    ->setOption('margin-top', 0)
+                    ->stream('licenca.pdf');
     }
 
     /**
