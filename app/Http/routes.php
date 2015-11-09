@@ -55,6 +55,12 @@ Route::post('/alterarfoto', [
 	'as' => 'users.novafoto', 'uses' => 'PagesController@novaFoto'
 ]);
 
+//////////////////////////////////////////////////////////////// PDFs
+
+Route::get('/imprimir', [
+	'as' => 'licencas.imprimir', 'uses' => 'LicencasController@imprimir'
+]);
+
 //////////////////////////////////////////////////////////////// Busca
 
 Route::get('users/busca/{termo}', [

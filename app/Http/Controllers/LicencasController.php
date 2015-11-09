@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use DB;
 use Session;
+use PDF;
 
 use App\Licenca;
 use App\Empresa;
@@ -191,6 +192,11 @@ class LicencasController extends Controller
         }
 
         return view('licencas.show', compact('padrao', 'licenca'));
+    }
+
+    public function imprimir(Request $request)
+    {
+        return PDF::loadFile('http://www.github.com')->stream('github.pdf');
     }
 
     /**
