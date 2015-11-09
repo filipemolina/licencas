@@ -28,3 +28,8 @@ img.fundo
 	left: 0;
 	top: 0;
 }
+
+.pagina
+{
+	min-height: 1402px;
+}
