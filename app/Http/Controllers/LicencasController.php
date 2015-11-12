@@ -201,7 +201,6 @@ class LicencasController extends Controller
                     ->setOption('margin-bottom', 0)
                     ->setOption('margin-left', 0)
                     ->setOption('margin-right', 0)
-                    //->setOption('background', public_path('img/licencas.png'))
                     ->stream('licenca.pdf');
     }
 
