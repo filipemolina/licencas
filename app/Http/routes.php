@@ -57,7 +57,7 @@ Route::post('/alterarfoto', [
 
 //////////////////////////////////////////////////////////////// PDFs
 
-Route::get('/imprimir', [
+Route::get('/imprimir/{id}', [
 	'as' => 'licencas.imprimir', 'uses' => 'LicencasController@imprimir'
 ]);
 

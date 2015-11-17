@@ -194,9 +194,17 @@ class LicencasController extends Controller
         return view('licencas.show', compact('padrao', 'licenca'));
     }
 
-    public function imprimir(Request $request)
+    public function imprimir(Request $request, $id)
     {
-        return PDF::loadView('licencas.pdf', ['nome' => 'Teste!'])
+        // Obter a licença à ser impressa
+
+        $licenca = Licenca::find($id);
+
+        // Verificar o tipo de licença
+
+        $classe = $licenca->tipo->sigla;
+
+        return PDF::loadView('licencas.pdf', ['nome' => 'Teste!', 'classe' => $classe, 'licenca' => $licenca])
                     ->setOption('margin-top', 0)
                     ->setOption('margin-bottom', 0)
                     ->setOption('margin-left', 0)

@@ -11,11 +11,11 @@
 
 </head>
 
-<body>
+<body class="{{ $classe }}">
 
 	<div class="pagina page-break">
 		
-		<h1 style="text-align: center">{{ $nome }}</h1>
+		<div class="numero-licenca">LI-SEMUAN Nº. {{ $licenca->numero }}</div>
 
 	</div>
 

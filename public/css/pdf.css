@@ -1,8 +1,9 @@
 /******************************************* Licenças :: PDF */
 
+/***************** Configuração geral do PDF */
+
 html
 {
-	background-image: url('../img/licencas.png');
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -22,14 +23,69 @@ body
 	page-break-after: always;
 }
 
-img.fundo
-{
-	position: absolute;
-	left: 0;
-	top: 0;
-}
-
 .pagina
 {
 	min-height: 1402px;
+}
+
+/***************** Backgrounds das Licenças */
+
+body.LPI
+{
+	background-image: url('../img/licencas/lpi.jpg');
+	background-size: cover;
+}
+
+body.LIO
+{
+	background-image: url('../img/licencas/lio.jpg');
+	background-size: cover;
+}
+
+body.LOR
+{
+	background-image: url('../img/licencas/lor.jpg');
+	background-size: cover;
+}
+
+body.LAR
+{
+	background-image: url('../img/licencas/lar.jpg');
+	background-size: cover;
+}
+
+body.LI
+{
+	background-image: url('../img/licencas/li.jpg');
+	background-size: cover;
+}
+
+body.LO
+{
+	background-image: url('../img/licencas/lo.png');
+	background-size: cover;
+}
+
+body.LAS
+{
+	background-image: url('../img/licencas/las.jpg');
+	background-size: cover;
+}
+
+body.LP
+{
+	background-image: url('../img/licencas/lp.jpg');
+	background-size: cover;
+}
+
+/***************** Número da Licença */
+
+.numero-licenca
+{
+	position: absolute;
+
+	margin-left: 800px;
+	margin-top: 250px;
+
+	margin-left: 30px;
 }
