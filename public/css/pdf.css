@@ -26,6 +26,7 @@ body
 .pagina
 {
 	min-height: 1402px;
+	position: relative;
 }
 
 /***************** Backgrounds das Licenças */
@@ -78,14 +79,123 @@ body.LP
 	background-size: cover;
 }
 
-/***************** Número da Licença */
+/***************** Elementos da Licença */
 
 .numero-licenca
 {
 	position: absolute;
 
-	margin-left: 800px;
-	margin-top: 250px;
+	margin-left: 700px;
+	margin-top: 280px;
 
-	margin-left: 30px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.texto-inicial
+{
+	font-size: 16pt;
+	margin-top: 360px;
+	position: absolute;
+	padding: 0 80px;
+	text-align: justify;
+}
+
+.dados-principais
+{
+	position: absolute;
+	margin-top: 500px;
+	width: 100%;
+}
+
+.dados-principais .razao-social
+{
+	font-weight: bold;
+	width: 100%;
+	text-align: center;
+	font-size: 16pt;
+}
+
+.bloco-razao,
+.bloco-endereco,
+.bloco-condicoes
+{
+	border: 1px solid #000;
+	margin: 10px 80px;
+}
+
+.bloco-razao p
+{
+	font-weight: bold;
+	font-size: 16pt;
+	text-align: center;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	text-transform: uppercase;
+}
+
+.bloco-razao table
+{
+	width: 100%;
+	font-weight: bold;
+	font-size: 14pt;
+}
+
+p.pequeno
+{
+	text-transform: none;
+}
+
+.bloco-endereco p
+{
+	font-size: 16pt;
+	font-weight: bold;
+	text-align: center;
+}
+
+.bloco-endereco span.pequeno
+{
+	font-weight: normal;
+}
+
+div.condicoes
+{
+	font-weight: bold;
+	text-align: center;
+	width: 100%;
+	font-size: 16pt;
+}
+
+.bloco-condicoes
+{
+	font-size: 15pt;
+	font-weight: bold;
+}
+
+.texto-prazo
+{
+	padding: 0 80px;
+	font-size: 15pt;
+}
+
+.texto-prazo.data
+{
+	margin-top: 20px;
+}
+
+.assinatura
+{
+	float: right;
+	width: 500px;
+	margin-top: 50px;
+	margin-right: 50px;
+
+	text-align: center;
+	font-size: 16pt;
+	font-weight: bold;
+}
+
+.assinatura .pequeno
+{
+	font-size: 12pt !important;
 }
