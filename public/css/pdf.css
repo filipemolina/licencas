@@ -158,7 +158,7 @@ p.pequeno
 	font-weight: normal;
 }
 
-div.condicoes
+div.condicoes-gerais
 {
 	font-weight: bold;
 	text-align: center;
@@ -198,4 +198,14 @@ div.condicoes
 .assinatura .pequeno
 {
 	font-size: 12pt !important;
+}
+
+div.condicoes
+{
+	margin-left: 80px;
+	font-size: 16pt;
+	font-weight: bold;
+	position: absolute;
+	margin-top: 360px;
+
 }

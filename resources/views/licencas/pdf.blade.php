@@ -13,7 +13,7 @@
 
 <body class="{{ $classe }}">
 
-	{{-- Cada div.pagina.page-break corresponde à uma página do PDF --}}
+	{{------------------------- Primeira Página -------------------------}}
 
 	<div class="pagina page-break">
 
@@ -70,7 +70,7 @@
 				<p><span class="pequeno">No seguinte local:</span> {{ $licenca->empresa->endereco_empreendimento->logradouro }} Bairro: {{ $licenca->empresa->endereco_empreendimento->bairro }} - {{ $licenca->empresa->endereco_empreendimento->municipio }} / {{ $licenca->empresa->endereco_empreendimento->uf }}</p>
 			</div>
 
-			<div class="condicoes">Condições de Validade Gerais</div>
+			<div class="condicoes-gerais">Condições de Validade Gerais</div>
 
 			<div class="bloco-condicoes">
 				<ol>
@@ -96,6 +96,18 @@
 			</div>
 
 		</div>
+
+	</div>
+
+	{{------------------------- Segunda Página -------------------------}}
+
+	<div class="pagina page-break">
+		
+		{{-- Número da Licença --}}
+		
+		<div class="numero-licenca">LI-SEMUAN Nº. {{ $licenca->numero }}</div>
+
+		<div class="condicoes">CONDIÇÕES DE VALIDADE DA LICENÇA</div>
 
 	</div>
   
