@@ -86,7 +86,7 @@ body.LP
 	position: absolute;
 
 	margin-left: 700px;
-	margin-top: 280px;
+	margin-top: 300px;
 
 	font-size: 20px;
 	font-weight: bold;
@@ -208,4 +208,14 @@ div.condicoes
 	position: absolute;
 	margin-top: 360px;
 
+}
+
+div.condicionantes
+{
+	position: absolute;
+	margin-top: 400px;
+	padding: 0 60px;
+	text-align: justify;
+
+	font-size: 15pt;
 }
