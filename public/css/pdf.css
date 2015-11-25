@@ -212,7 +212,8 @@ div.condicoes
 
 div.condicionantes
 {
-	position: absolute;
+	/*position: absolute;*/
+	float: left;
 	margin-top: 400px;
 	padding: 0 60px;
 	text-align: justify;

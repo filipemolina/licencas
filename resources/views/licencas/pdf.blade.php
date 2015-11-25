@@ -19,7 +19,7 @@
 
 		{{-- Número da Licença --}}
 		
-		<div class="numero-licenca">LI-SEMUAN Nº. {{ $licenca->numero }}</div>
+		<div class="numero-licenca">{{ $licenca->tipo->sigla }}-SEMUAN Nº. {{ $licenca->numero }}</div>
 
 		{{-- Texto Inicial da Licença --}}
 
@@ -105,7 +105,7 @@
 		
 		{{-- Número da Licença --}}
 		
-		<div class="numero-licenca">LI-SEMUAN Nº. {{ $licenca->numero }}</div>
+		<div class="numero-licenca">{{ $licenca->tipo->sigla }}-SEMUAN Nº. {{ $licenca->numero }}</div>
 
 		<div class="condicoes">CONDIÇÕES DE VALIDADE DA LICENÇA</div>
 
@@ -123,11 +123,43 @@
 				<li>Apresentar a cada três meses, junto à SEMUAM/DLCA, o manifesto de resíduos emitidos por empresa licenciada pelo INEA;</li>
 				<li>Apresentar a cada seis meses, junto à SEMUAM/DLCA, análise de efluentes realizada por empresa credenciada pelo INEA.</li>
 				<li>Não realizar queima de qualquer material ao ar livre;</li>
-				<li>Evitar todas as formas de acúmulo de água que possam propiciar a proliferação do mosquito <span style="font-wight: bold; text-decoration: underline; font-style: italic;">Aedes aegypti</span>, transmissor da dengue;</li>
+				<li>Evitar todas as formas de acúmulo de água que possam propiciar a proliferação do mosquito <span style="font-weight: bold; text-decoration: underline; font-style: italic;">Aedes aegypti</span>, transmissor da dengue;</li>
 				<li>Submeter previamente a SEMUAM/DLCA, para análise e parecer, qualquer alteração no projeto;</li>
 				<li>São de responsabilidade da empresa todas as informações contidas neste processo;</li>
 				<li>A SEMUAM/DLCA exigirá novas medidas de controle, sempre que julgar necessário;</li>
 				<li>Seguir rigorosamente os padrões de segurança determinado pelo Corpo de Bombeiro do Estado do Rio de Janeiro, de acordo com o Laudo de Exigências;</li>
+			</ol>
+			
+		</div>
+
+		<div class="assinatura">
+			<div>_____________________________________________</div>
+			<div>ADAUTO JOSÉ PRADO DOS SANTOS</div>
+			<div class="pequeno">SECRETÁRIO MUNICIPAL DE MEIO AMBIENTE</div>
+			<div class="pequeno">MAT: 60/009.216</div>
+		</div>
+
+	</div>
+
+	{{------------------------- Terceira Página -------------------------}}
+
+	<div class="pagina page-break">
+		
+		{{-- Número da Licença --}}
+		
+		<div class="numero-licenca">{{ $licenca->tipo->sigla }}-SEMUAN Nº. {{ $licenca->numero }}</div>
+
+		<div class="condicoes">CONDIÇÕES DE VALIDADE DA LICENÇA</div>
+
+		<div class="condicionantes">
+
+			<ol class="cond" start="4">
+				<li>Os sistemas de controle deverão ser limpos regularmente de forma a garantir sua eficiência;</li>
+				<li>Acondicionar os resíduos sólidos urbanos em sacos plásticos e conservá-los em recipiente com tampa até o seu recolhimento;</li>
+				<li><span style="font-weigth: bold;">Não realizar no local outra atividade que não corresponda ao objeto desta licença;</span></li>
+				<li>Os resíduos provenientes do sistema de controle deverão ser recolhidos por empresas licenciadas pelo Instituto Estadual do Ambiente – INEA/RJ;</li>
+				<li><span style="font-weigth: bold;">Manter os equipamentos de segurança em perfeito estado de conservação;</span></li>
+				<li>Qualquer impacto negativo ao meio ambiente, decorrente da implantação da atividade, a empresa estará sujeita as sanções previstas na Lei Municipal nº. 474 de 02.08.2008, mesmo após o encerramento de suas atividades;</li>
 			</ol>
 			
 		</div>
