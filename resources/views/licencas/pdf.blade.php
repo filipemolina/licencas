@@ -153,7 +153,7 @@
 
 		<div class="condicionantes">
 
-			<ol class="cond" start="4">
+			<ol class="cond" start="20">
 				<li>Os sistemas de controle deverão ser limpos regularmente de forma a garantir sua eficiência;</li>
 				<li>Acondicionar os resíduos sólidos urbanos em sacos plásticos e conservá-los em recipiente com tampa até o seu recolhimento;</li>
 				<li><span style="font-weigth: bold;">Não realizar no local outra atividade que não corresponda ao objeto desta licença;</span></li>
@@ -169,6 +169,27 @@
 			<div>ADAUTO JOSÉ PRADO DOS SANTOS</div>
 			<div class="pequeno">SECRETÁRIO MUNICIPAL DE MEIO AMBIENTE</div>
 			<div class="pequeno">MAT: 60/009.216</div>
+		</div>
+
+	</div>
+
+	<div class="pagina-branca page-break">
+		
+		<img src="{{ public_path('img/brasao-mesquita.jpg') }}" alt="" class="brasao"/>
+
+		<div class="texto-superior">
+			<div>ESTADO DO RIO DE JANEIRO</div>
+			<div>PREFEITURA MUNICIPAL DE MESQUITA</div>
+			<div>Secretaria Municipal de Meio Ambiente e Agricultura - SEMUAM</div>
+			<div>Departamento de Licenciamento e Controle Ambiental - D.L.C.A.</div>
+		</div>
+
+		{{-- Número da Licença --}}
+		
+		<div class="numero-licenca">{{ $licenca->tipo->sigla }}-SEMUAN Nº. {{ $licenca->numero }}</div>
+
+		<div class="bloco-retirei">
+			Retirei a original da Licença de Instalação {{ $licenca->tipo->sigla }}-SEMUAN Nº. {{ $licenca->numero }} e o modelo para publicação, referente ao Processo Administrativo 05/5521/15 autorizando a empresa <span style="text-transform: uppercase;">{{ $licenca->empresa->razao_social }}</span> a realizar Serviços de Engenharia. No seguinte local: {{ $licenca->empresa->endereco_empreendimento->logradouro }} - Bairro: {{ $licenca->empresa->endereco_empreendimento->bairro }} - {{ $licenca->empresa->endereco_empreendimento->municipio }}/{{ $licenca->empresa->endereco_empreendimento->uf }}.
 		</div>
 
 	</div>
