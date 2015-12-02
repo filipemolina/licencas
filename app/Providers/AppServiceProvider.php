@@ -54,6 +54,46 @@ class AppServiceProvider extends ServiceProvider
 
         view()->share('qtds', $qtds);
 
+        /////////////////////////////////////////////// Extensões do Blade
+
+        Blade::directive('numeral', function($expression){
+
+            switch($expression)
+            {
+                case 1:
+                    return "<php echo 'um'; ?>";
+                    break;
+                case 2:
+                    return "<php echo 'dois'; ?>";
+                    break;
+                case 3:
+                    return "<php echo 'três'; ?>";
+                    break;
+                case 4:
+                    return "<php echo 'quatro'; ?>";
+                    break;
+                case 5:
+                    return "<php echo 'cinco'; ?>";
+                    break;
+                case 6:
+                    return "<php echo 'seis'; ?>";
+                    break;
+                case 7:
+                    return "<php echo 'sete'; ?>";
+                    break;
+                case 8:
+                    return "<php echo 'oito'; ?>";
+                    break;
+                case 9:
+                    return "<php echo 'nove'; ?>";
+                    break;
+                case 10:
+                    return "<php echo 'dez'; ?>";
+                    break;
+            }
+
+        });
+
     }
 
     /**

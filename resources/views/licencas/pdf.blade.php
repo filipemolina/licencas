@@ -1,5 +1,12 @@
 <!doctype html>
 
+{{-- Determinar o locale para as datas em português --}}
+
+<?php 
+setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+date_default_timezone_set('America/Sao_Paulo'); 
+?>
+
 <html lang="pt_BR">
 <head>
  	
@@ -173,6 +180,8 @@
 
 	</div>
 
+	{{-- Página Branca --}}
+
 	<div class="pagina-branca page-break">
 		
 		<img src="{{ public_path('img/brasao-mesquita.jpg') }}" alt="" class="brasao"/>
@@ -195,6 +204,61 @@
 		<div class="texto-negrito">
 			Obs.: Publicar comunicado de recebimento desta licença no Diário Oficial do Município de Mesquita e em Jornal de grande Circulação no Estado, no prazo de 30 dias, encaminhando cópia a Secretaria Municipal de Meio Ambiente. 
 		</div>
+
+		<div class="texto-negrito centralizado">
+			Ciente, ___ de ____________ de____________.
+		</div>
+
+		<div class="texto-negrito centralizado assinatura-verso">
+			______________________________________
+		</div>
+
+		<footer class="rodape-verso">
+			<div>Rua Artur de Oliveira Vecchi, nº. 120. Centro – Mesquita – RJ – CEP 26553-080 – Tel. 21 2696-1963</div>
+			<div>Email.: dcasemuam@gmail.com /controleambiental@mesquita.rj.gov.br /semuam@mesquita.rj.gov.br</div>
+			<div>www.mesquita.rj.gov.br - Ouvidoria: 0800 282 9260</div>
+		</footer>
+
+	</div>
+
+	{{-- Página Branca --}}
+
+	<div class="pagina-branca page-break">
+		
+		<img src="{{ public_path('img/brasao-mesquita.jpg') }}" alt="" class="brasao"/>
+
+		<div class="texto-superior">
+			<div>ESTADO DO RIO DE JANEIRO</div>
+			<div>PREFEITURA MUNICIPAL DE MESQUITA</div>
+			<div>Secretaria Municipal de Meio Ambiente e Agricultura - SEMUAM</div>
+			<div>Departamento de Licenciamento e Controle Ambiental - D.L.C.A.</div>
+		</div>
+
+		{{-- Número da Licença --}}
+		
+		<div class="numero-licenca">{{ $licenca->tipo->sigla }}-SEMUAN Nº. {{ $licenca->numero }}</div>
+
+		<div class="titulo">MODELO DE PUBLICAÇÃO</div>
+
+		<div class="box-publicacao">
+				
+			<div>PREFEITURA MUNICIPAL DE MESQUITA</div>
+
+			<div>CONCESSÃO DE LICENÇA</div>
+
+			<div>{{ $licenca->empresa->cnpj }}</div>
+
+			<div>PREFEITURA MUNICIPAL DE MESQUITA torna-se público a emissão da Licença de Instalação {{ $licenca->tipo->sigla }}-SEMUAN Nº. {{ $licenca->numero }}, sendo emitida em {{ strftime("%d de %B de %Y", strtotime($licenca->emissao)) }}. Esta licença é válida até {{ strftime("%d de %B de %Y", strtotime($licenca->validade)) }}, por {{ $licenca->tipo->prazo }} (@numeral($licenca->tipo->prazo)) anos que autoriza a empresa NEW FITNESS ACADEMIA DE GISNASTICA E MUSCULAÇÃO LTDA ME CNPJ 13.572.066/0001-06, a realizar Atividades de Condicionamento Físico. No seguinte local: Av. Coelho da Rocha, 1030 – Rocha Sobrinho  Mesquita/RJ. Processo 06/5878/2011.</div>
+
+		</div>
+
+		{{-- Rodapé da Página --}}
+
+		<footer class="rodape-verso">
+			<div>Rua Artur de Oliveira Vecchi, nº. 120. Centro – Mesquita – RJ – CEP 26553-080 – Tel. 21 2696-1963</div>
+			<div>Email.: dcasemuam@gmail.com /controleambiental@mesquita.rj.gov.br /semuam@mesquita.rj.gov.br</div>
+			<div>www.mesquita.rj.gov.br - Ouvidoria: 0800 282 9260</div>
+		</footer>
 
 	</div>
   
