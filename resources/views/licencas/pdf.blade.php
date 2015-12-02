@@ -192,6 +192,10 @@
 			Retirei a original da Licença de Instalação {{ $licenca->tipo->sigla }}-SEMUAN Nº. {{ $licenca->numero }} e o modelo para publicação, referente ao Processo Administrativo 05/5521/15 autorizando a empresa <span style="text-transform: uppercase;">{{ $licenca->empresa->razao_social }}</span> a realizar Serviços de Engenharia. No seguinte local: {{ $licenca->empresa->endereco_empreendimento->logradouro }} - Bairro: {{ $licenca->empresa->endereco_empreendimento->bairro }} - {{ $licenca->empresa->endereco_empreendimento->municipio }}/{{ $licenca->empresa->endereco_empreendimento->uf }}.
 		</div>
 
+		<div class="texto-negrito">
+			Obs.: Publicar comunicado de recebimento desta licença no Diário Oficial do Município de Mesquita e em Jornal de grande Circulação no Estado, no prazo de 30 dias, encaminhando cópia a Secretaria Municipal de Meio Ambiente. 
+		</div>
+
 	</div>
   
 </body>
