@@ -244,11 +244,17 @@ date_default_timezone_set('America/Sao_Paulo');
 				
 			<div>PREFEITURA MUNICIPAL DE MESQUITA</div>
 
+			<br>
+
 			<div>CONCESSÃO DE LICENÇA</div>
+
+			<br>
 
 			<div>{{ $licenca->empresa->cnpj }}</div>
 
-			<div>PREFEITURA MUNICIPAL DE MESQUITA torna-se público a emissão da Licença de Instalação {{ $licenca->tipo->sigla }}-SEMUAN Nº. {{ $licenca->numero }}, sendo emitida em {{ strftime("%d de %B de %Y", strtotime($licenca->emissao)) }}. Esta licença é válida até {{ strftime("%d de %B de %Y", strtotime($licenca->validade)) }}, por {{ $licenca->tipo->prazo }} (@numeral($licenca->tipo->prazo)) anos que autoriza a empresa NEW FITNESS ACADEMIA DE GISNASTICA E MUSCULAÇÃO LTDA ME CNPJ 13.572.066/0001-06, a realizar Atividades de Condicionamento Físico. No seguinte local: Av. Coelho da Rocha, 1030 – Rocha Sobrinho  Mesquita/RJ. Processo 06/5878/2011.</div>
+			<br>
+
+			<div>PREFEITURA MUNICIPAL DE MESQUITA torna-se público a emissão da Licença de Instalação {{ $licenca->tipo->sigla }}-SEMUAN Nº. {{ $licenca->numero }}, sendo emitida em {{ strftime("%d de %B de %Y", strtotime($licenca->emissao)) }}. Esta licença é válida até {{ strftime("%d de %B de %Y", strtotime($licenca->validade)) }}, por {{ $licenca->tipo->prazo }} ({{  $licenca->tipo->numeral() }}) anos que autoriza a empresa {{ $licenca->empresa->razao_social }} CNPJ {{ $licenca->empresa->cnpj }}, a realizar Atividades de {{ $licenca->empresa->atividade }}. No seguinte local: {{ $licenca->empresa->endereco_empreendimento->logradouro }} – {{ $licenca->empresa->endereco_empreendimento->bairro }}  {{ $licenca->empresa->endereco_empreendimento->municipio }}/{{ $licenca->empresa->endereco_empreendimento->uf }}. Processo {{ $licenca->n_processo }}.</div>
 
 		</div>
 
